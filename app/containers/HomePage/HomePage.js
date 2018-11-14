@@ -10,12 +10,11 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
   render() {
     return (
       <Fragment>
-        <Header />
-
-        <SideBar />
-        <MainContent />
-
-
+        <Header appVersion="2.0.0.3" />
+        <div className="main-wrapper">
+          <SideBar />
+          <MainContent />
+        </div>
       </Fragment>
     );
   }
