@@ -1,0 +1,9 @@
+@import '../../styles/variables.scss';
+
+.main-content {
+  background-color: #fafafa;
+
+  @media screen and (min-width: $defaultBreakPoint) {
+    float:right;
+  }
+}

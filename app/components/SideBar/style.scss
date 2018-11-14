@@ -1,0 +1,14 @@
+@import '../../styles/variables.scss';
+
+.sidebar {
+  background-color: #21232e;
+  color: white;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @media screen and (min-width: $defaultBreakPoint) {
+    position: absolute !important;
+    top: 56.156px;
+    left: 0;
+    bottom: 0;
+  }
+}

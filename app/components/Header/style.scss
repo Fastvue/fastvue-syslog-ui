@@ -1,0 +1,15 @@
+.header {
+  min-height: 50px;
+  .logo {
+    width: 160px;
+    height: 27px;
+  }
+  .appVersion {
+    padding-left: 5px;
+    padding-top: 10px;
+    font-size: small;
+    &:hover {
+      
+    }
+  }
+}

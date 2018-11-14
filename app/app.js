@@ -15,8 +15,12 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
+// import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'sanitize.css/sanitize.css';
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt, faCog } from '@fortawesome/free-solid-svg-icons';
 
 // Import root app
 import App from 'containers/App';
@@ -30,6 +34,8 @@ import '!file-loader?name=[name].[ext]!./images/favicon.png';
 import 'styles/theme.scss';
 
 import configureStore from './configureStore';
+
+library.add(faSignOutAlt, faCog);
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
