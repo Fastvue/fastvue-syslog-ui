@@ -20,7 +20,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faCog } from '@fortawesome/free-solid-svg-icons';
+import {
+  faSignOutAlt,
+  faCog,
+  faHeadphones,
+  faPlus
+} from '@fortawesome/free-solid-svg-icons';
 
 // Import root app
 import App from 'containers/App';
@@ -35,7 +40,7 @@ import 'styles/theme.scss';
 
 import configureStore from './configureStore';
 
-library.add(faSignOutAlt, faCog);
+library.add(faSignOutAlt, faCog, faHeadphones, faPlus);
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)

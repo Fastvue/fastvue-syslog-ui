@@ -5,10 +5,17 @@
   color: white;
   overflow-x: hidden;
   overflow-y: scroll;
+  height: 100vh;
   @media screen and (min-width: $defaultBreakPoint) {
     position: absolute !important;
     top: 56.156px;
     left: 0;
     bottom: 0;
+  }
+
+  .tileContainer {
+    background-color: #e4e4e4;
+    height: 67px;
+    margin-bottom: 12px;
   }
 }

@@ -1,0 +1,9 @@
+export const TOGGLE_AUTO_DISCOVER_BUTTON =
+  'syslog/SideBar/TOGGLE_AUTO_DISCOVER_BUTTON';
+
+export const FETCH_SOURCE_LIST = 'syslog/SideBar/FETCH_SOURCE_LIST';
+
+export const FETCH_SOURCE_LIST_SUCCESS =
+  'syslog/SideBar/FETCH_SOURCE_LIST_SUCCESS';
+
+export const FETCH_SOURCE_LIST_FAIL = 'syslog/SideBar/FETCH_SOURCE_LIST_FAIL';
