@@ -28,3 +28,8 @@ label {
   font-family: Georgia, Times, 'Times New Roman', serif;
   line-height: 1.5em;
 }
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

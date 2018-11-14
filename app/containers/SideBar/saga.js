@@ -1,21 +1,19 @@
-/**
- * Gets the repositories of the user from Github
- */
-
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 import { FETCH_SOURCE_LIST } from './constants';
 import { fetchSourceListSuccess, fetchSourceListFail } from './actions';
 
 export function* fetchSourcesList() {
+  console.log(process);
   const requestURL = `${process.env.API_URL}/api/sources/list`;
 
   try {
-    const sources = yield call(request, requestURL);
-    console.log(sources);
-    yield put(fetchSourceListSuccess(sources));
+    const sourceList = yield call(request, requestURL);
+    console.log(sourceList);
+    yield put(fetchSourceListSuccess(sourceList));
   } catch (err) {
     yield put(fetchSourceListFail(err));
+    console.log(err);
   }
 }
 

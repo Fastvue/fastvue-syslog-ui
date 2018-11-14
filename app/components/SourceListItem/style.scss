@@ -1,2 +1,29 @@
 .sourceListItem {
+  padding-bottom: 6px;
+  padding-top: 6px;
+  cursor: pointer;
+  background-color: #21232e;
+
+  .title {
+    font-size: 1.3em;
+    color: #b0b0b8;
+    margin: 6px 0 12px 0;
+    overflow-wrap: break-word;
+  }
+  .actions {
+    color: #b0b0b8;
+    padding: 0;
+    vertical-align: middle;
+    width: 40px;
+    float: right;
+    .btn {
+      width: inherit;
+      border-bottom: 1px solid #22232f;
+      border-left: 1px solid #22232f;
+      margin: 0;
+    }
+  }
+  &.highlights {
+    background-color: #303143;
+  }
 }
