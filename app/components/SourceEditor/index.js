@@ -12,7 +12,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Container
 } from 'reactstrap';
 import ToggleButton from 'components/ToggleButton';
 import './style.scss';
@@ -24,7 +25,7 @@ class SourceEditor extends Component {
   };
   render() {
     return (
-      <div className="sourceEditor">
+      <Col className="sourceEditor">
         <Nav tabs>
           <NavItem className="active">
             <NavLink
@@ -109,7 +110,7 @@ class SourceEditor extends Component {
                   <FormGroup>
                     <Button className="halfButton" color="danger">
                       Cancel
-                    </Button>
+                    </Button>{' '}
                     <Button
                       className="halfButton"
                       color="success"
@@ -209,7 +210,7 @@ class SourceEditor extends Component {
             </Row>
           </TabPane>
         </TabContent>
-      </div>
+      </Col>
     );
   }
 }

@@ -1,10 +1,32 @@
-/**
- * Gets the repositories of the user from Github
- */
-
-import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
+import { LOGIN } from './constants';
+import {} from './actions';
+
+export function* login() {
+  const requestURL = `${process.env.API_URL}/auth/login`;
+  const requestParams = {
+    u: 'admin',
+    p: 'admin'
+  };
+  const fetchParams = {
+    method: 'POST', // or 'PUT'
+    body: requestParams, // data can be `string` or {object}!
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = yield call(request, requestURL, fetchParams);
+    console.log(res);
+    // yield put(fetchSourceListSuccess(sourceList));
+  } catch (err) {
+    // yield put(fetchSourceListFail(err));
+    console.log(err);
+  }
+}
 
 export default function* homePageSaga() {
-  // yield takeLatest();
+  yield takeLatest(LOGIN, login);
 }

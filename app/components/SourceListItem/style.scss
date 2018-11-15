@@ -13,10 +13,10 @@
   .actions {
     color: #b0b0b8;
     padding: 0;
-    vertical-align: middle;
-    width: 40px;
+    width: 40px !important;
     float: right;
     .btn {
+      display: block;
       width: inherit;
       border-bottom: 1px solid #22232f;
       border-left: 1px solid #22232f;
@@ -26,4 +26,7 @@
   &.highlights {
     background-color: #303143;
   }
+  
 }
+
+

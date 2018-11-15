@@ -8,15 +8,15 @@ import './style.scss';
 
 const Tile = (props) => (
   <Col className="tile" onClick={(e) => props.onClick(e)} xs="6" md="6" lg="6">
-    <div className="iconBox">
+    <Col className="iconBox">
       {props.variant === 'autoDiscover' && (
-        <ToggleButton isButtonOn={props.isAutoDiscoverOn} />
+        <div className="toggle"><ToggleButton isButtonOn={props.isAutoDiscoverOn} /></div>
       )}
       {props.variant === 'listeningPort' && (
         <FontAwesomeIcon icon="headphones" />
       )}
       {props.variant === 'addSource' && <FontAwesomeIcon icon="plus" />}
-    </div>
+    </Col>
     <span className="tileLabel">{props.label}</span>
   </Col>
 );

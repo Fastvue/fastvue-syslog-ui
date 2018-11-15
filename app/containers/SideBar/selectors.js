@@ -17,4 +17,21 @@ const makeSelectSourceList = () =>
     (sideBarState) => sideBarState.get('sourceList').toJS()
   );
 
-export { selectSideBar, makeSelectIsAutoDiscoverOn, makeSelectSourceList };
+const makeSelectIsAddSysLogSourceOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isAddSysLogSourceOpen')
+  );
+
+const makeSelectIsListeningPortModalOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isListeningPortModalOpen')
+  );
+export {
+  selectSideBar,
+  makeSelectIsAutoDiscoverOn,
+  makeSelectSourceList,
+  makeSelectIsAddSysLogSourceOpen,
+  makeSelectIsListeningPortModalOpen
+};

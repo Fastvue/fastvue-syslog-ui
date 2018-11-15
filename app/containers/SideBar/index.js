@@ -5,13 +5,36 @@ import PropTypes from 'prop-types';
 
 import Tile from 'components/Tile';
 import SourceListItem from 'components/SourceListItem';
-import { Row, Col } from 'reactstrap';
+import SourceEditor from 'components/SourceEditor';
+import {
+  Row,
+  Col,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Button,
+  ModalHeader,
+  Input
+} from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import { toggleAutoDiscoverButton, fetchSourceList } from './actions';
-import { makeSelectIsAutoDiscoverOn, makeSelectSourceList } from './selectors';
+import {
+  toggleAutoDiscoverButton,
+  fetchSourceList,
+  toggleSourceAutoDiscoverButton,
+  openSyslogSourceAddForm,
+  closeSyslogSourceAddForm,
+  openListeningPortModal,
+  closeListeningPortModal
+} from './actions';
+import {
+  makeSelectIsAutoDiscoverOn,
+  makeSelectSourceList,
+  makeSelectIsAddSysLogSourceOpen,
+  makeSelectIsListeningPortModalOpen
+} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -23,9 +46,37 @@ class SideBar extends React.PureComponent {
     this.props.fetchSourceList();
   }
   render() {
-    console.log(this.props.sourceList);
+    console.log(this.props);
     return (
       <Col className="sidebar" xs="12" lg="3">
+        <Modal
+          isOpen={this.props.isListeningPortModalOpen}
+          toggle={() => this.props.closeListeningPortModal()}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={() => this.props.closeListeningPortModal()}>
+            Edit Syslog Listening Ports
+          </ModalHeader>
+          <ModalBody>
+            Enter each port to listen on, separated by commas
+            <Input type="number" value="514" onChange={() => {}} />
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="secondary"
+              onClick={() => this.props.closeListeningPortModal()}
+            >
+              Cancel
+            </Button>{' '}
+            <Button
+              color="primary"
+              onClick={() => this.props.closeListeningPortModal()}
+            >
+              OK
+            </Button>
+          </ModalFooter>
+        </Modal>
+
         <Row className="tileContainer">
           <Tile
             variant="autoDiscover"
@@ -33,20 +84,35 @@ class SideBar extends React.PureComponent {
             onClick={() => this.props.toggleAutoDiscoverButton()}
             isAutoDiscoverOn={this.props.isAutoDiscoverOn}
           />
-          <Tile
-            onClick={console.log}
-            variant={
-              this.props.isAutoDiscoverOn ? 'listeningPort' : 'addSource'
-            }
-            label={
-              this.props.isAutoDiscoverOn
-                ? 'Listening Ports'
-                : 'Add Syslog Source'
-            }
-          />
-
+          {this.props.isAutoDiscoverOn ? (
+            <Tile
+              onClick={() => {
+                this.props.openListeningPortModal();
+              }}
+              variant="listeningPort"
+              label="Listening Ports"
+            />
+          ) : (
+            <Tile
+              onClick={() => {
+                this.props.openSyslogSourceAddForm();
+              }}
+              variant="addSource"
+              label="Add Syslog Source"
+            />
+          )}
+        </Row>
+        <Row>{this.props.isAddSysLogSourceOpen && <SourceEditor />}</Row>
+        <Row>
           {this.props.sourceList.map((source) => (
-            <SourceListItem key={source.id} {...source} />
+            <SourceListItem
+              key={source.id}
+              {...source}
+              activeSourceId={this.props.activeSourceId}
+              onToggleButtonClick={(id) =>
+                this.props.toggleSourceAutoDiscoverButton(id)
+              }
+            />
           ))}
         </Row>
       </Col>
@@ -56,18 +122,32 @@ class SideBar extends React.PureComponent {
 
 SideBar.propTypes = {
   isAutoDiscoverOn: PropTypes.bool.isRequired,
+  isAddSysLogSourceOpen: PropTypes.bool,
   toggleAutoDiscoverButton: PropTypes.func.isRequired,
+  toggleSourceAutoDiscoverButton: PropTypes.func,
   sourceList: PropTypes.any,
-  fetchSourceList: PropTypes.func
+  fetchSourceList: PropTypes.func,
+  activeSourceId: PropTypes.any,
+  openSyslogSourceAddForm: PropTypes.func,
+  closeSyslogSourceAddForm: PropTypes.func,
+  openListeningPortModal: PropTypes.func,
+  closeListeningPortModal: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
   toggleAutoDiscoverButton: () => dispatch(toggleAutoDiscoverButton()),
-  fetchSourceList: () => dispatch(fetchSourceList())
+  toggleSourceAutoDiscoverButton: (sourceId) =>
+    dispatch(toggleSourceAutoDiscoverButton(sourceId)),
+  fetchSourceList: () => dispatch(fetchSourceList()),
+  openSyslogSourceAddForm: () => dispatch(openSyslogSourceAddForm()),
+  openListeningPortModal: () => dispatch(openListeningPortModal()),
+  closeListeningPortModal: () => dispatch(closeListeningPortModal())
 });
 
 const mapStateToProps = createStructuredSelector({
   isAutoDiscoverOn: makeSelectIsAutoDiscoverOn(),
+  isAddSysLogSourceOpen: makeSelectIsAddSysLogSourceOpen(),
+  isListeningPortModalOpen: makeSelectIsListeningPortModalOpen(),
   sourceList: makeSelectSourceList()
 });
 

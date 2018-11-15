@@ -3,12 +3,17 @@
   text-align: center;
   color: #565672;
   padding: 6px 0;
+  cursor: pointer;
   .iconBox {
     font-size: 20px;
-    width: 100%;
-    position: relative;
     height: 25px;
     text-align: center;
+    margin: 0 auto;
+    .toggle {
+      display: table;
+      margin: 0 auto;
+      width: 75px;
+    }
   }
   .tileLabel {
     font-size: 11pt;

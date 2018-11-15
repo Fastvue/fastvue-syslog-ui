@@ -4,13 +4,48 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-// import {  } from './actions';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import Header from 'components/Header';
+import SideBar from 'containers/SideBar/Loadable';
+import MainContent from 'components/MainContent';
+import { Row } from 'reactstrap';
+import { login } from './actions';
 // import {  } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
-import HomePage from './HomePage';
+import './style.scss';
 
-const mapDispatchToProps = (dispatch) => ({});
+class HomePage extends React.PureComponent {
+  // eslint-disable-line react/prefer-stateless-function
+  componentDidMount() {
+    // this.props.login();
+  }
+  render() {
+    return (
+      <Fragment>
+        <Header appVersion="2.0.0.3" />
+        <div className="main-wrapper">
+          <SideBar
+            activeSourceId={
+              this.props.match.params && this.props.match.params.id
+            }
+          />
+          <MainContent />
+        </div>
+      </Fragment>
+    );
+  }
+}
+
+HomePage.propTypes = {
+  login: PropTypes.func,
+  match: PropTypes.any
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  login: () => dispatch(login())
+});
 
 const mapStateToProps = createStructuredSelector({});
 

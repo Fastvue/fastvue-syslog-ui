@@ -3,11 +3,17 @@ import {
   TOGGLE_AUTO_DISCOVER_BUTTON,
   FETCH_SOURCE_LIST,
   FETCH_SOURCE_LIST_SUCCESS,
-  FETCH_SOURCE_LIST_FAIL
+  FETCH_SOURCE_LIST_FAIL,
+  OPEN_SYSLOG_SOURCE_ADD_FORM,
+  CLOSE_SYSLOG_SOURCE_ADD_FORM,
+  OPEN_LISTENING_PORT_MODAL,
+  CLOSE_LISTENING_PORT_MODAL
 } from './constants';
 
 const initialState = fromJS({
   isAutoDiscoverOn: false,
+  isAddSysLogSourceOpen: false,
+  isListeningPortModalOpen: false,
   sourceList: [
     {
       id: 'cd583d2ef96b4cf680f380bb6d7f027f',
@@ -125,6 +131,17 @@ function sideBarReducer(state = initialState, action) {
   switch (action.type) {
     case TOGGLE_AUTO_DISCOVER_BUTTON:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
+
+    case OPEN_SYSLOG_SOURCE_ADD_FORM:
+      return state.set('isAddSysLogSourceOpen', true);
+
+    case CLOSE_SYSLOG_SOURCE_ADD_FORM:
+      return state.set('isAddSysLogSourceOpen', false);
+    case OPEN_LISTENING_PORT_MODAL:
+      return state.set('isListeningPortModalOpen', true);
+
+    case CLOSE_LISTENING_PORT_MODAL:
+      return state.set('isListeningPortModalOpen', false);
     case FETCH_SOURCE_LIST:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
     case FETCH_SOURCE_LIST_SUCCESS:

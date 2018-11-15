@@ -9,6 +9,11 @@ const App = () => (
   <div className="app-wrapper">
     <Switch>
       <Route exact path="/" component={HomePage} />
+      <Route
+        exact
+        path="/source/:id/:tab(stats|files|archives)?/:subTab(size|messages)?"
+        component={HomePage}
+      />
       <Route path="" component={NotFoundPage} />
     </Switch>
   </div>
