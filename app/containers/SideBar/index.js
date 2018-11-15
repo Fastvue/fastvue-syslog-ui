@@ -46,9 +46,8 @@ class SideBar extends React.PureComponent {
     this.props.fetchSourceList();
   }
   render() {
-    console.log(this.props);
     return (
-      <Col className="sidebar" xs="12" lg="3">
+      <Col className="sidebar" xs="12" lg="3" md="4">
         <Modal
           isOpen={this.props.isListeningPortModalOpen}
           toggle={() => this.props.closeListeningPortModal()}
@@ -102,7 +101,13 @@ class SideBar extends React.PureComponent {
             />
           )}
         </Row>
-        <Row>{this.props.isAddSysLogSourceOpen && <SourceEditor />}</Row>
+        <Row>
+          {this.props.isAddSysLogSourceOpen && (
+            <SourceEditor
+              onFormCancel={() => this.props.closeSyslogSourceAddForm()}
+            />
+          )}
+        </Row>
         <Row>
           {this.props.sourceList.map((source) => (
             <SourceListItem
@@ -140,6 +145,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(toggleSourceAutoDiscoverButton(sourceId)),
   fetchSourceList: () => dispatch(fetchSourceList()),
   openSyslogSourceAddForm: () => dispatch(openSyslogSourceAddForm()),
+  closeSyslogSourceAddForm: () => dispatch(closeSyslogSourceAddForm()),
   openListeningPortModal: () => dispatch(openListeningPortModal()),
   closeListeningPortModal: () => dispatch(closeListeningPortModal())
 });

@@ -4,6 +4,9 @@
   background-color: #fafafa;
 
   @media screen and (min-width: $defaultBreakPoint) {
-    float:right;
+    position: absolute !important;
+    top: 56.156px;
+    right: 0;
+    bottom: 0;
   }
 }

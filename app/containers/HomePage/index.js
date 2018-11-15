@@ -25,14 +25,14 @@ class HomePage extends React.PureComponent {
     return (
       <Fragment>
         <Header appVersion="2.0.0.3" />
-        <div className="main-wrapper">
+        <Row>
           <SideBar
             activeSourceId={
               this.props.match.params && this.props.match.params.id
             }
           />
           <MainContent />
-        </div>
+        </Row>
       </Fragment>
     );
   }
