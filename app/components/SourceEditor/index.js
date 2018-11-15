@@ -20,17 +20,65 @@ class SourceEditor extends Component {
   state = {
     activeTab: '1',
     tabs: [
-      { id: '1', title: 'Syslog', childFn: 'sysLogTab' },
+      {
+        id: '1',
+        title: 'Syslog',
+        childFn: 'sysLogTab',
+        formConfig: [
+          {
+            name: 'displayName',
+            label: 'Dispaly Name',
+            item: 'input',
+            type: 'text'
+          },
+          {
+            name: 'sourceHost',
+            label: 'IP or HostName',
+            item: 'input',
+            type: 'text'
+          },
+          {
+            name: 'logFolder',
+            label: 'Log Folder',
+            item: 'input',
+            type: 'text'
+          },
+          {
+            name: 'logFolder',
+            label: 'Log Folder',
+            item: 'input',
+            type: 'text'
+          }
+        ]
+      },
       { id: '2', title: 'Archive', childFn: 'archiveTab' },
       { id: '3', title: 'Forwarding', childFn: 'forwardingTab' }
-    ]
+    ],
+    formData: {
+      archiveEnabled: true,
+      archiveFolder: '{defaultarchivepath}\\{host}',
+      archivePeriod: '30',
+      displayName: '',
+      forwardEnabled: false,
+      forwardHost: '',
+      forwardPort: '514',
+      forwardTransport: 'UDP',
+      logFilename: '{host}-{date}.log',
+      logFolder: '{defaultlogpath}\\{host}',
+      port: '514',
+      sourceHost: ''
+    }
   };
 
   sysLogTab = () => (
     <Fragment>
       <FormGroup>
         <Label for="exampleEmail">Dispaly Name</Label>
-        <Input type="text" name="displayName" value={this.props.displayName} />
+        <Input
+          type="text"
+          name="displayName"
+          value={this.state.formData.displayName}
+        />
       </FormGroup>
       <FormGroup>
         <Label for="exampleEmail">IP or HostName</Label>
@@ -38,7 +86,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.sourceHost}
+          value={this.state.formData.sourceHost}
         />
       </FormGroup>
       <FormGroup>
@@ -47,7 +95,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.logFolder}
+          value={this.state.formData.logFolder}
         />
       </FormGroup>
       <FormGroup>
@@ -56,7 +104,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.logFilename}
+          value={this.state.formData.logFilename}
         />
       </FormGroup>
       <FormGroup>
@@ -65,7 +113,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.port}
+          value={this.state.formData.port}
         />
       </FormGroup>
     </Fragment>
@@ -83,7 +131,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.archiveFolder}
+          value={this.state.formData.archiveFolder}
         />
       </FormGroup>
       <FormGroup>
@@ -92,7 +140,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.archivePeriod}
+          value={this.state.formData.archivePeriod}
         />
       </FormGroup>
     </Fragment>
@@ -125,7 +173,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.forwardHost}
+          value={this.state.formData.forwardHost}
         />
       </FormGroup>
       <FormGroup>
@@ -140,7 +188,7 @@ class SourceEditor extends Component {
           type="email"
           name="email"
           id="exampleEmail"
-          value={this.props.forwardPort}
+          value={this.state.formData.forwardPort}
         />
       </FormGroup>
     </Fragment>
