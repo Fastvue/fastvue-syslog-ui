@@ -19,11 +19,9 @@ export function* login() {
 
   try {
     const res = yield call(request, requestURL, fetchParams);
-    console.log(res);
     // yield put(fetchSourceListSuccess(sourceList));
   } catch (err) {
     // yield put(fetchSourceListFail(err));
-    console.log(err);
   }
 }
 

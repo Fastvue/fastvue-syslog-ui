@@ -50,7 +50,8 @@ import {
   makeSelectIsDeleteSourceModalOpen,
   makeSelectListeningPorts,
   makeSelectIsListeningPortSuccessModalOpen,
-  makeSelectIsDeleteSourceSuccessModalOpen
+  makeSelectIsDeleteSourceSuccessModalOpen,
+  makeSelectToBeDeletedSource
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -112,7 +113,9 @@ class SideBar extends React.PureComponent {
             Are you sure?
           </ModalHeader>
           {/* <FontAwesomeIcon icon="exclamation-circle" /> */}
-          <ModalBody>Delete syslog source Hello World?</ModalBody>
+          <ModalBody>
+            Delete syslog source {this.props.toBeDeletedSource.displayName}?
+          </ModalBody>
           <ModalFooter>
             <Button
               color="secondary"
@@ -124,7 +127,7 @@ class SideBar extends React.PureComponent {
               color="danger"
               onClick={() => {
                 this.props.closeDeleteSourceModal();
-                this.props.deleteSource(this.props.toBeDeletedSource);
+                this.props.deleteSource(this.props.toBeDeletedSource.id);
                 this.props.toggleDeleteSourceSuccessModal();
               }}
             >
@@ -141,7 +144,8 @@ class SideBar extends React.PureComponent {
             Ports Set!
           </ModalHeader>
           <ModalBody>
-            Don't forget to allow them in Windows Firewall. They are: 514
+            Don't forget to allow them in Windows Firewall. They are:{' '}
+            {this.props.listeningPorts}
           </ModalBody>
           <ModalFooter>
             <Button
@@ -160,7 +164,9 @@ class SideBar extends React.PureComponent {
           <ModalHeader toggle={this.props.toggleDeleteSourceSuccessModal}>
             Deleted!
           </ModalHeader>
-          <ModalBody>Syslog source Hello World deleted.</ModalBody>
+          <ModalBody>
+            Syslog source {this.props.toBeDeletedSource.displayName} deleted.
+          </ModalBody>
           <ModalFooter>
             <Button
               color="primary"
@@ -201,7 +207,6 @@ class SideBar extends React.PureComponent {
             <SourceEditor
               onFormCancel={() => this.props.closeSyslogSourceAddForm()}
               onFormSubmit={(fields) => {
-                console.log(fields);
                 this.props.addOrUpdateSource(fields);
               }}
             />
@@ -222,9 +227,9 @@ class SideBar extends React.PureComponent {
               onSettingButtonClick={this.props.openSourceEditor}
               onSourceEditorCancel={this.props.closeSourceEditor}
               addOrUpdateSource={this.props.addOrUpdateSource}
-              onDeleteButtonClick={(sourceId) => {
+              onDeleteButtonClick={(sourceId, sourceDisplayName) => {
                 this.props.openDeleteSourceModal();
-                this.props.updateToBeDeletedSource(sourceId);
+                this.props.updateToBeDeletedSource(sourceId, sourceDisplayName);
               }}
             />
           ))}
@@ -246,6 +251,7 @@ SideBar.propTypes = {
   isListeningPortSuccessModalOpen: PropTypes.bool,
   isDeleteSourceModalOpen: PropTypes.bool,
   isListeningPortModalOpen: PropTypes.bool,
+  toBeDeletedSource: PropTypes.any,
   toggleSourceAutoDiscover: PropTypes.func,
   fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
@@ -260,7 +266,6 @@ SideBar.propTypes = {
   openDeleteSourceModal: PropTypes.func,
   closeDeleteSourceModal: PropTypes.func,
   updateToBeDeletedSource: PropTypes.func,
-  toBeDeletedSource: PropTypes.func,
   toggleDeleteSourceSuccessModal: PropTypes.func,
   toggleListeningPortSuccessModal: PropTypes.func
 };
@@ -281,8 +286,8 @@ const mapDispatchToProps = (dispatch) => ({
   setPorts: (ports) => dispatch(setPorts(ports)),
   openDeleteSourceModal: () => dispatch(openDeleteSourceModal()),
   closeDeleteSourceModal: () => dispatch(closeDeleteSourceModal()),
-  updateToBeDeletedSource: (sourceId) =>
-    dispatch(updateToBeDeletedSource(sourceId)),
+  updateToBeDeletedSource: (sourceId, displayName) =>
+    dispatch(updateToBeDeletedSource(sourceId, displayName)),
   toggleDeleteSourceSuccessModal: () =>
     dispatch(toggleDeleteSourceSuccessModal()),
   toggleListeningPortSuccessModal: () =>
@@ -298,7 +303,8 @@ const mapStateToProps = createStructuredSelector({
   isDeleteSourceModalOpen: makeSelectIsDeleteSourceModalOpen(),
   listeningPorts: makeSelectListeningPorts(),
   isListeningPortSuccessModalOpen: makeSelectIsListeningPortSuccessModalOpen(),
-  isDeleteSourceSuccessModalOpen: makeSelectIsDeleteSourceSuccessModalOpen()
+  isDeleteSourceSuccessModalOpen: makeSelectIsDeleteSourceSuccessModalOpen(),
+  toBeDeletedSource: makeSelectToBeDeletedSource()
 });
 
 const withConnect = connect(

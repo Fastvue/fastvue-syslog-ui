@@ -3,6 +3,7 @@
   padding-top: 6px;
   cursor: pointer;
   background-color: #21232e;
+  border-bottom: 1px solid #303143;
 
   .title {
     font-size: 1.3em;
@@ -21,12 +22,13 @@
       border-bottom: 1px solid #22232f;
       border-left: 1px solid #22232f;
       margin: 0;
+      &.active {
+        background-color: white;
+        color: black;
+      }
     }
   }
   &.highlights {
     background-color: #303143;
   }
-  
 }
-
-

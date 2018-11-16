@@ -17,9 +17,9 @@ import {
   CLOSE_DELETE_SOURCE_MODAL,
   SET_PORTS,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
-  TOGGLE_LISTENING_PORT_SUCCESS_MODAL
+  TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
+  UPDATE_TO_BE_DELETED_SOURCE
 } from './constants';
-import { toggleListeningPortSuccessModal } from './actions';
 
 const initialState = fromJS({
   isAutoDiscoverOn: false,
@@ -29,7 +29,10 @@ const initialState = fromJS({
   isDeleteSourceModalOpen: false,
   isDeleteSourceSuccessModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
-  toBeDeletedSource: null,
+  toBeDeletedSource: {
+    id: null,
+    displayName: ''
+  },
   listeningPorts: '514',
   sourceList: []
 });
@@ -95,6 +98,11 @@ function sideBarReducer(state = initialState, action) {
       return state.set('sourceList', fromJS(action.sourceList));
     case FETCH_SOURCE_LIST_FAIL:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
+    case UPDATE_TO_BE_DELETED_SOURCE:
+      return state.set('toBeDeletedSource', {
+        id: action.sourceId,
+        displayName: action.displayName
+      });
 
     case SET_PORTS:
       return state.set('ports', action.ports);

@@ -126,9 +126,10 @@ export const setPortsFail = (err) => ({
   err
 });
 
-export const updateToBeDeletedSource = (sourceId) => ({
+export const updateToBeDeletedSource = (sourceId, displayName) => ({
   type: UPDATE_TO_BE_DELETED_SOURCE,
-  sourceId
+  sourceId,
+  displayName
 });
 
 export const toggleDeleteSourceSuccessModal = () => ({

@@ -49,13 +49,25 @@ const SourceListItem = (props) => {
         </Col>
         <Col xs="2" md="2">
           <div className="actions">
-            <Button onClick={() => props.onSettingButtonClick(props.id)}>
+            <Button
+              className={props.isSourceEditorOpen ? 'active' : ''}
+              onClick={() => {
+                props.onSettingButtonClick(props.id);
+                props.isSourceEditorOpen && props.onSourceEditorCancel();
+              }}
+            >
               <FontAwesomeIcon icon="cog" />
             </Button>
-            <Button>
+            <Button
+              className={props.activeSourceId === props.id ? 'active' : ''}
+            >
               <FontAwesomeIcon icon="eye" />
             </Button>
-            <Button onClick={() => props.onDeleteButtonClick(props.id)}>
+            <Button
+              onClick={() =>
+                props.onDeleteButtonClick(props.id, props.displayName)
+              }
+            >
               <FontAwesomeIcon icon="times" />
             </Button>
             {!!props.error && (
