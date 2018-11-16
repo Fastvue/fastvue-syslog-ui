@@ -31,7 +31,8 @@ import {
   openSourceEditor,
   closeSourceEditor,
   addOrUpdateSource,
-  deleteSource
+  deleteSource,
+  setPorts
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
@@ -47,6 +48,10 @@ import './style.scss';
 
 class SideBar extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
+
+  state = {
+    ports: '514'
+  };
   componentDidMount() {
     this.props.fetchSourceList();
   }
@@ -63,7 +68,13 @@ class SideBar extends React.PureComponent {
           </ModalHeader>
           <ModalBody>
             Enter each port to listen on, separated by commas
-            <Input type="number" value="514" onChange={() => {}} />
+            <Input
+              type="text"
+              value={this.state.ports}
+              onChange={(e) => {
+                this.setState({ ports: e.target.value });
+              }}
+            />
           </ModalBody>
           <ModalFooter>
             <Button
@@ -74,7 +85,10 @@ class SideBar extends React.PureComponent {
             </Button>{' '}
             <Button
               color="primary"
-              onClick={() => this.props.closeListeningPortModal()}
+              onClick={() => {
+                this.props.closeListeningPortModal(),
+                this.props.setPorts(this.state.ports);
+              }}
             >
               OK
             </Button>
@@ -157,7 +171,8 @@ SideBar.propTypes = {
   openSourceEditor: PropTypes.func,
   closeSourceEditor: PropTypes.func,
   addOrUpdateSource: PropTypes.func,
-  deleteSource: PropTypes.func
+  deleteSource: PropTypes.func,
+  setPorts: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -172,7 +187,8 @@ const mapDispatchToProps = (dispatch) => ({
   openSourceEditor: (id) => dispatch(openSourceEditor(id)),
   closeSourceEditor: () => dispatch(closeSourceEditor()),
   addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id)),
-  deleteSource: (sourceId) => dispatch(deleteSource(sourceId))
+  deleteSource: (sourceId) => dispatch(deleteSource(sourceId)),
+  setPorts: (ports) => dispatch(setPorts(ports))
 });
 
 const mapStateToProps = createStructuredSelector({

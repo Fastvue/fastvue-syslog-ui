@@ -15,7 +15,10 @@ import {
   ADD_OR_UPDATE_SOURCE_FAIL,
   DELETE_SOURCE,
   DELETE_SOURCE_SUCCESS,
-  DELETE_SOURCE_FAIL
+  DELETE_SOURCE_FAIL,
+  SET_PORTS,
+  SET_PORTS_SUCCESS,
+  SET_PORTS_FAIL
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -93,5 +96,19 @@ export const deleteSourceSuccess = () => ({
 
 export const deleteSourceFail = (err) => ({
   type: DELETE_SOURCE_FAIL,
+  err
+});
+
+export const setPorts = (ports) => ({
+  type: SET_PORTS,
+  ports
+});
+
+export const setPortsSuccess = () => ({
+  type: SET_PORTS_SUCCESS
+});
+
+export const setPortsFail = (err) => ({
+  type: SET_PORTS_FAIL,
   err
 });

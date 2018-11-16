@@ -12,7 +12,8 @@ import {
   OPEN_SOURCE_EDITOR,
   CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
-  CLOSE_LISTENING_PORT_MODAL
+  CLOSE_LISTENING_PORT_MODAL,
+  SET_PORTS
 } from './constants';
 
 const initialState = fromJS({
@@ -20,6 +21,7 @@ const initialState = fromJS({
   isAddSysLogSourceOpen: false,
   isListeningPortModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
+  listeningPorts: '514',
   sourceList: []
 });
 
@@ -69,6 +71,9 @@ function sideBarReducer(state = initialState, action) {
       return state.set('sourceList', fromJS(action.sourceList));
     case FETCH_SOURCE_LIST_FAIL:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
+
+    case SET_PORTS:
+      return state.set('ports', action.ports);
     default:
       return state;
   }

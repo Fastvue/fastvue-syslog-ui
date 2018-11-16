@@ -38,3 +38,7 @@ export const ADD_OR_UPDATE_SOURCE_FAIL =
 export const DELETE_SOURCE = 'syslog/SideBar/DELETE_SOURCE';
 export const DELETE_SOURCE_SUCCESS = 'syslog/SideBar/DELETE_SOURCE_SUCCESS';
 export const DELETE_SOURCE_FAIL = 'syslog/SideBar/DELETE_SOURCE_FAIL';
+
+export const SET_PORTS = 'syslog/SideBar/SET_PORTS';
+export const SET_PORTS_SUCCESS = 'syslog/SideBar/SET_PORTS_SUCCESS';
+export const SET_PORTS_FAIL = 'syslog/SideBar/SET_PORTS_FAIL';

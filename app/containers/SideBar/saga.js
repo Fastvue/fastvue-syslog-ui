@@ -4,7 +4,8 @@ import {
   FETCH_SOURCE_LIST,
   TOGGLE_SOURCE_AUTO_DISCOVER,
   ADD_OR_UPDATE_SOURCE,
-  DELETE_SOURCE
+  DELETE_SOURCE,
+  SET_PORTS
 } from './constants';
 import {
   fetchSourceListSuccess,
@@ -77,9 +78,25 @@ export function* deleteSource(action) {
   }
 }
 
+export function* setPorts(action) {
+  const requestURL = `${process.env.API_URL}/api/settings/setports`;
+  const requestOptions = {
+    method: 'POST',
+    body: JSON.stringify(action.ports.split(','))
+  };
+
+  try {
+    const res = yield call(request, requestURL, requestOptions);
+    yield put(deleteSourceSuccess(res));
+  } catch (err) {
+    yield put(deleteSourceFail(err));
+  }
+}
+
 export default function* sideBarSaga() {
   yield takeLatest(FETCH_SOURCE_LIST, fetchSourcesList);
   yield takeLatest(TOGGLE_SOURCE_AUTO_DISCOVER, toggleSourceAutoDiscover);
   yield takeLatest(ADD_OR_UPDATE_SOURCE, addOrUpdateSource);
   yield takeLatest(DELETE_SOURCE, deleteSource);
+  yield takeLatest(SET_PORTS, setPorts);
 }
