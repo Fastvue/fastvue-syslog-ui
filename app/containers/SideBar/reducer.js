@@ -9,6 +9,8 @@ import {
   FETCH_SOURCE_LIST_FAIL,
   OPEN_SYSLOG_SOURCE_ADD_FORM,
   CLOSE_SYSLOG_SOURCE_ADD_FORM,
+  OPEN_SOURCE_EDITOR,
+  CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
   CLOSE_LISTENING_PORT_MODAL
 } from './constants';
@@ -17,6 +19,7 @@ const initialState = fromJS({
   isAutoDiscoverOn: false,
   isAddSysLogSourceOpen: false,
   isListeningPortModalOpen: false,
+  sourceIdWhoseSourceEditorIsOpen: null,
   sourceList: []
 });
 
@@ -50,6 +53,12 @@ function sideBarReducer(state = initialState, action) {
 
     case CLOSE_SYSLOG_SOURCE_ADD_FORM:
       return state.set('isAddSysLogSourceOpen', false);
+
+    case OPEN_SOURCE_EDITOR:
+      return state.set('sourceIdWhoseSourceEditorIsOpen', action.sourceId);
+
+    case CLOSE_SOURCE_EDITOR:
+      return state.set('sourceIdWhoseSourceEditorIsOpen', null);
     case OPEN_LISTENING_PORT_MODAL:
       return state.set('isListeningPortModalOpen', true);
 

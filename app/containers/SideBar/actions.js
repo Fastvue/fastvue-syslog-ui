@@ -6,6 +6,8 @@ import {
   FETCH_SOURCE_LIST_FAIL,
   OPEN_SYSLOG_SOURCE_ADD_FORM,
   CLOSE_SYSLOG_SOURCE_ADD_FORM,
+  OPEN_SOURCE_EDITOR,
+  CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
   CLOSE_LISTENING_PORT_MODAL
 } from './constants';
@@ -26,6 +28,15 @@ export const openSyslogSourceAddForm = () => ({
 
 export const closeSyslogSourceAddForm = () => ({
   type: CLOSE_SYSLOG_SOURCE_ADD_FORM
+});
+
+export const openSourceEditor = (sourceId) => ({
+  type: OPEN_SOURCE_EDITOR,
+  sourceId
+});
+
+export const closeSourceEditor = () => ({
+  type: CLOSE_SOURCE_EDITOR
 });
 
 export const openListeningPortModal = () => ({

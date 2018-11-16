@@ -10,7 +10,6 @@ import SourceEditor from 'components/SourceEditor';
 import './style.scss';
 
 const SourceListItem = (props) => (
-  // <Link to=>
   <Col
     xs="12"
     lg="12"
@@ -30,7 +29,7 @@ const SourceListItem = (props) => (
       </Col>
       <Col xs="2" md="2">
         <div className="actions">
-          <Button>
+          <Button onClick={() => props.onSettingButtonClick(props.id)}>
             <FontAwesomeIcon icon="cog" />
           </Button>
           <Button>
@@ -47,11 +46,12 @@ const SourceListItem = (props) => (
         </div>
       </Col>
     </Row>
-    {/* <Row>
-      <SourceEditor {...props} />
-    </Row> */}
+    {props.isSourceEditorOpen && (
+      <Row>
+        <SourceEditor {...props} onFormCancel={props.onSourceEditorCancel} />
+      </Row>
+    )}
   </Col>
-  // </Link>
 );
 
 SourceListItem.propTypes = {
@@ -59,8 +59,11 @@ SourceListItem.propTypes = {
   sourceHost: PropTypes.string,
   enabled: PropTypes.bool,
   error: PropTypes.string,
+  activeSourceId: PropTypes.string,
+  isSourceEditorOpen: PropTypes.bool,
   onToggleButtonClick: PropTypes.func,
-  activeSourceId: PropTypes.string
+  onSettingButtonClick: PropTypes.func,
+  onSourceEditorCancel: PropTypes.func
 };
 
 export default withRouter(SourceListItem);

@@ -28,10 +28,17 @@ const makeSelectIsListeningPortModalOpen = () =>
     selectSideBar,
     (sideBarState) => sideBarState.get('isListeningPortModalOpen')
   );
+
+const makeSelectSourceIdWhoseSourceEditorIsOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('sourceIdWhoseSourceEditorIsOpen')
+  );
 export {
   selectSideBar,
   makeSelectIsAutoDiscoverOn,
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
-  makeSelectIsListeningPortModalOpen
+  makeSelectIsListeningPortModalOpen,
+  makeSelectSourceIdWhoseSourceEditorIsOpen
 };

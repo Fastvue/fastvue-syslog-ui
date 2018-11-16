@@ -27,13 +27,16 @@ import {
   openSyslogSourceAddForm,
   closeSyslogSourceAddForm,
   openListeningPortModal,
-  closeListeningPortModal
+  closeListeningPortModal,
+  openSourceEditor,
+  closeSourceEditor
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
-  makeSelectIsListeningPortModalOpen
+  makeSelectIsListeningPortModalOpen,
+  makeSelectSourceIdWhoseSourceEditorIsOpen
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -114,9 +117,14 @@ class SideBar extends React.PureComponent {
               key={source.id}
               {...source}
               activeSourceId={this.props.activeSourceId}
+              isSourceEditorOpen={
+                this.props.sourceIdWhoseSourceEditorIsOpen === source.id
+              }
               onToggleButtonClick={(id, isSourceEnabled) =>
                 this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
               }
+              onSettingButtonClick={(id) => this.props.openSourceEditor(id)}
+              onSourceEditorCancel={this.props.closeSourceEditor}
             />
           ))}
         </Row>
@@ -129,14 +137,17 @@ SideBar.propTypes = {
   isAutoDiscoverOn: PropTypes.bool.isRequired,
   isAddSysLogSourceOpen: PropTypes.bool,
   toggleAutoDiscover: PropTypes.func.isRequired,
-  toggleSourceAutoDiscover: PropTypes.func,
   sourceList: PropTypes.any,
-  fetchSourceList: PropTypes.func,
   activeSourceId: PropTypes.any,
+  sourceIdWhoseSourceEditorIsOpen: PropTypes.any,
+  toggleSourceAutoDiscover: PropTypes.func,
+  fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
   closeSyslogSourceAddForm: PropTypes.func,
   openListeningPortModal: PropTypes.func,
-  closeListeningPortModal: PropTypes.func
+  closeListeningPortModal: PropTypes.func,
+  openSourceEditor: PropTypes.func,
+  closeSourceEditor: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -147,14 +158,17 @@ const mapDispatchToProps = (dispatch) => ({
   openSyslogSourceAddForm: () => dispatch(openSyslogSourceAddForm()),
   closeSyslogSourceAddForm: () => dispatch(closeSyslogSourceAddForm()),
   openListeningPortModal: () => dispatch(openListeningPortModal()),
-  closeListeningPortModal: () => dispatch(closeListeningPortModal())
+  closeListeningPortModal: () => dispatch(closeListeningPortModal()),
+  openSourceEditor: (id) => dispatch(openSourceEditor(id)),
+  closeSourceEditor: () => dispatch(closeSourceEditor())
 });
 
 const mapStateToProps = createStructuredSelector({
   isAutoDiscoverOn: makeSelectIsAutoDiscoverOn(),
   isAddSysLogSourceOpen: makeSelectIsAddSysLogSourceOpen(),
   isListeningPortModalOpen: makeSelectIsListeningPortModalOpen(),
-  sourceList: makeSelectSourceList()
+  sourceList: makeSelectSourceList(),
+  sourceIdWhoseSourceEditorIsOpen: makeSelectSourceIdWhoseSourceEditorIsOpen()
 });
 
 const withConnect = connect(

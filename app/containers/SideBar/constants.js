@@ -12,6 +12,10 @@ export const OPEN_SYSLOG_SOURCE_ADD_FORM =
 export const CLOSE_SYSLOG_SOURCE_ADD_FORM =
   'syslog/SideBar/CLOSE_SYSLOG_SOURCE_ADD_FORM';
 
+export const OPEN_SOURCE_EDITOR = 'syslog/SideBar/OPEN_SOURCE_EDITOR';
+
+export const CLOSE_SOURCE_EDITOR = 'syslog/SideBar/CLOSE_SOURCE_EDITOR';
+
 export const OPEN_LISTENING_PORT_MODAL =
   'syslog/SideBar/OPEN_LISTENING_PORT_MODAL';
 
