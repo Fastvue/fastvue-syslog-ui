@@ -3,13 +3,16 @@ import request from 'utils/request';
 import {
   FETCH_SOURCE_LIST,
   TOGGLE_SOURCE_AUTO_DISCOVER,
-  ADD_OR_UPDATE_SOURCE
+  ADD_OR_UPDATE_SOURCE,
+  DELETE_SOURCE
 } from './constants';
 import {
   fetchSourceListSuccess,
   fetchSourceListFail,
   addOrUpdateSourceSuccess,
-  addOrUpdateSourceFail
+  addOrUpdateSourceFail,
+  deleteSourceSuccess,
+  deleteSourceFail
 } from './actions';
 
 export function* fetchSourcesList() {
@@ -59,8 +62,24 @@ export function* addOrUpdateSource(action) {
   }
 }
 
+export function* deleteSource(action) {
+  const requestURL = `${process.env.API_URL}/api/sources/delete`;
+  const requestOptions = {
+    method: 'POST',
+    body: JSON.stringify({ id: action.sourceId })
+  };
+
+  try {
+    const res = yield call(request, requestURL, requestOptions);
+    yield put(deleteSourceSuccess(res));
+  } catch (err) {
+    yield put(deleteSourceFail(err));
+  }
+}
+
 export default function* sideBarSaga() {
   yield takeLatest(FETCH_SOURCE_LIST, fetchSourcesList);
   yield takeLatest(TOGGLE_SOURCE_AUTO_DISCOVER, toggleSourceAutoDiscover);
   yield takeLatest(ADD_OR_UPDATE_SOURCE, addOrUpdateSource);
+  yield takeLatest(DELETE_SOURCE, deleteSource);
 }

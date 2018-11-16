@@ -12,7 +12,10 @@ import {
   CLOSE_LISTENING_PORT_MODAL,
   ADD_OR_UPDATE_SOURCE,
   ADD_OR_UPDATE_SOURCE_SUCCESS,
-  ADD_OR_UPDATE_SOURCE_FAIL
+  ADD_OR_UPDATE_SOURCE_FAIL,
+  DELETE_SOURCE,
+  DELETE_SOURCE_SUCCESS,
+  DELETE_SOURCE_FAIL
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -76,5 +79,19 @@ export const addOrUpdateSourceSuccess = () => ({
 
 export const addOrUpdateSourceFail = (err) => ({
   type: ADD_OR_UPDATE_SOURCE_FAIL,
+  err
+});
+
+export const deleteSource = (sourceId) => ({
+  type: DELETE_SOURCE,
+  sourceId
+});
+
+export const deleteSourceSuccess = () => ({
+  type: DELETE_SOURCE_SUCCESS
+});
+
+export const deleteSourceFail = (err) => ({
+  type: DELETE_SOURCE_FAIL,
   err
 });

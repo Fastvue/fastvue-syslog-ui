@@ -55,7 +55,7 @@ const SourceListItem = (props) => {
             <Button>
               <FontAwesomeIcon icon="eye" />
             </Button>
-            <Button>
+            <Button onClick={() => props.onDeleteButtonClick(props.id)}>
               <FontAwesomeIcon icon="times" />
             </Button>
             {!!props.error && (
@@ -90,7 +90,8 @@ SourceListItem.propTypes = {
   onToggleButtonClick: PropTypes.func,
   onSettingButtonClick: PropTypes.func,
   onSourceEditorCancel: PropTypes.func,
-  addOrUpdateSource: PropTypes.func
+  addOrUpdateSource: PropTypes.func,
+  onDeleteButtonClick: PropTypes.func
 };
 
 export default withRouter(SourceListItem);

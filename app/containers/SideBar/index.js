@@ -30,7 +30,8 @@ import {
   closeListeningPortModal,
   openSourceEditor,
   closeSourceEditor,
-  addOrUpdateSource
+  addOrUpdateSource,
+  deleteSource
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
@@ -109,6 +110,10 @@ class SideBar extends React.PureComponent {
           {this.props.isAddSysLogSourceOpen && (
             <SourceEditor
               onFormCancel={() => this.props.closeSyslogSourceAddForm()}
+              onFormSubmit={(fields) => {
+                console.log(fields);
+                this.props.addOrUpdateSource(fields);
+              }}
             />
           )}
         </Row>
@@ -127,6 +132,7 @@ class SideBar extends React.PureComponent {
               onSettingButtonClick={this.props.openSourceEditor}
               onSourceEditorCancel={this.props.closeSourceEditor}
               addOrUpdateSource={this.props.addOrUpdateSource}
+              onDeleteButtonClick={this.props.deleteSource}
             />
           ))}
         </Row>
@@ -150,7 +156,8 @@ SideBar.propTypes = {
   closeListeningPortModal: PropTypes.func,
   openSourceEditor: PropTypes.func,
   closeSourceEditor: PropTypes.func,
-  addOrUpdateSource: PropTypes.func
+  addOrUpdateSource: PropTypes.func,
+  deleteSource: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -164,7 +171,8 @@ const mapDispatchToProps = (dispatch) => ({
   closeListeningPortModal: () => dispatch(closeListeningPortModal()),
   openSourceEditor: (id) => dispatch(openSourceEditor(id)),
   closeSourceEditor: () => dispatch(closeSourceEditor()),
-  addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id))
+  addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id)),
+  deleteSource: (sourceId) => dispatch(deleteSource(sourceId))
 });
 
 const mapStateToProps = createStructuredSelector({

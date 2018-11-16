@@ -34,3 +34,7 @@ export const ADD_OR_UPDATE_SOURCE_SUCCESS =
   'syslog/SideBar/ADD_OR_UPDATE_SOURCE_SUCCESS';
 export const ADD_OR_UPDATE_SOURCE_FAIL =
   'syslog/SideBar/ADD_OR_UPDATE_SOURCE_FAIL';
+
+export const DELETE_SOURCE = 'syslog/SideBar/DELETE_SOURCE';
+export const DELETE_SOURCE_SUCCESS = 'syslog/SideBar/DELETE_SOURCE_SUCCESS';
+export const DELETE_SOURCE_FAIL = 'syslog/SideBar/DELETE_SOURCE_FAIL';
