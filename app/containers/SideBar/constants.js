@@ -28,3 +28,9 @@ export const FETCH_SOURCE_LIST_SUCCESS =
   'syslog/SideBar/FETCH_SOURCE_LIST_SUCCESS';
 
 export const FETCH_SOURCE_LIST_FAIL = 'syslog/SideBar/FETCH_SOURCE_LIST_FAIL';
+
+export const ADD_OR_UPDATE_SOURCE = 'syslog/SideBar/ADD_OR_UPDATE_SOURCE';
+export const ADD_OR_UPDATE_SOURCE_SUCCESS =
+  'syslog/SideBar/ADD_OR_UPDATE_SOURCE_SUCCESS';
+export const ADD_OR_UPDATE_SOURCE_FAIL =
+  'syslog/SideBar/ADD_OR_UPDATE_SOURCE_FAIL';

@@ -29,7 +29,6 @@ function sideBarReducer(state = initialState, action) {
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
 
     case TOGGLE_SOURCE_AUTO_DISCOVER:
-      console.log(action);
       return state.setIn(
         [
           'sourceList',

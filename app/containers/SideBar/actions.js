@@ -9,7 +9,10 @@ import {
   OPEN_SOURCE_EDITOR,
   CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
-  CLOSE_LISTENING_PORT_MODAL
+  CLOSE_LISTENING_PORT_MODAL,
+  ADD_OR_UPDATE_SOURCE,
+  ADD_OR_UPDATE_SOURCE_SUCCESS,
+  ADD_OR_UPDATE_SOURCE_FAIL
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -58,5 +61,20 @@ export const fetchSourceListSuccess = (sourceList) => ({
 
 export const fetchSourceListFail = (err) => ({
   type: FETCH_SOURCE_LIST_FAIL,
+  err
+});
+
+export const addOrUpdateSource = (fields, id) => ({
+  type: ADD_OR_UPDATE_SOURCE,
+  fields,
+  id
+});
+
+export const addOrUpdateSourceSuccess = () => ({
+  type: ADD_OR_UPDATE_SOURCE_SUCCESS
+});
+
+export const addOrUpdateSourceFail = (err) => ({
+  type: ADD_OR_UPDATE_SOURCE_FAIL,
   err
 });

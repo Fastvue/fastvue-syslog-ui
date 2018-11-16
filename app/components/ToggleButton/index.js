@@ -6,7 +6,7 @@ const SourceListItem = (props) => (
   <div
     className="toggle-button"
     role="button"
-    onClick={(e) => props.onClick(e)}
+    onClick={(e) => props.onClick(props.isButtonOn)}
   >
     <div
       className={`switch ${props.isButtonOn ? 'switch-on' : null}`}

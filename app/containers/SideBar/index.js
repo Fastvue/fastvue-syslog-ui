@@ -29,7 +29,8 @@ import {
   openListeningPortModal,
   closeListeningPortModal,
   openSourceEditor,
-  closeSourceEditor
+  closeSourceEditor,
+  addOrUpdateSource
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
@@ -123,8 +124,9 @@ class SideBar extends React.PureComponent {
               onToggleButtonClick={(id, isSourceEnabled) =>
                 this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
               }
-              onSettingButtonClick={(id) => this.props.openSourceEditor(id)}
+              onSettingButtonClick={this.props.openSourceEditor}
               onSourceEditorCancel={this.props.closeSourceEditor}
+              addOrUpdateSource={this.props.addOrUpdateSource}
             />
           ))}
         </Row>
@@ -147,7 +149,8 @@ SideBar.propTypes = {
   openListeningPortModal: PropTypes.func,
   closeListeningPortModal: PropTypes.func,
   openSourceEditor: PropTypes.func,
-  closeSourceEditor: PropTypes.func
+  closeSourceEditor: PropTypes.func,
+  addOrUpdateSource: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -160,7 +163,8 @@ const mapDispatchToProps = (dispatch) => ({
   openListeningPortModal: () => dispatch(openListeningPortModal()),
   closeListeningPortModal: () => dispatch(closeListeningPortModal()),
   openSourceEditor: (id) => dispatch(openSourceEditor(id)),
-  closeSourceEditor: () => dispatch(closeSourceEditor())
+  closeSourceEditor: () => dispatch(closeSourceEditor()),
+  addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id))
 });
 
 const mapStateToProps = createStructuredSelector({
