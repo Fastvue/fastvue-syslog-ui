@@ -1,6 +1,6 @@
 import {
-  TOGGLE_AUTO_DISCOVER_BUTTON,
-  TOGGLE_SOURCE_AUTO_DISCOVER_BUTTON,
+  TOGGLE_AUTO_DISCOVER,
+  TOGGLE_SOURCE_AUTO_DISCOVER,
   FETCH_SOURCE_LIST,
   FETCH_SOURCE_LIST_SUCCESS,
   FETCH_SOURCE_LIST_FAIL,
@@ -10,13 +10,14 @@ import {
   CLOSE_LISTENING_PORT_MODAL
 } from './constants';
 
-export const toggleAutoDiscoverButton = () => ({
-  type: TOGGLE_AUTO_DISCOVER_BUTTON
+export const toggleAutoDiscover = () => ({
+  type: TOGGLE_AUTO_DISCOVER
 });
 
-export const toggleSourceAutoDiscoverButton = (sourceId) => ({
-  type: TOGGLE_SOURCE_AUTO_DISCOVER_BUTTON,
-  sourceId
+export const toggleSourceAutoDiscover = (sourceId, isSourceEnabled) => ({
+  type: TOGGLE_SOURCE_AUTO_DISCOVER,
+  sourceId,
+  isSourceEnabled
 });
 
 export const openSyslogSourceAddForm = () => ({

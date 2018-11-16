@@ -21,9 +21,9 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import {
-  toggleAutoDiscoverButton,
+  toggleAutoDiscover,
   fetchSourceList,
-  toggleSourceAutoDiscoverButton,
+  toggleSourceAutoDiscover,
   openSyslogSourceAddForm,
   closeSyslogSourceAddForm,
   openListeningPortModal,
@@ -80,7 +80,7 @@ class SideBar extends React.PureComponent {
           <Tile
             variant="autoDiscover"
             label="Auto Discover"
-            onClick={() => this.props.toggleAutoDiscoverButton()}
+            onClick={() => this.props.toggleAutoDiscover()}
             isAutoDiscoverOn={this.props.isAutoDiscoverOn}
           />
           {this.props.isAutoDiscoverOn ? (
@@ -114,8 +114,8 @@ class SideBar extends React.PureComponent {
               key={source.id}
               {...source}
               activeSourceId={this.props.activeSourceId}
-              onToggleButtonClick={(id) =>
-                this.props.toggleSourceAutoDiscoverButton(id)
+              onToggleButtonClick={(id, isSourceEnabled) =>
+                this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
               }
             />
           ))}
@@ -128,8 +128,8 @@ class SideBar extends React.PureComponent {
 SideBar.propTypes = {
   isAutoDiscoverOn: PropTypes.bool.isRequired,
   isAddSysLogSourceOpen: PropTypes.bool,
-  toggleAutoDiscoverButton: PropTypes.func.isRequired,
-  toggleSourceAutoDiscoverButton: PropTypes.func,
+  toggleAutoDiscover: PropTypes.func.isRequired,
+  toggleSourceAutoDiscover: PropTypes.func,
   sourceList: PropTypes.any,
   fetchSourceList: PropTypes.func,
   activeSourceId: PropTypes.any,
@@ -140,9 +140,9 @@ SideBar.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleAutoDiscoverButton: () => dispatch(toggleAutoDiscoverButton()),
-  toggleSourceAutoDiscoverButton: (sourceId) =>
-    dispatch(toggleSourceAutoDiscoverButton(sourceId)),
+  toggleAutoDiscover: () => dispatch(toggleAutoDiscover()),
+  toggleSourceAutoDiscover: (sourceId, isSourceEnabled) =>
+    dispatch(toggleSourceAutoDiscover(sourceId, isSourceEnabled)),
   fetchSourceList: () => dispatch(fetchSourceList()),
   openSyslogSourceAddForm: () => dispatch(openSyslogSourceAddForm()),
   closeSyslogSourceAddForm: () => dispatch(closeSyslogSourceAddForm()),

@@ -20,11 +20,11 @@ const SourceListItem = (props) => (
   >
     <Row>
       <Col xs="10" md="10">
-        <h1 className="h1 title"> {props.sourceHost} </h1>
+        <h1 className="h1 title"> {props.displayName || props.sourceHost} </h1>
         <div>
           <ToggleButton
             isButtonOn={props.enabled}
-            onClick={(e) => props.onToggleButtonClick(props.id)}
+            onClick={(e) => props.onToggleButtonClick(props.id, props.enabled)}
           />
         </div>
       </Col>
