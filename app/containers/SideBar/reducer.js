@@ -13,14 +13,23 @@ import {
   CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
   CLOSE_LISTENING_PORT_MODAL,
-  SET_PORTS
+  OPEN_DELETE_SOURCE_MODAL,
+  CLOSE_DELETE_SOURCE_MODAL,
+  SET_PORTS,
+  TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
+  TOGGLE_LISTENING_PORT_SUCCESS_MODAL
 } from './constants';
+import { toggleListeningPortSuccessModal } from './actions';
 
 const initialState = fromJS({
   isAutoDiscoverOn: false,
   isAddSysLogSourceOpen: false,
   isListeningPortModalOpen: false,
+  isListeningPortSuccessModalOpen: false,
+  isDeleteSourceModalOpen: false,
+  isDeleteSourceSuccessModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
+  toBeDeletedSource: null,
   listeningPorts: '514',
   sourceList: []
 });
@@ -43,6 +52,16 @@ function sideBarReducer(state = initialState, action) {
         !action.isSourceEnabled
       );
 
+    case TOGGLE_DELETE_SOURCE_SUCCESS_MODAL:
+      return state.set(
+        'isDeleteSourceSuccessModalOpen',
+        !state.get('isDeleteSourceSuccessModalOpen')
+      );
+    case TOGGLE_LISTENING_PORT_SUCCESS_MODAL:
+      return state.set(
+        'isListeningPortSuccessModalOpen',
+        !state.get('isListeningPortSuccessModalOpen')
+      );
     case TOGGLE_SOURCE_AUTO_DISCOVER_SUCCESS:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
 
@@ -65,6 +84,11 @@ function sideBarReducer(state = initialState, action) {
 
     case CLOSE_LISTENING_PORT_MODAL:
       return state.set('isListeningPortModalOpen', false);
+    case OPEN_DELETE_SOURCE_MODAL:
+      return state.set('isDeleteSourceModalOpen', true);
+
+    case CLOSE_DELETE_SOURCE_MODAL:
+      return state.set('isDeleteSourceModalOpen', false);
     case FETCH_SOURCE_LIST:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
     case FETCH_SOURCE_LIST_SUCCESS:

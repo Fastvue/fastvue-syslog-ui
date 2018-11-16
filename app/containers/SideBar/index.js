@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import Tile from 'components/Tile';
 import SourceListItem from 'components/SourceListItem';
 import SourceEditor from 'components/SourceEditor';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import {
   Row,
   Col,
@@ -28,18 +30,27 @@ import {
   closeSyslogSourceAddForm,
   openListeningPortModal,
   closeListeningPortModal,
+  openDeleteSourceModal,
+  closeDeleteSourceModal,
   openSourceEditor,
   closeSourceEditor,
   addOrUpdateSource,
   deleteSource,
-  setPorts
+  setPorts,
+  updateToBeDeletedSource,
+  toggleDeleteSourceSuccessModal,
+  toggleListeningPortSuccessModal
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
   makeSelectIsListeningPortModalOpen,
-  makeSelectSourceIdWhoseSourceEditorIsOpen
+  makeSelectSourceIdWhoseSourceEditorIsOpen,
+  makeSelectIsDeleteSourceModalOpen,
+  makeSelectListeningPorts,
+  makeSelectIsListeningPortSuccessModalOpen,
+  makeSelectIsDeleteSourceSuccessModalOpen
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -49,9 +60,6 @@ import './style.scss';
 class SideBar extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
-  state = {
-    ports: '514'
-  };
   componentDidMount() {
     this.props.fetchSourceList();
   }
@@ -61,7 +69,6 @@ class SideBar extends React.PureComponent {
         <Modal
           isOpen={this.props.isListeningPortModalOpen}
           toggle={() => this.props.closeListeningPortModal()}
-          className={this.props.className}
         >
           <ModalHeader toggle={() => this.props.closeListeningPortModal()}>
             Edit Syslog Listening Ports
@@ -70,7 +77,7 @@ class SideBar extends React.PureComponent {
             Enter each port to listen on, separated by commas
             <Input
               type="text"
-              value={this.state.ports}
+              value={this.props.listeningPorts}
               onChange={(e) => {
                 this.setState({ ports: e.target.value });
               }}
@@ -86,9 +93,78 @@ class SideBar extends React.PureComponent {
             <Button
               color="primary"
               onClick={() => {
-                this.props.closeListeningPortModal(),
-                this.props.setPorts(this.state.ports);
+                this.props.closeListeningPortModal();
+                this.props.setPorts(this.props.listeningPorts);
+                this.props.toggleListeningPortSuccessModal();
               }}
+            >
+              OK
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        {/* DeleteModal */}
+        <Modal
+          isOpen={this.props.isDeleteSourceModalOpen}
+          toggle={() => this.props.closeDeleteSourceModal()}
+        >
+          <ModalHeader toggle={() => this.props.closeDeleteSourceModal()}>
+            Are you sure?
+          </ModalHeader>
+          {/* <FontAwesomeIcon icon="exclamation-circle" /> */}
+          <ModalBody>Delete syslog source Hello World?</ModalBody>
+          <ModalFooter>
+            <Button
+              color="secondary"
+              onClick={() => this.props.closeDeleteSourceModal()}
+            >
+              Cancel
+            </Button>{' '}
+            <Button
+              color="danger"
+              onClick={() => {
+                this.props.closeDeleteSourceModal();
+                this.props.deleteSource(this.props.toBeDeletedSource);
+                this.props.toggleDeleteSourceSuccessModal();
+              }}
+            >
+              Yes, delete it !
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+          isOpen={this.props.isListeningPortSuccessModalOpen}
+          toggle={this.props.toggleListeningPortSuccessModal}
+        >
+          <ModalHeader toggle={this.props.toggleListeningPortSuccessModal}>
+            Ports Set!
+          </ModalHeader>
+          <ModalBody>
+            Don't forget to allow them in Windows Firewall. They are: 514
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              onClick={this.props.toggleListeningPortSuccessModal}
+            >
+              OK
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
+          isOpen={this.props.isDeleteSourceSuccessModalOpen}
+          toggle={this.props.toggleDeleteSourceSuccessModal}
+        >
+          <ModalHeader toggle={this.props.toggleDeleteSourceSuccessModal}>
+            Deleted!
+          </ModalHeader>
+          <ModalBody>Syslog source Hello World deleted.</ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              onClick={this.props.toggleDeleteSourceSuccessModal}
             >
               OK
             </Button>
@@ -146,7 +222,10 @@ class SideBar extends React.PureComponent {
               onSettingButtonClick={this.props.openSourceEditor}
               onSourceEditorCancel={this.props.closeSourceEditor}
               addOrUpdateSource={this.props.addOrUpdateSource}
-              onDeleteButtonClick={this.props.deleteSource}
+              onDeleteButtonClick={(sourceId) => {
+                this.props.openDeleteSourceModal();
+                this.props.updateToBeDeletedSource(sourceId);
+              }}
             />
           ))}
         </Row>
@@ -162,6 +241,11 @@ SideBar.propTypes = {
   sourceList: PropTypes.any,
   activeSourceId: PropTypes.any,
   sourceIdWhoseSourceEditorIsOpen: PropTypes.any,
+  listeningPorts: PropTypes.any,
+  isDeleteSourceSuccessModalOpen: PropTypes.bool,
+  isListeningPortSuccessModalOpen: PropTypes.bool,
+  isDeleteSourceModalOpen: PropTypes.bool,
+  isListeningPortModalOpen: PropTypes.bool,
   toggleSourceAutoDiscover: PropTypes.func,
   fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
@@ -172,7 +256,13 @@ SideBar.propTypes = {
   closeSourceEditor: PropTypes.func,
   addOrUpdateSource: PropTypes.func,
   deleteSource: PropTypes.func,
-  setPorts: PropTypes.func
+  setPorts: PropTypes.func,
+  openDeleteSourceModal: PropTypes.func,
+  closeDeleteSourceModal: PropTypes.func,
+  updateToBeDeletedSource: PropTypes.func,
+  toBeDeletedSource: PropTypes.func,
+  toggleDeleteSourceSuccessModal: PropTypes.func,
+  toggleListeningPortSuccessModal: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -188,7 +278,15 @@ const mapDispatchToProps = (dispatch) => ({
   closeSourceEditor: () => dispatch(closeSourceEditor()),
   addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id)),
   deleteSource: (sourceId) => dispatch(deleteSource(sourceId)),
-  setPorts: (ports) => dispatch(setPorts(ports))
+  setPorts: (ports) => dispatch(setPorts(ports)),
+  openDeleteSourceModal: () => dispatch(openDeleteSourceModal()),
+  closeDeleteSourceModal: () => dispatch(closeDeleteSourceModal()),
+  updateToBeDeletedSource: (sourceId) =>
+    dispatch(updateToBeDeletedSource(sourceId)),
+  toggleDeleteSourceSuccessModal: () =>
+    dispatch(toggleDeleteSourceSuccessModal()),
+  toggleListeningPortSuccessModal: () =>
+    dispatch(toggleListeningPortSuccessModal())
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -196,7 +294,11 @@ const mapStateToProps = createStructuredSelector({
   isAddSysLogSourceOpen: makeSelectIsAddSysLogSourceOpen(),
   isListeningPortModalOpen: makeSelectIsListeningPortModalOpen(),
   sourceList: makeSelectSourceList(),
-  sourceIdWhoseSourceEditorIsOpen: makeSelectSourceIdWhoseSourceEditorIsOpen()
+  sourceIdWhoseSourceEditorIsOpen: makeSelectSourceIdWhoseSourceEditorIsOpen(),
+  isDeleteSourceModalOpen: makeSelectIsDeleteSourceModalOpen(),
+  listeningPorts: makeSelectListeningPorts(),
+  isListeningPortSuccessModalOpen: makeSelectIsListeningPortSuccessModalOpen(),
+  isDeleteSourceSuccessModalOpen: makeSelectIsDeleteSourceSuccessModalOpen()
 });
 
 const withConnect = connect(

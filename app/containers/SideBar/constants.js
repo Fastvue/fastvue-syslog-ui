@@ -22,6 +22,12 @@ export const OPEN_LISTENING_PORT_MODAL =
 export const CLOSE_LISTENING_PORT_MODAL =
   'syslog/SideBar/CLOSE_LISTENING_PORT_MODAL';
 
+export const OPEN_DELETE_SOURCE_MODAL =
+  'syslog/SideBar/OPEN_DELETE_SOURCE_MODAL';
+
+export const CLOSE_DELETE_SOURCE_MODAL =
+  'syslog/SideBar/CLOSE_DELETE_SOURCE_MODAL';
+
 export const FETCH_SOURCE_LIST = 'syslog/SideBar/FETCH_SOURCE_LIST';
 
 export const FETCH_SOURCE_LIST_SUCCESS =
@@ -42,3 +48,12 @@ export const DELETE_SOURCE_FAIL = 'syslog/SideBar/DELETE_SOURCE_FAIL';
 export const SET_PORTS = 'syslog/SideBar/SET_PORTS';
 export const SET_PORTS_SUCCESS = 'syslog/SideBar/SET_PORTS_SUCCESS';
 export const SET_PORTS_FAIL = 'syslog/SideBar/SET_PORTS_FAIL';
+
+export const UPDATE_TO_BE_DELETED_SOURCE =
+  'syslog/SideBar/UPDATE_TO_BE_DELETED_SOURCE';
+
+export const TOGGLE_DELETE_SOURCE_SUCCESS_MODAL =
+  'syslog/SideBar/TOGGLE_DELETE_SOURCE_SUCCESS_MODAL';
+
+export const TOGGLE_LISTENING_PORT_SUCCESS_MODAL =
+  'syslog/SideBar/TOGGLE_LISTENING_PORT_SUCCESS_MODAL';

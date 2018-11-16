@@ -10,6 +10,8 @@ import {
   CLOSE_SOURCE_EDITOR,
   OPEN_LISTENING_PORT_MODAL,
   CLOSE_LISTENING_PORT_MODAL,
+  OPEN_DELETE_SOURCE_MODAL,
+  CLOSE_DELETE_SOURCE_MODAL,
   ADD_OR_UPDATE_SOURCE,
   ADD_OR_UPDATE_SOURCE_SUCCESS,
   ADD_OR_UPDATE_SOURCE_FAIL,
@@ -18,7 +20,10 @@ import {
   DELETE_SOURCE_FAIL,
   SET_PORTS,
   SET_PORTS_SUCCESS,
-  SET_PORTS_FAIL
+  SET_PORTS_FAIL,
+  UPDATE_TO_BE_DELETED_SOURCE,
+  TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
+  TOGGLE_LISTENING_PORT_SUCCESS_MODAL
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -54,6 +59,14 @@ export const openListeningPortModal = () => ({
 
 export const closeListeningPortModal = () => ({
   type: CLOSE_LISTENING_PORT_MODAL
+});
+
+export const openDeleteSourceModal = () => ({
+  type: OPEN_DELETE_SOURCE_MODAL
+});
+
+export const closeDeleteSourceModal = () => ({
+  type: CLOSE_DELETE_SOURCE_MODAL
 });
 
 export const fetchSourceList = () => ({
@@ -111,4 +124,17 @@ export const setPortsSuccess = () => ({
 export const setPortsFail = (err) => ({
   type: SET_PORTS_FAIL,
   err
+});
+
+export const updateToBeDeletedSource = (sourceId) => ({
+  type: UPDATE_TO_BE_DELETED_SOURCE,
+  sourceId
+});
+
+export const toggleDeleteSourceSuccessModal = () => ({
+  type: TOGGLE_DELETE_SOURCE_SUCCESS_MODAL
+});
+
+export const toggleListeningPortSuccessModal = () => ({
+  type: TOGGLE_LISTENING_PORT_SUCCESS_MODAL
 });

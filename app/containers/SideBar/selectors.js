@@ -34,11 +34,40 @@ const makeSelectSourceIdWhoseSourceEditorIsOpen = () =>
     selectSideBar,
     (sideBarState) => sideBarState.get('sourceIdWhoseSourceEditorIsOpen')
   );
+
+const makeSelectIsDeleteSourceModalOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isDeleteSourceModalOpen')
+  );
+
+const makeSelectListeningPorts = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('listeningPorts')
+  );
+
+const makeSelectIsListeningPortSuccessModalOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isListeningPortSuccessModalOpen')
+  );
+
+const makeSelectIsDeleteSourceSuccessModalOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isDeleteSourceSuccessModalOpen')
+  );
+
 export {
   selectSideBar,
   makeSelectIsAutoDiscoverOn,
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
   makeSelectIsListeningPortModalOpen,
-  makeSelectSourceIdWhoseSourceEditorIsOpen
+  makeSelectSourceIdWhoseSourceEditorIsOpen,
+  makeSelectIsDeleteSourceModalOpen,
+  makeSelectListeningPorts,
+  makeSelectIsListeningPortSuccessModalOpen,
+  makeSelectIsDeleteSourceSuccessModalOpen
 };
