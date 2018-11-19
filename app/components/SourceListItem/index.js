@@ -36,10 +36,7 @@ const SourceListItem = (props) => {
     >
       <Row>
         <Col xs="10" md="10">
-          <h1 className="h1 title">
-            {' '}
-            {props.displayName || props.sourceHost}{' '}
-          </h1>
+          <h1> {props.displayName || props.sourceHost} </h1>
           <div>
             <ToggleButton
               isButtonOn={props.enabled}
@@ -50,7 +47,7 @@ const SourceListItem = (props) => {
           </div>
         </Col>
         <Col xs="2" md="2">
-          <div className="actions">
+          <Row className="actions">
             <HashLink
               smooth
               to={`#sourceEditor${props.id}`}
@@ -83,7 +80,7 @@ const SourceListItem = (props) => {
                 <FontAwesomeIcon icon="exclamation-circle" />
               </Button>
             )}
-          </div>
+          </Row>
         </Col>
       </Row>
       {props.isSourceEditorOpen && (

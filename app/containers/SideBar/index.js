@@ -62,11 +62,13 @@ class SideBar extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
-    this.props.fetchSourceList();
+    setInterval(() => {
+      this.props.fetchSourceList();
+    }, 2500);
   }
   render() {
     return (
-      <Col className="sidebar compact" md={12} lg={4} xl={3} >
+      <Col className="sidebar" md={12} lg={4} xl={3}>
         <Modal
           isOpen={this.props.isListeningPortModalOpen}
           toggle={() => this.props.closeListeningPortModal()}

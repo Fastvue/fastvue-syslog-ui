@@ -13,10 +13,12 @@ import {
   addOrUpdateSourceSuccess,
   addOrUpdateSourceFail,
   deleteSourceSuccess,
-  deleteSourceFail
+  deleteSourceFail,
+  closeSourceEditor,
+  fetchSourceList
 } from './actions';
 
-export function* fetchSourcesList() {
+export function* fetchSourcesListAPI() {
   const requestURL = `${process.env.API_URL}/api/sources/list`;
 
   try {
@@ -58,6 +60,8 @@ export function* addOrUpdateSource(action) {
   try {
     const res = yield call(request, requestURL, requestOptions);
     yield put(addOrUpdateSourceSuccess(res));
+    yield put(fetchSourceList());
+    yield put(closeSourceEditor());
   } catch (err) {
     yield put(addOrUpdateSourceFail(err));
   }
@@ -94,7 +98,7 @@ export function* setPorts(action) {
 }
 
 export default function* sideBarSaga() {
-  yield takeLatest(FETCH_SOURCE_LIST, fetchSourcesList);
+  yield takeLatest(FETCH_SOURCE_LIST, fetchSourcesListAPI);
   yield takeLatest(TOGGLE_SOURCE_AUTO_DISCOVER, toggleSourceAutoDiscover);
   yield takeLatest(ADD_OR_UPDATE_SOURCE, addOrUpdateSource);
   yield takeLatest(DELETE_SOURCE, deleteSource);

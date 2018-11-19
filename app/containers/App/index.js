@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import './style.scss';
+import GlobalStyle from './../../styles/global-styles';
 
 const App = () => (
   <div className="app-wrapper">
@@ -16,6 +17,7 @@ const App = () => (
       />
       <Route path="" component={NotFoundPage} />
     </Switch>
+    <GlobalStyle />
   </div>
 );
 

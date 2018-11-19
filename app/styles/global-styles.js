@@ -11,26 +11,27 @@ const GlobalStyle = createGlobalStyle`
     
   }
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
+   
   }
   body.fontLoaded {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  
   }
   #app {
     background-color: #fafafa;
     min-height: 100%;
     min-width: 100%;
   }
-  p,
-  label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
-    line-height: 1.5em;
-  }
+ 
 
-  .btn:focus {
-  outline: none;
-  box-shadow: none;
+.btn:focus,.btn:active {
+   outline: none !important;
+   box-shadow: none !important;
+}
+.form-group {
+  label {
+    font-weight:700;
+    color: #565771;
+  }
 }
 `;
 
