@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 import Tile from 'components/Tile';
 import SourceListItem from 'components/SourceListItem';
 import SourceEditor from 'components/SourceEditor';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   Row,
@@ -39,7 +39,8 @@ import {
   setPorts,
   updateToBeDeletedSource,
   toggleDeleteSourceSuccessModal,
-  toggleListeningPortSuccessModal
+  toggleListeningPortSuccessModal,
+  toggleAddSourceSuccessModal
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
@@ -51,7 +52,9 @@ import {
   makeSelectListeningPorts,
   makeSelectIsListeningPortSuccessModalOpen,
   makeSelectIsDeleteSourceSuccessModalOpen,
-  makeSelectToBeDeletedSource
+  makeSelectToBeDeletedSource,
+  makeSelectAddOrUpdateSourceLoading,
+  makeSelectIsAddSourceSuccessModalOpen
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -62,9 +65,20 @@ class SideBar extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
   componentDidMount() {
+    this.props.fetchSourceList();
     setInterval(() => {
       this.props.fetchSourceList();
     }, 2500);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isDeleteSourceSuccessModalOpen !==
+        prevProps.isDeleteSourceSuccessModalOpen &&
+      this.props.isDeleteSourceSuccessModalOpen
+    ) {
+      this.props.history.push('/');
+    }
   }
   render() {
     return (
@@ -160,6 +174,24 @@ class SideBar extends React.PureComponent {
         </Modal>
 
         <Modal
+          isOpen={this.props.isAddSourceSuccessModalOpen}
+          toggle={this.props.toggleAddSourceSuccessModal}
+        >
+          <ModalHeader toggle={this.props.toggleAddSourceSuccessModal}>
+            Added!
+          </ModalHeader>
+          <ModalBody>Syslog source added successfully.</ModalBody>
+          <ModalFooter>
+            <Button
+              color="primary"
+              onClick={this.props.toggleAddSourceSuccessModal}
+            >
+              OK
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal
           isOpen={this.props.isDeleteSourceSuccessModalOpen}
           toggle={this.props.toggleDeleteSourceSuccessModal}
         >
@@ -207,6 +239,7 @@ class SideBar extends React.PureComponent {
         <Row>
           {this.props.isAddSysLogSourceOpen && (
             <SourceEditor
+              loading={this.props.addOrUpdateSourceLoading}
               onFormCancel={() => this.props.closeSyslogSourceAddForm()}
               onFormSubmit={(fields) => {
                 this.props.addOrUpdateSource(fields);
@@ -219,6 +252,7 @@ class SideBar extends React.PureComponent {
             <SourceListItem
               key={source.id}
               {...source}
+              addOrUpdateSourceLoading={this.props.addOrUpdateSourceLoading}
               activeSourceId={this.props.activeSourceId}
               isSourceEditorOpen={
                 this.props.sourceIdWhoseSourceEditorIsOpen === source.id
@@ -226,7 +260,11 @@ class SideBar extends React.PureComponent {
               onToggleButtonClick={(id, isSourceEnabled) =>
                 this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
               }
-              onSettingButtonClick={this.props.openSourceEditor}
+              onSettingButtonClick={(id) => {
+                this.props.openSourceEditor(id);
+                this.props.isAddSysLogSourceOpen &&
+                  this.props.closeSyslogSourceAddForm();
+              }}
               onSourceEditorCancel={this.props.closeSourceEditor}
               addOrUpdateSource={this.props.addOrUpdateSource}
               onDeleteButtonClick={(sourceId, sourceDisplayName) => {
@@ -254,6 +292,9 @@ SideBar.propTypes = {
   isDeleteSourceModalOpen: PropTypes.bool,
   isListeningPortModalOpen: PropTypes.bool,
   toBeDeletedSource: PropTypes.any,
+  addOrUpdateSourceLoading: PropTypes.bool,
+  isAddSourceSuccessModalOpen: PropTypes.bool,
+  history: PropTypes.any,
   toggleSourceAutoDiscover: PropTypes.func,
   fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
@@ -269,7 +310,8 @@ SideBar.propTypes = {
   closeDeleteSourceModal: PropTypes.func,
   updateToBeDeletedSource: PropTypes.func,
   toggleDeleteSourceSuccessModal: PropTypes.func,
-  toggleListeningPortSuccessModal: PropTypes.func
+  toggleListeningPortSuccessModal: PropTypes.func,
+  toggleAddSourceSuccessModal: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -293,7 +335,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleDeleteSourceSuccessModal: () =>
     dispatch(toggleDeleteSourceSuccessModal()),
   toggleListeningPortSuccessModal: () =>
-    dispatch(toggleListeningPortSuccessModal())
+    dispatch(toggleListeningPortSuccessModal()),
+  toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal())
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -306,7 +349,9 @@ const mapStateToProps = createStructuredSelector({
   listeningPorts: makeSelectListeningPorts(),
   isListeningPortSuccessModalOpen: makeSelectIsListeningPortSuccessModalOpen(),
   isDeleteSourceSuccessModalOpen: makeSelectIsDeleteSourceSuccessModalOpen(),
-  toBeDeletedSource: makeSelectToBeDeletedSource()
+  toBeDeletedSource: makeSelectToBeDeletedSource(),
+  addOrUpdateSourceLoading: makeSelectAddOrUpdateSourceLoading(),
+  isAddSourceSuccessModalOpen: makeSelectIsAddSourceSuccessModalOpen()
 });
 
 const withConnect = connect(
@@ -320,6 +365,7 @@ const withSaga = injectSaga({ key: 'sidebar', saga });
 export default compose(
   withReducer,
   withSaga,
-  withConnect
+  withConnect,
+  withRouter
 )(SideBar);
 export { mapDispatchToProps };

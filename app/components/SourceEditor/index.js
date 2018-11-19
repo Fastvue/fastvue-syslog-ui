@@ -1,17 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TabContent,
-  TabPane,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup
-} from 'reactstrap';
+import { TabContent, TabPane, Col, Button, Form, FormGroup } from 'reactstrap';
 import Tabs from 'components/Tabs';
 import FormBuilder from 'components/FormBuilder';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import tabsConfig from './tabsConfig';
+
 import './style.scss';
 
 class SourceEditor extends Component {
@@ -73,7 +68,13 @@ class SourceEditor extends Component {
         color="success"
         type="submit"
       >
-        Save
+        {this.props.loading ? (
+          <Fragment>
+            <FontAwesomeIcon spin icon="circle-notch" /> Saving
+          </Fragment>
+        ) : (
+          'Save'
+        )}
       </Button>
     </FormGroup>
   );
@@ -101,10 +102,11 @@ class SourceEditor extends Component {
 }
 
 SourceEditor.propTypes = {
-  onFormCancel: PropTypes.func,
-  onFormSubmit: PropTypes.func,
   id: PropTypes.string,
-  formData: PropTypes.any
+  formData: PropTypes.any,
+  loading: PropTypes.any,
+  onFormCancel: PropTypes.func,
+  onFormSubmit: PropTypes.func
 };
 
 export default SourceEditor;

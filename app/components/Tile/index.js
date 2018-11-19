@@ -10,7 +10,12 @@ const Tile = (props) => (
   <Col className="tile" onClick={(e) => props.onClick(e)} xs="6" md="6" lg="6">
     <Col className="iconBox">
       {props.variant === 'autoDiscover' && (
-        <div className="toggle"><ToggleButton isButtonOn={props.isAutoDiscoverOn} /></div>
+        <div className="toggle">
+          <ToggleButton
+            isButtonOn={props.isAutoDiscoverOn}
+            onClick={() => {}}
+          />
+        </div>
       )}
       {props.variant === 'listeningPort' && (
         <FontAwesomeIcon icon="headphones" />

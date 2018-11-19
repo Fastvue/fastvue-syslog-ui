@@ -40,9 +40,7 @@ const SourceListItem = (props) => {
           <div>
             <ToggleButton
               isButtonOn={props.enabled}
-              onClick={(e) =>
-                props.onToggleButtonClick(props.id, props.enabled)
-              }
+              onClick={() => props.onToggleButtonClick(props.id, props.enabled)}
             />
           </div>
         </Col>
@@ -88,6 +86,7 @@ const SourceListItem = (props) => {
           <SourceEditor
             onFormCancel={props.onSourceEditorCancel}
             onFormSubmit={props.addOrUpdateSource}
+            loading={props.addOrUpdateSourceLoading}
             formData={formData}
             id={props.id}
           />
@@ -104,6 +103,7 @@ SourceListItem.propTypes = {
   error: PropTypes.string,
   activeSourceId: PropTypes.string,
   isSourceEditorOpen: PropTypes.bool,
+  addOrUpdateSourceLoading: PropTypes.bool,
   onToggleButtonClick: PropTypes.func,
   onSettingButtonClick: PropTypes.func,
   onSourceEditorCancel: PropTypes.func,

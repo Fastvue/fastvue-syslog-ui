@@ -15,7 +15,9 @@ import {
   deleteSourceSuccess,
   deleteSourceFail,
   closeSourceEditor,
-  fetchSourceList
+  fetchSourceList,
+  closeSyslogSourceAddForm,
+  toggleAddSourceSuccessModal
 } from './actions';
 
 export function* fetchSourcesListAPI() {
@@ -31,7 +33,7 @@ export function* fetchSourcesListAPI() {
 
 export function* toggleSourceAutoDiscover(action) {
   const requestURL = `${process.env.API_URL}/api/sources/${
-    action.isSourceEnabled ? 'enable' : 'disable'
+    !action.isSourceEnabled ? 'enable' : 'disable'
   }`;
   const requestOptions = {
     method: 'POST',
@@ -39,8 +41,8 @@ export function* toggleSourceAutoDiscover(action) {
   };
 
   try {
-    const sourceList = yield call(request, requestURL, requestOptions);
-    // yield put(fetchSourceListSuccess(sourceList));
+    yield call(request, requestURL, requestOptions);
+    yield put(fetchSourceList());
   } catch (err) {
     // yield put(fetchSourceListFail(err));
   }
@@ -61,7 +63,12 @@ export function* addOrUpdateSource(action) {
     const res = yield call(request, requestURL, requestOptions);
     yield put(addOrUpdateSourceSuccess(res));
     yield put(fetchSourceList());
-    yield put(closeSourceEditor());
+    if (action.id) {
+      yield put(closeSourceEditor());
+    } else {
+      yield put(closeSyslogSourceAddForm());
+      yield put(toggleAddSourceSuccessModal());
+    }
   } catch (err) {
     yield put(addOrUpdateSourceFail(err));
   }
@@ -76,6 +83,7 @@ export function* deleteSource(action) {
 
   try {
     const res = yield call(request, requestURL, requestOptions);
+    yield put(fetchSourceList());
     yield put(deleteSourceSuccess(res));
   } catch (err) {
     yield put(deleteSourceFail(err));

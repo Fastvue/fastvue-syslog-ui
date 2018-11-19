@@ -23,7 +23,8 @@ import {
   SET_PORTS_FAIL,
   UPDATE_TO_BE_DELETED_SOURCE,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
-  TOGGLE_LISTENING_PORT_SUCCESS_MODAL
+  TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
+  TOGGLE_ADD_SOURCE_SUCCESS_MODAL
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -138,4 +139,8 @@ export const toggleDeleteSourceSuccessModal = () => ({
 
 export const toggleListeningPortSuccessModal = () => ({
   type: TOGGLE_LISTENING_PORT_SUCCESS_MODAL
+});
+
+export const toggleAddSourceSuccessModal = () => ({
+  type: TOGGLE_ADD_SOURCE_SUCCESS_MODAL
 });

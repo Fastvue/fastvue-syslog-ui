@@ -65,6 +65,17 @@ const makeSelectToBeDeletedSource = () =>
     (sideBarState) => sideBarState.get('toBeDeletedSource')
   );
 
+const makeSelectAddOrUpdateSourceLoading = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('addOrUpdateSourceLoading')
+  );
+
+const makeSelectIsAddSourceSuccessModalOpen = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('isAddSourceSuccessModalOpen')
+  );
 export {
   selectSideBar,
   makeSelectIsAutoDiscoverOn,
@@ -76,5 +87,7 @@ export {
   makeSelectListeningPorts,
   makeSelectIsListeningPortSuccessModalOpen,
   makeSelectIsDeleteSourceSuccessModalOpen,
-  makeSelectToBeDeletedSource
+  makeSelectToBeDeletedSource,
+  makeSelectAddOrUpdateSourceLoading,
+  makeSelectIsAddSourceSuccessModalOpen
 };

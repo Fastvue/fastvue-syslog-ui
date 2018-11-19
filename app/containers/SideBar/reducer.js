@@ -18,7 +18,11 @@ import {
   SET_PORTS,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
   TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
-  UPDATE_TO_BE_DELETED_SOURCE
+  UPDATE_TO_BE_DELETED_SOURCE,
+  ADD_OR_UPDATE_SOURCE,
+  ADD_OR_UPDATE_SOURCE_FAIL,
+  ADD_OR_UPDATE_SOURCE_SUCCESS,
+  TOGGLE_ADD_SOURCE_SUCCESS_MODAL
 } from './constants';
 
 const initialState = fromJS({
@@ -26,9 +30,11 @@ const initialState = fromJS({
   isAddSysLogSourceOpen: false,
   isListeningPortModalOpen: false,
   isListeningPortSuccessModalOpen: false,
+  isAddSourceSuccessModalOpen: false,
   isDeleteSourceModalOpen: false,
   isDeleteSourceSuccessModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
+  addOrUpdateSourceLoading: false,
   toBeDeletedSource: {
     id: null,
     displayName: ''
@@ -59,6 +65,11 @@ function sideBarReducer(state = initialState, action) {
       return state.set(
         'isDeleteSourceSuccessModalOpen',
         !state.get('isDeleteSourceSuccessModalOpen')
+      );
+    case TOGGLE_ADD_SOURCE_SUCCESS_MODAL:
+      return state.set(
+        'isAddSourceSuccessModalOpen',
+        !state.get('isAddSourceSuccessModalOpen')
       );
     case TOGGLE_LISTENING_PORT_SUCCESS_MODAL:
       return state.set(
@@ -104,6 +115,19 @@ function sideBarReducer(state = initialState, action) {
 
     case SET_PORTS:
       return state.set('ports', action.ports);
+
+    case ADD_OR_UPDATE_SOURCE:
+      return state
+        .set('addOrUpdateSourceLoading', true)
+        .set('addOrUpdateSourceErr', false);
+    case ADD_OR_UPDATE_SOURCE_SUCCESS:
+      return state
+        .set('addOrUpdateSourceLoading', false)
+        .set('addOrUpdateSourceErr', false);
+    case ADD_OR_UPDATE_SOURCE_FAIL:
+      return state
+        .set('addOrUpdateSourceLoading', false)
+        .set('addOrUpdateSourceErr', action.err);
     default:
       return state;
   }

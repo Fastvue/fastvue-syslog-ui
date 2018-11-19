@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './style.scss';
 
-const SourceListItem = (props) => (
+const ToggleButton = (props) => (
   <div
     className="toggle-button"
     role="button"
@@ -21,9 +21,9 @@ const SourceListItem = (props) => (
   </div>
 );
 
-SourceListItem.propTypes = {
+ToggleButton.propTypes = {
   isButtonOn: PropTypes.bool,
   onClick: PropTypes.func
 };
 
-export default SourceListItem;
+export default ToggleButton;
