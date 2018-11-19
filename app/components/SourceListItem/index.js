@@ -32,6 +32,7 @@ const SourceListItem = (props) => {
       className={`sourceListItem ${props.id ===
         (props.match.params && props.match.params.id) && 'highlights'}`}
       onClick={(e) => props.history.push(`/source/${props.id}`)}
+      id={`sourceEditor${props.id}`}
     >
       <Row>
         <Col xs="10" md="10">
