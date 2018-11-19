@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Row, Col, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { HashLink } from 'react-router-hash-link';
 import ToggleButton from 'components/ToggleButton';
 import SourceEditor from 'components/SourceEditor';
 import { pick as _pick } from 'lodash';
@@ -56,7 +57,9 @@ const SourceListItem = (props) => {
                 props.isSourceEditorOpen && props.onSourceEditorCancel();
               }}
             >
-              <FontAwesomeIcon icon="cog" />
+              <HashLink smooth to={`#sourceEditor${props.id}`}>
+                <FontAwesomeIcon icon="cog" />
+              </HashLink>
             </Button>
             <Button
               className={props.activeSourceId === props.id ? 'active' : ''}

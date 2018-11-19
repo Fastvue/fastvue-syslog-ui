@@ -19,16 +19,27 @@ const FormBuilder = (props) => (
 
     {props.widget === 'inputGroup' && (
       <Fragment>
-        <br />
         {props.group.map((item) => (
           <Fragment key={item.id}>
-            {item.label && <Label>{item.label}</Label>}
+            &nbsp; &nbsp; &nbsp;
             <Input
               type={item.type}
+              onChange={() => {
+                props.onChange(props.name, item.label);
+              }}
               name={props.name}
-              onChange={(e) => props.onChange(props.name, e.target.value)}
-              value={props.value}
-            /> {'  '}
+              value={item.label}
+              checked={props.value === item.label}
+            />
+            {item.label && (
+              <Label
+                for={`${item.id}`}
+                onClick={() => props.onChange(props.name, item.label)}
+              >
+                {item.label}
+              </Label>
+            )}
+            &nbsp; &nbsp;
           </Fragment>
         ))}
       </Fragment>

@@ -22,6 +22,18 @@ export default [
         label: 'Log Folder',
         widget: 'input',
         type: 'text'
+      },
+      {
+        name: 'logFilename',
+        label: 'File Name Format',
+        widget: 'input',
+        type: 'text'
+      },
+      {
+        name: 'port',
+        label: 'SysLog Port',
+        widget: 'input',
+        type: 'text'
       }
     ]
   },
@@ -60,8 +72,7 @@ export default [
         widget: 'toggleButton'
       },
       {
-        name: 'forwardHost',
-        label: 'Forward to Host',
+        name: 'forwardTransport',
         widget: 'inputGroup',
         group: [
           {
@@ -79,8 +90,8 @@ export default [
         ]
       },
       {
-        name: 'portType',
-        label: 'Log Folder',
+        name: 'forwardHost',
+        label: 'Forward To Host',
         widget: 'input',
         type: 'text'
       },

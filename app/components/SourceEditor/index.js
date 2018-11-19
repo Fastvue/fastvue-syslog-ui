@@ -89,7 +89,9 @@ class SourceEditor extends Component {
         <TabContent activeTab={this.state.activeTab} className="tabContent">
           {tabsConfig.map((tab) => (
             <TabPane key={tab.id} tabId={tab.id}>
-              <Form>{this.prepareFormBuilder(tab.formConfig)}</Form>
+              <Form id={`sourceEditor${this.props.id}`}>
+                {this.prepareFormBuilder(tab.formConfig)}
+              </Form>
             </TabPane>
           ))}
 
