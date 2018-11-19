@@ -104,7 +104,7 @@ function sideBarReducer(state = initialState, action) {
     case CLOSE_DELETE_SOURCE_MODAL:
       return state.set('isDeleteSourceModalOpen', false);
     case FETCH_SOURCE_LIST_SUCCESS:
-      return state.set('sourceList', fromJS(action.sourceList.reverse()));
+      return state.set('sourceList', fromJS(action.sourceList));
     case FETCH_SOURCE_LIST_FAIL:
       return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
     case UPDATE_TO_BE_DELETED_SOURCE:
