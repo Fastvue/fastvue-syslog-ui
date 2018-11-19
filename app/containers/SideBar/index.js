@@ -66,7 +66,7 @@ class SideBar extends React.PureComponent {
   }
   render() {
     return (
-      <Col className="sidebar" xs="12" lg="3" md="4">
+      <Col className="sidebar compact" md={12} lg={4} xl={3} >
         <Modal
           isOpen={this.props.isListeningPortModalOpen}
           toggle={() => this.props.closeListeningPortModal()}

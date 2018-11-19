@@ -50,17 +50,21 @@ const SourceListItem = (props) => {
         </Col>
         <Col xs="2" md="2">
           <div className="actions">
-            <Button
-              className={props.isSourceEditorOpen ? 'active' : ''}
+            <HashLink
+              smooth
+              to={`#sourceEditor${props.id}`}
+              className={`btn btn-secondary ${
+                props.isSourceEditorOpen ? 'active' : ''
+              }`}
+              role="button"
               onClick={() => {
                 props.onSettingButtonClick(props.id);
                 props.isSourceEditorOpen && props.onSourceEditorCancel();
               }}
             >
-              <HashLink smooth to={`#sourceEditor${props.id}`}>
-                <FontAwesomeIcon icon="cog" />
-              </HashLink>
-            </Button>
+              <FontAwesomeIcon icon="cog" />
+            </HashLink>
+
             <Button
               className={props.activeSourceId === props.id ? 'active' : ''}
             >

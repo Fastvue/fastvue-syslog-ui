@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import SideBar from 'containers/SideBar/Loadable';
 import MainContent from 'components/MainContent';
-import { Row } from 'reactstrap';
+import { Row, Container } from 'reactstrap';
 import { login } from './actions';
 // import {  } from './selectors';
 import reducer from './reducer';
@@ -25,14 +25,16 @@ class HomePage extends React.PureComponent {
     return (
       <Fragment>
         <Header appVersion="2.0.0.3" />
-        <Row>
-          <SideBar
-            activeSourceId={
-              this.props.match.params && this.props.match.params.id
-            }
-          />
-          <MainContent />
-        </Row>
+        <Container fluid style={{ display: 'table' }}>
+          <Row>
+            <SideBar
+              activeSourceId={
+                this.props.match.params && this.props.match.params.id
+              }
+            />
+            <MainContent />
+          </Row>
+        </Container>
       </Fragment>
     );
   }
