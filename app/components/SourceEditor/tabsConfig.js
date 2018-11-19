@@ -62,8 +62,21 @@ export default [
       {
         name: 'forwardHost',
         label: 'Forward to Host',
-        widget: 'input',
-        type: 'radio'
+        widget: 'inputGroup',
+        group: [
+          {
+            id: 0,
+            widget: 'input',
+            type: 'radio',
+            label: 'UDP'
+          },
+          {
+            id: 1,
+            widget: 'input',
+            type: 'radio',
+            label: 'TCP'
+          }
+        ]
       },
       {
         name: 'portType',

@@ -89,11 +89,7 @@ class SourceEditor extends Component {
         <TabContent activeTab={this.state.activeTab} className="tabContent">
           {tabsConfig.map((tab) => (
             <TabPane key={tab.id} tabId={tab.id}>
-              <Row>
-                <Form>
-                  <Col sm="12">{this.prepareFormBuilder(tab.formConfig)}</Col>
-                </Form>
-              </Row>
+              <Form>{this.prepareFormBuilder(tab.formConfig)}</Form>
             </TabPane>
           ))}
 

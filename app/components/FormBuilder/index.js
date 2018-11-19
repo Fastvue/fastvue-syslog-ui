@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Label, FormGroup, Input } from 'reactstrap';
+import { Label, FormGroup, Input, Col } from 'reactstrap';
 import ToggleButton from 'components/ToggleButton';
 
 import './style.scss';
@@ -16,6 +16,23 @@ const FormBuilder = (props) => (
         value={props.value}
       />
     )}
+
+    {props.widget === 'inputGroup' && (
+      <Fragment>
+        <br />
+        {props.group.map((item) => (
+          <Fragment key={item.id}>
+            {item.label && <Label>{item.label}</Label>}
+            <Input
+              type={item.type}
+              name={props.name}
+              onChange={(e) => props.onChange(props.name, e.target.value)}
+              value={props.value}
+            /> {'  '}
+          </Fragment>
+        ))}
+      </Fragment>
+    )}
     {props.widget === 'toggleButton' && (
       <ToggleButton
         isButtonOn={props.value}
@@ -28,6 +45,7 @@ const FormBuilder = (props) => (
 FormBuilder.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
+  group: PropTypes.any,
   value: PropTypes.any,
   type: PropTypes.string,
   widget: PropTypes.string,
