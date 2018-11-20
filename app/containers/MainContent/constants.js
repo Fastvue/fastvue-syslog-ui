@@ -1,0 +1,4 @@
+export const FETCH_SOURCE_STATS = 'syslog/SideBar/FETCH_SOURCE_STATS';
+export const FETCH_SOURCE_STATS_SUCCESS =
+  'syslog/SideBar/FETCH_SOURCE_STATS_SUCCESS';
+export const FETCH_SOURCE_STATS_FAIL = 'syslog/SideBar/FETCH_SOURCE_STATS_FAIL';

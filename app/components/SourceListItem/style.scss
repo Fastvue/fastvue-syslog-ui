@@ -16,8 +16,6 @@
     overflow-wrap: break-word;
   }
   .actions {
-    text-align: right;
-    align-content: flex-end;
     padding: 0;
     width: 40px;
     float: right;
@@ -30,8 +28,9 @@
       border-left: 1px solid #22232f;
       margin: 0;
       &.active {
-        background-color: white;
+        background-color: #fafafa;
         color: black;
+        border-right: 0;
       }
     }
   }
