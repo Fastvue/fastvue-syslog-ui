@@ -22,7 +22,8 @@ import {
   ADD_OR_UPDATE_SOURCE,
   ADD_OR_UPDATE_SOURCE_FAIL,
   ADD_OR_UPDATE_SOURCE_SUCCESS,
-  TOGGLE_ADD_SOURCE_SUCCESS_MODAL
+  TOGGLE_ADD_SOURCE_SUCCESS_MODAL,
+  UPDATE_ACTIVE_SOURCE
 } from './constants';
 
 const initialState = fromJS({
@@ -35,6 +36,7 @@ const initialState = fromJS({
   isDeleteSourceSuccessModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
   addOrUpdateSourceLoading: false,
+  activeSource: {},
   toBeDeletedSource: {
     id: null,
     displayName: ''
@@ -113,6 +115,8 @@ function sideBarReducer(state = initialState, action) {
         displayName: action.displayName
       });
 
+    case UPDATE_ACTIVE_SOURCE:
+      return state.set('activeSource', fromJS(action.source));
     case SET_PORTS:
       return state.set('ports', action.ports);
 

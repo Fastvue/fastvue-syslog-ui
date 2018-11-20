@@ -3,6 +3,7 @@
  */
 
 import { createSelector } from 'reselect';
+import memoize from 'lodash.memoize';
 
 const selectSideBar = (state) => state.get('sidebar');
 const makeSelectIsAutoDiscoverOn = () =>
@@ -76,6 +77,13 @@ const makeSelectIsAddSourceSuccessModalOpen = () =>
     selectSideBar,
     (sideBarState) => sideBarState.get('isAddSourceSuccessModalOpen')
   );
+
+const makeSelectActiveSource = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('activeSource').toJS()
+  );
+
 export {
   selectSideBar,
   makeSelectIsAutoDiscoverOn,
@@ -89,5 +97,6 @@ export {
   makeSelectIsDeleteSourceSuccessModalOpen,
   makeSelectToBeDeletedSource,
   makeSelectAddOrUpdateSourceLoading,
-  makeSelectIsAddSourceSuccessModalOpen
+  makeSelectIsAddSourceSuccessModalOpen,
+  makeSelectActiveSource
 };

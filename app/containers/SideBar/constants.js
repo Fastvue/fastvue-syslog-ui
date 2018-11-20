@@ -52,6 +52,8 @@ export const SET_PORTS_FAIL = 'syslog/SideBar/SET_PORTS_FAIL';
 export const UPDATE_TO_BE_DELETED_SOURCE =
   'syslog/SideBar/UPDATE_TO_BE_DELETED_SOURCE';
 
+export const UPDATE_ACTIVE_SOURCE = 'syslog/SideBar/UPDATE_ACTIVE_SOURCE';
+
 export const TOGGLE_DELETE_SOURCE_SUCCESS_MODAL =
   'syslog/SideBar/TOGGLE_DELETE_SOURCE_SUCCESS_MODAL';
 

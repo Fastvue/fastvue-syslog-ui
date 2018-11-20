@@ -24,7 +24,8 @@ import {
   UPDATE_TO_BE_DELETED_SOURCE,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
   TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
-  TOGGLE_ADD_SOURCE_SUCCESS_MODAL
+  TOGGLE_ADD_SOURCE_SUCCESS_MODAL,
+  UPDATE_ACTIVE_SOURCE
 } from './constants';
 
 export const toggleAutoDiscover = () => ({
@@ -131,6 +132,11 @@ export const updateToBeDeletedSource = (sourceId, displayName) => ({
   type: UPDATE_TO_BE_DELETED_SOURCE,
   sourceId,
   displayName
+});
+
+export const updateActiveSource = (source) => ({
+  type: UPDATE_ACTIVE_SOURCE,
+  source
 });
 
 export const toggleDeleteSourceSuccessModal = () => ({

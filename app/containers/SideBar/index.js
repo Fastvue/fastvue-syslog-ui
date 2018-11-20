@@ -40,7 +40,8 @@ import {
   updateToBeDeletedSource,
   toggleDeleteSourceSuccessModal,
   toggleListeningPortSuccessModal,
-  toggleAddSourceSuccessModal
+  toggleAddSourceSuccessModal,
+  updateActiveSource
 } from './actions';
 import {
   makeSelectIsAutoDiscoverOn,
@@ -78,6 +79,14 @@ class SideBar extends React.PureComponent {
       this.props.isDeleteSourceSuccessModalOpen
     ) {
       this.props.history.push('/');
+    }
+
+    if (this.props.activeSourceId !== prevProps.activeSourceId) {
+      const activeSource = this.props.sourceList.find(
+        (source) => source.id === this.props.activeSourceId
+      );
+      console.log('updated');
+      this.props.updateActiveSource(activeSource);
     }
   }
   render() {
@@ -311,7 +320,8 @@ SideBar.propTypes = {
   updateToBeDeletedSource: PropTypes.func,
   toggleDeleteSourceSuccessModal: PropTypes.func,
   toggleListeningPortSuccessModal: PropTypes.func,
-  toggleAddSourceSuccessModal: PropTypes.func
+  toggleAddSourceSuccessModal: PropTypes.func,
+  updateActiveSource: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -336,7 +346,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(toggleDeleteSourceSuccessModal()),
   toggleListeningPortSuccessModal: () =>
     dispatch(toggleListeningPortSuccessModal()),
-  toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal())
+  toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal()),
+  updateActiveSource: (source) => dispatch(updateActiveSource(source))
 });
 
 const mapStateToProps = createStructuredSelector({

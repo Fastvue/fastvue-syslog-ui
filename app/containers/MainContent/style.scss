@@ -3,14 +3,17 @@
 .main-content {
   background-color: #fafafa;
 
-  .main-heading-container {
-   
-  }
-
   @media screen and (min-width: $defaultBreakPoint) {
     position: absolute !important;
     top: 56.156px;
     right: 0;
     bottom: 0;
   }
+}
+
+.tabContent {
+  padding: 10px;
+  background-color: white;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
 }

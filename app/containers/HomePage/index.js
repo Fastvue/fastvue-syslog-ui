@@ -10,13 +10,15 @@ import Header from 'components/Header';
 import SideBar from 'containers/SideBar/Loadable';
 import MainContent from 'containers/MainContent/Loadable';
 import { Row, Container } from 'reactstrap';
-// import {  } from './selectors';
+import { makeSelectActiveSource } from 'containers/SideBar/selectors';
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
+
+  componentDidUpdate(prevProps) {}
   render() {
     return (
       <Fragment>
@@ -30,6 +32,9 @@ class HomePage extends React.PureComponent {
             />
             <MainContent
               sourceId={this.props.match.params && this.props.match.params.id}
+              activeSource={this.props.activeSource}
+              match={this.props.match}
+              history={this.props.history}
             />
           </Row>
         </Container>
@@ -39,15 +44,19 @@ class HomePage extends React.PureComponent {
 }
 
 HomePage.propTypes = {
-  login: PropTypes.func,
-  match: PropTypes.any
+  match: PropTypes.any,
+  history: PropTypes.any,
+  activeSource: PropTypes.any,
+  login: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
   login: () => dispatch(login())
 });
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  activeSource: makeSelectActiveSource()
+});
 
 const withConnect = connect(
   mapStateToProps,

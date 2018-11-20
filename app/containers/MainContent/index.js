@@ -8,7 +8,7 @@ import StatTile from 'components/StatTile';
 import Tabs from 'components/Tabs';
 import ReactTable from 'react-table';
 
-import { Col, Row, Button, TabContent, TabPane } from 'reactstrap';
+import { Col, Row, Button, TabContent, TabPane, Alert } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -24,6 +24,7 @@ import {
   makeSelectSourceFiles,
   makeSelectSourceArchives
 } from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
 import {
@@ -39,25 +40,21 @@ import './style.scss';
 
 const tabsConfig = [
   {
-    id: '0',
+    id: 'stats',
     title: 'Statistics'
   },
   {
-    id: '1',
+    id: 'files',
     title: 'Files'
   },
   {
-    id: '2',
+    id: 'archives',
     title: 'Archives'
   }
 ];
 
 class MainContent extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
-
-  state = {
-    activeTab: '0'
-  };
 
   componentDidMount() {
     this.props.fetchSourceStats(this.props.sourceId);
@@ -115,15 +112,25 @@ class MainContent extends React.PureComponent {
           </StyledDisplayName>
           <StyledSourceIP>({this.props.stats.sourceIP})</StyledSourceIP>
         </MainHeadingContainer>
-
+        {this.props.activeSource && this.props.activeSource.error && (
+          <Alert color="danger">
+            <FontAwesomeIcon icon="exclamation-circle" /> Could not resolve IP
+            address for {this.props.stats.displayName}: No such host is known
+          </Alert>
+        )}
         <Tabs
-          activeTab={this.state.activeTab}
+          activeTab={this.props.match.params.tab}
           tabs={tabsConfig}
-          onActiveTabChange={(tabId) => this.setState({ activeTab: tabId })}
+          onActiveTabChange={(tabId) =>
+            this.props.history.push(`/source/${this.props.sourceId}/${tabId}`)
+          }
         />
-        <TabContent activeTab={this.state.activeTab} className="tabContent">
+        <TabContent
+          activeTab={this.props.match.params.tab}
+          className="tabContent"
+        >
           {/* <Route />{' '} */}
-          <TabPane tabId="0">
+          <TabPane tabId="stats">
             <Row>
               {' '}
               {statTiles.map((tile) => (
@@ -132,92 +139,112 @@ class MainContent extends React.PureComponent {
             </Row>
           </TabPane>
 
-          <TabPane tabId="1">
-            <ReactTable
-              minRows={0}
-              data={this.props.files || []}
-              columns={[
-                {
-                  id: 'filename',
-                  Header: 'Filename',
-                  accessor: (row) => (
-                    <a
-                      href={`/api/sources/getfile?id=${
-                        this.props.sourceId
-                      }&amp;file=${row.name}`}
-                      download={row.name}
-                    >
-                      {row.name}
-                    </a>
-                  ),
-                  className: 'text-left',
-                  width: 343
-                },
-                {
-                  id: 'size',
-                  Header: 'Size',
-                  accessor: (row) => formatValues('Bytes', row.size),
-                  className: 'text-right'
-                },
-                {
-                  id: 'messages',
-                  Header: 'Messages',
-                  accessor: (row) => formatValues('Numeric', row.messageCount),
-                  className: 'text-right'
-                },
-                {
-                  id: 'modified',
-                  Header: 'Date',
-                  accessor: (row) => formatValues('Temporal', row.modified),
-                  className: 'text-right'
-                }
-              ]}
-              defaultPageSize={10}
-            />
+          <TabPane tabId="files">
+            {this.props.files && this.props.files.length !== 0 && (
+              <ReactTable
+                minRows={0}
+                data={this.props.files || []}
+                columns={[
+                  {
+                    id: 'filename',
+                    Header: 'Filename',
+                    accessor: (row) => (
+                      <a
+                        href={`/api/sources/getfile?id=${
+                          this.props.sourceId
+                        }&amp;file=${row.name}`}
+                        download={row.name}
+                      >
+                        {row.name}
+                      </a>
+                    ),
+                    className: 'text-left',
+                    width: 343
+                  },
+                  {
+                    id: 'size',
+                    Header: 'Size',
+                    accessor: (row) => formatValues('Bytes', row.size),
+                    className: 'text-right'
+                  },
+                  {
+                    id: 'messages',
+                    Header: 'Messages',
+                    accessor: (row) =>
+                      formatValues('Numeric', row.messageCount),
+                    className: 'text-right'
+                  },
+                  {
+                    id: 'modified',
+                    Header: 'Date',
+                    accessor: (row) => new Date(row.modified).toLocaleString(),
+                    className: 'text-right'
+                  }
+                ]}
+                defaultPageSize={10}
+              />
+            )}
+
+            {this.props.archives && this.props.archives.length === 0 && (
+              <Alert color="warning">
+                <FontAwesomeIcon icon="exclamation-circle" /> There are no files
+                logs for this Source yet.
+              </Alert>
+            )}
           </TabPane>
 
-          <TabPane tabId="2">
-            <ReactTable
-              minRows={0}
-              data={this.props.archives || []}
-              columns={[
-                {
-                  id: 'filename',
-                  Header: 'Filename',
-                  accessor: (row) => (
-                    <a
-                      href={`/api/sources/getfile?id=${
-                        this.props.sourceId
-                      }&amp;file=${row.name}`}
-                      download={row.name}
-                    >
-                      {row.name}
-                    </a>
-                  ),
-                  className: 'text-left',
-                  width: 343
-                },
-                {
-                  id: 'size',
-                  Header: 'Size',
-                  accessor: (row) => formatValues('Bytes', row.size),
-                  className: 'text-right'
-                },
-                {
-                  id: 'messages',
-                  Header: 'Messages',
-                  accessor: (row) => formatValues('Numeric', row.messageCount),
-                  className: 'text-right'
-                },
-                {
-                  id: 'modified',
-                  Header: 'Date',
-                  accessor: (row) => formatValues('Temporal', row.modified),
-                  className: 'text-right'
-                }
-              ]}
-              defaultPageSize={10}
-            />
+          <TabPane tabId="archives">
+            {this.props.archives && this.props.archives.length !== 0 && (
+              <ReactTable
+                minRows={0}
+                data={this.props.archives || []}
+                columns={[
+                  {
+                    id: 'filename',
+                    Header: () => <div className="text-left">Filename</div>,
+                    accessor: (row) => (
+                      <a
+                        href={`/api/sources/getfile?id=${
+                          this.props.sourceId
+                        }&amp;file=${row.name}`}
+                        download={row.name}
+                      >
+                        {row.name}
+                      </a>
+                    ),
+                    className: 'text-left',
+                    width: 343
+                  },
+                  {
+                    id: 'size',
+                    Header: () => <div className="text-right">Size</div>,
+                    accessor: (row) => formatValues('Bytes', row.size),
+                    className: 'text-right'
+                  },
+                  {
+                    id: 'messages',
+                    Header: () => <div className="text-right">Messages</div>,
+                    accessor: (row) =>
+                      formatValues('Numeric', row.messageCount),
+                    className: 'text-right'
+                  },
+                  {
+                    id: 'modified',
+                    Header: () => <div className="text-right">Date</div>,
+                    accessor: (row) => new Date(row.modified).toLocaleString(),
+                    className: 'text-right'
+                  }
+                ]}
+                defaultPageSize={10}
+              />
+            )}
+
+            {this.props.archives && this.props.archives.length === 0 && (
+              <Alert color="warning">
+                <FontAwesomeIcon icon="exclamation-circle" /> There are no
+                archived logs for this Source yet.
+              </Alert>
+            )}
           </TabPane>
         </TabContent>
       </Col>
@@ -230,6 +257,7 @@ MainContent.propTypes = {
   files: PropTypes.array,
   archives: PropTypes.array,
   sourceId: PropTypes.string,
+  activeSource: PropTypes.any,
   fetchSourceFiles: PropTypes.func,
   fetchSourceStats: PropTypes.func,
   fetchSourceArchives: PropTypes.func
@@ -258,7 +286,6 @@ const withSaga = injectSaga({ key: 'maincontent', saga });
 export default compose(
   withReducer,
   withSaga,
-  withConnect,
-  withRouter
+  withConnect
 )(MainContent);
 export { mapDispatchToProps };
