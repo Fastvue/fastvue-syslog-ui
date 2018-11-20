@@ -55,7 +55,9 @@ const tabsConfig = [
 
 class MainContent extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
-
+  state = {
+    sorted: []
+  };
   componentDidMount() {
     this.props.fetchSourceStats(this.props.sourceId);
     this.props.fetchSourceFiles(this.props.sourceId);
@@ -68,6 +70,19 @@ class MainContent extends React.PureComponent {
       this.props.fetchSourceFiles(this.props.sourceId);
       this.props.fetchSourceArchives(this.props.sourceId);
     }
+  }
+
+  getSortedComponent() {
+    // const sortInfo = this.state.sorted.filter((item) => item.id === id);
+    // if (sortInfo.length) {
+    //   if (sortInfo[0].desc === true) {
+    //     return <FontAwesomeIcon icon="sort-amount-down" />;
+    //   }
+    //   if (sortInfo[0].desc === false) {
+    //     return <FontAwesomeIcon icon="sort-amount-up" />;
+    //   }
+    // }
+    return <FontAwesomeIcon icon="exchange-alt" />;
   }
   render() {
     const { stats } = this.props;
@@ -93,6 +108,16 @@ class MainContent extends React.PureComponent {
         value: formatValues('Bytes', stats.archiveSize)
       }
     ];
+    const Sorted = <FontAwesomeIcon rotation={90} icon="exchange-alt" />;
+    const genericHeaderArrows = () => ({
+      Header: (props) => (
+        <div className={`text-${props.column.HeaderTextAlign}`}>
+          {props.column.HeaderText}
+          <span style={{ float: 'right' }}> {Sorted}</span>
+        </div>
+      ),
+      headerStyle: { boxShadow: 'none' }
+    });
     return (
       <Col
         xs={12}
@@ -146,8 +171,10 @@ class MainContent extends React.PureComponent {
                 data={this.props.files || []}
                 columns={[
                   {
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Filename',
+                    HeaderTextAlign: 'left',
                     id: 'filename',
-                    Header: 'Filename',
                     accessor: (row) => (
                       <a
                         href={`/api/sources/getfile?id=${
@@ -163,20 +190,26 @@ class MainContent extends React.PureComponent {
                   },
                   {
                     id: 'size',
-                    Header: 'Size',
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Size',
+                    HeaderTextAlign: 'right',
                     accessor: (row) => formatValues('Bytes', row.size),
                     className: 'text-right'
                   },
                   {
                     id: 'messages',
-                    Header: 'Messages',
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Message',
+                    HeaderTextAlign: 'right',
                     accessor: (row) =>
                       formatValues('Numeric', row.messageCount),
                     className: 'text-right'
                   },
                   {
                     id: 'modified',
-                    Header: 'Date',
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Date',
+                    HeaderTextAlign: 'right',
                     accessor: (row) => new Date(row.modified).toLocaleString(),
                     className: 'text-right'
                   }
@@ -201,7 +234,9 @@ class MainContent extends React.PureComponent {
                 columns={[
                   {
                     id: 'filename',
-                    Header: () => <div className="text-left">Filename</div>,
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Filename',
+                    HeaderTextAlign: 'left',
                     accessor: (row) => (
                       <a
                         href={`/api/sources/getfile?id=${
@@ -217,20 +252,26 @@ class MainContent extends React.PureComponent {
                   },
                   {
                     id: 'size',
-                    Header: () => <div className="text-right">Size</div>,
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Size',
+                    HeaderTextAlign: 'right',
                     accessor: (row) => formatValues('Bytes', row.size),
                     className: 'text-right'
                   },
                   {
                     id: 'messages',
-                    Header: () => <div className="text-right">Messages</div>,
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Messages',
+                    HeaderTextAlign: 'right',
                     accessor: (row) =>
                       formatValues('Numeric', row.messageCount),
                     className: 'text-right'
                   },
                   {
                     id: 'modified',
-                    Header: () => <div className="text-right">Date</div>,
+                    ...genericHeaderArrows(),
+                    HeaderText: 'Date',
+                    HeaderTextAlign: 'right',
                     accessor: (row) => new Date(row.modified).toLocaleString(),
                     className: 'text-right'
                   }

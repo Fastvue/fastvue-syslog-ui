@@ -29,7 +29,10 @@ import {
   faTimes,
   faExclamationCircle,
   faCircleNotch,
-  faChevronLeft
+  faChevronLeft,
+  faSortAmountDown,
+  faSortAmountUp,
+  faExchangeAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 // Import root app
@@ -54,7 +57,10 @@ library.add(
   faTimes,
   faExclamationCircle,
   faCircleNotch,
-  faChevronLeft
+  faChevronLeft,
+  faSortAmountDown,
+  faSortAmountUp,
+  faExchangeAlt
 );
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
