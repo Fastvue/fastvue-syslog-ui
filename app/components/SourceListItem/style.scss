@@ -26,11 +26,11 @@
       border-radius: 0;
       border-bottom: 1px solid #22232f;
       border-left: 1px solid #22232f;
+      border-right: 0;
       margin: 0;
       &.active {
         background-color: #fafafa;
         color: black;
-        border-right: 0;
       }
     }
   }

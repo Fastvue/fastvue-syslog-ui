@@ -11,4 +11,21 @@ const makeSelectSourceStats = () =>
     (sideBarState) => sideBarState.get('stats').toJS()
   );
 
-export { selectMainContent, makeSelectSourceStats };
+const makeSelectSourceFiles = () =>
+  createSelector(
+    selectMainContent,
+    (sideBarState) => sideBarState.get('files').toJS()
+  );
+
+const makeSelectSourceArchives = () =>
+  createSelector(
+    selectMainContent,
+    (sideBarState) => sideBarState.get('archives').toJS()
+  );
+
+export {
+  selectMainContent,
+  makeSelectSourceStats,
+  makeSelectSourceFiles,
+  makeSelectSourceArchives
+};

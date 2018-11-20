@@ -17,6 +17,7 @@ import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-table/react-table.css';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
