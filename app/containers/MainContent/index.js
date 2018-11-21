@@ -94,11 +94,10 @@ class MainContent extends React.PureComponent {
     //     return <FontAwesomeIcon icon="sort-amount-up" />;
     //   }
     // }
-    return <FontAwesomeIcon icon="exchange-alt" />;
+    return null;
   }
   render() {
     const { stats, globalStats } = this.props;
-    console.log(globalStats);
     const statTiles = [
       {
         id: 0,
@@ -135,12 +134,10 @@ class MainContent extends React.PureComponent {
         )
       }
     ];
-    const Sorted = (
-      <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6D6" />
-    );
+    // <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6D6" />
+    const Sorted = null;
     const genericHeaderArrows = () => ({
       Header: (props) => (
-        // console.log(props);
         <div className={`text-${props.column.HeaderTextAlign}`}>
           {props.column.HeaderText}
           <span style={{ float: 'right' }}> {Sorted}</span>
@@ -195,7 +192,12 @@ class MainContent extends React.PureComponent {
             >
               {/* <Route />{' '} */}
               <TabPane tabId="stats">
-                <StatsTab statTiles={statTiles} />
+                <StatsTab
+                  statTiles={statTiles}
+                  subTab={this.props.match.params.subTab}
+                  sourceId={this.props.sourceId}
+                  history={this.props.history}
+                />
               </TabPane>
 
               <TabPane tabId="files">
@@ -353,7 +355,10 @@ class MainContent extends React.PureComponent {
             </TabContent>
           </Fragment>
         ) : (
-          <StatsTab statTiles={statTiles} />
+          <StatsTab
+            statTiles={statTiles}
+            subTab={this.props.match.params.subTab}
+          />
         )}
       </Col>
     );
@@ -363,6 +368,7 @@ class MainContent extends React.PureComponent {
 MainContent.propTypes = {
   stats: PropTypes.any,
   files: PropTypes.any,
+  globalStats: PropTypes.any,
   archives: PropTypes.any,
   sourceId: PropTypes.string,
   activeSource: PropTypes.any,
