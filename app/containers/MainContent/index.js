@@ -181,7 +181,9 @@ class MainContent extends React.PureComponent {
               tabs={tabsConfig}
               onActiveTabChange={(tabId) =>
                 this.props.history.push(
-                  `/source/${this.props.sourceId}/${tabId}`
+                  `/source/${this.props.sourceId}/${tabId}${
+                    tabId === 'stats' ? '/size' : ''
+                  }`
                 )
               }
             />
@@ -197,6 +199,7 @@ class MainContent extends React.PureComponent {
                   subTab={this.props.match.params.subTab}
                   sourceId={this.props.sourceId}
                   history={this.props.history}
+                  chartData={this.props.stats.dates}
                 />
               </TabPane>
 
@@ -358,6 +361,7 @@ class MainContent extends React.PureComponent {
           <StatsTab
             statTiles={statTiles}
             subTab={this.props.match.params.subTab}
+            chartData={this.props.stats.sources}
           />
         )}
       </Col>

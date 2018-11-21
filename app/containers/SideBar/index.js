@@ -69,7 +69,7 @@ class SideBar extends React.PureComponent {
     this.props.fetchSourceList();
     setInterval(() => {
       this.props.fetchSourceList();
-    }, 2500);
+    }, 5000);
   }
 
   componentDidUpdate(prevProps) {

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ButtonGroup } from 'reactstrap';
+import HighchartsReact from 'highcharts-react-official';
 
 export const StyledButtonGroup = styled(ButtonGroup)`
   position: absolute;
@@ -9,3 +10,5 @@ export const StyledButtonGroup = styled(ButtonGroup)`
   margin-top: 6px;
   padding-right: 15px;
 `;
+
+export const StyledHighchartsReact = styled(HighchartsReact)``;

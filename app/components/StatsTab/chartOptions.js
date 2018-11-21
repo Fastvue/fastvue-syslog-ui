@@ -4,6 +4,7 @@ import Highcharts from 'highcharts';
 export const singleSeriesBytesChartOptions = {
   chart: {
     backgroundColor: '#fafafa',
+    type: 'column',
     /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
   },
   title: { text: 'Log Size per Day' }, // if changing this, make sure you also change in renderGlobalStats
@@ -78,6 +79,7 @@ export const singleSeriesBytesChartOptions = {
 export const multiSeriesBytesChartOptions = {
   chart: {
     backgroundColor: '#fafafa',
+    type: 'column',
     /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
   },
   title: { text: 'Log Size per Day' }, // if changing this, make sure you also change in renderGlobalStats
@@ -154,6 +156,7 @@ export const multiSeriesBytesChartOptions = {
 export const singleSeriesNumericChartOptions = {
   chart: {
     backgroundColor: '#fafafa',
+    type: 'column',
     /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
   },
   title: { text: 'Messages per Day' },
@@ -228,6 +231,7 @@ export const singleSeriesNumericChartOptions = {
 export const multiSeriesNumericChartOptions = {
   chart: {
     backgroundColor: '#fafafa',
+    type: 'column',
     /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
   },
   title: { text: 'Messages per Day' },
