@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,105 +14,126 @@ import {
   Input
 } from 'reactstrap';
 import './style.scss';
-
-const Drawer = (props) => (
-  <Col lg="6" md="12" xl="5">
-    <Modal isOpen toggle={props.onClose} className="right">
-      <ModalHeader
-        close={<FontAwesomeIcon icon="times" onClick={props.onClose} />}
-      >
-        Global Settings
-      </ModalHeader>
-      {props.globalSettings && (
-        <ModalBody>
-          <Form>
-            <FormGroup>
-              <Label for="exampleEmail">Default Log Folder</Label>
-              <Input
-                type="text"
-                value={props.globalSettings.defaultLogPath}
-                onChange={(e) => {}}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="examplePassword">Default Archive Folder</Label>
-              <Input
-                type="text"
-                value={props.globalSettings.defaultArchivePath}
-                onChange={(e) => {}}
-              />
-            </FormGroup>
-
-            <FormGroup>
-              <Label>Auto-Discover Syslog Sources</Label>
-              <p className="marginFix">
-                {' '}
-                <Input
-                  type="checkbox"
-                  checked={props.globalSettings.autoDiscover}
-                  onChange={(e) => {}}
-                />
-                Automatically start logging syslog traffic when it arrives from
-                new hosts.
-              </p>
-            </FormGroup>
-            <FormGroup>
-              <Label>Authentication</Label>
-              <p className="marginFix">
-                <Input
-                  type="checkbox"
-                  checked={props.globalSettings.authEnabled}
-                  onChange={(e) => {}}
-                />
-                Require a password to access the syslog server interface.
-              </p>
-            </FormGroup>
-            <FormGroup>
-              <Label for="exampleEmail">Username</Label>
-              <Input
-                type="text"
-                value={props.globalSettings.authUsername}
-                onChange={(e) => {}}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input
-                type="password"
-                onChange={(e) => {}}
-                autocomplete="current-password"
-              />
-            </FormGroup>
-          </Form>
-        </ModalBody>
-      )}
-      <ModalFooter>
-        <FormGroup>
-          <Button className="halfButton" color="danger" onClick={props.onClose}>
-            Cancel
-          </Button>{' '}
-          <Button
-            onClick={(e) => this.props.onSubmit()}
-            className="halfButton"
-            color="success"
-            type="submit"
+// eslint-disable-next-line react/prefer-stateless-function
+class Drawer extends Component {
+  state = { ...this.props.globalSettings };
+  render() {
+    return (
+      <Col lg="6" md="12" xl="5">
+        <Modal isOpen toggle={this.props.onClose} className="right">
+          <ModalHeader
+            close={
+              <FontAwesomeIcon icon="times" onClick={this.props.onClose} />
+            }
           >
-            {props.loading ? (
-              <Fragment>
-                <FontAwesomeIcon spin icon="circle-notch" /> Saving
-              </Fragment>
-            ) : (
-              'Save'
-            )}
-          </Button>
-        </FormGroup>
-      </ModalFooter>
-    </Modal>
-  </Col>
-);
+            Global Settings
+          </ModalHeader>
+          {this.props.globalSettings && (
+            <ModalBody>
+              <Form onSubmit={() => this.props.onSubmit(this.state)}>
+                <FormGroup>
+                  <Label for="exampleEmail">Default Log Folder</Label>
+                  <Input
+                    type="text"
+                    value={this.state.defaultLogPath}
+                    onChange={(e) =>
+                      this.setState({ defaultLogPath: e.target.value })
+                    }
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Default Archive Folder</Label>
+                  <Input
+                    type="text"
+                    value={this.state.defaultArchivePath}
+                    onChange={(e) =>
+                      this.setState({ defaultArchivePath: e.target.value })
+                    }
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Auto-Discover Syslog Sources</Label>
+                  <p className="marginFix">
+                    {' '}
+                    <Input
+                      type="checkbox"
+                      checked={this.state.autoDiscover}
+                      onChange={() =>
+                        this.setState({
+                          autoDiscover: !this.state.autoDiscover
+                        })
+                      }
+                    />
+                    Automatically start logging syslog traffic when it arrives
+                    from new hosts.
+                  </p>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Authentication</Label>
+                  <p className="marginFix">
+                    <Input
+                      type="checkbox"
+                      checked={this.state.authEnabled}
+                      onClick={() =>
+                        this.setState({ authEnabled: !this.state.authEnabled })
+                      }
+                    />
+                    Require a password to access the syslog server interface.
+                  </p>
+                </FormGroup>
+                <FormGroup>
+                  <Label>Username</Label>
+                  <Input
+                    type="text"
+                    value={this.state.authUsername}
+                    onChange={(e) =>
+                      this.setState({ authUsername: e.target.value })
+                    }
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    onChange={(e) =>
+                      this.setState({ authPassword: e.target.value })
+                    }
+                    autocomplete="current-password"
+                  />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+          )}
+          <ModalFooter>
+            <FormGroup>
+              <Button
+                className="halfButton"
+                color="danger"
+                onClick={this.props.onClose}
+              >
+                Cancel
+              </Button>{' '}
+              <Button className="halfButton" color="success" type="submit">
+                {this.props.loading ? (
+                  <Fragment>
+                    <FontAwesomeIcon spin icon="circle-notch" /> Saving
+                  </Fragment>
+                ) : (
+                  'Save'
+                )}
+              </Button>
+            </FormGroup>
+          </ModalFooter>
+        </Modal>
+      </Col>
+    );
+  }
+}
 
 Drawer.propTypes = {
   onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
   globalSettings: PropTypes.object
 };
 

@@ -43,6 +43,7 @@ class Header extends Component {
                   onClose={() =>
                     this.setState({ isGlobalSettingDrawerOpen: false })
                   }
+                  onSubmit={(globalSettings) => console.log(globalSettings)}
                 />
               )}
             </NavLink>
