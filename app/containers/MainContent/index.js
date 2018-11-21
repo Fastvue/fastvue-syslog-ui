@@ -139,15 +139,13 @@ class MainContent extends React.PureComponent {
       <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6D6" />
     );
     const genericHeaderArrows = () => ({
-      Header: (props) => {
-        console.log(props);
-        return (
-          <div className={`text-${props.column.HeaderTextAlign}`}>
-            {props.column.HeaderText}
-            <span style={{ float: 'right' }}> {Sorted}</span>
-          </div>
-        );
-      },
+      Header: (props) => (
+        // console.log(props);
+        <div className={`text-${props.column.HeaderTextAlign}`}>
+          {props.column.HeaderText}
+          <span style={{ float: 'right' }}> {Sorted}</span>
+        </div>
+      ),
       headerStyle: { boxShadow: 'none' }
     });
     return (
@@ -203,13 +201,16 @@ class MainContent extends React.PureComponent {
               <TabPane tabId="files">
                 {this.props.files && this.props.files.length !== 0 && (
                   <ReactTable
-                    minRows={0}
+                    minRows={1}
                     data={this.props.files || []}
                     filterable
                     sortable
                     defaultFilterMethod={(filter, row) =>
-                      String(row[filter.id]) === filter.value
+                      String(row._original[filter.id])
+                        .toLowerCase()
+                        .includes(String(filter.value).toLowerCase())
                     }
+                    noDataText="No matching records found"
                     columns={[
                       {
                         ...genericHeaderArrows(),
@@ -248,7 +249,7 @@ class MainContent extends React.PureComponent {
                         className: 'text-right'
                       },
                       {
-                        id: 'messages',
+                        id: 'messageCount',
                         ...genericHeaderArrows(),
                         HeaderText: 'Message',
                         HeaderTextAlign: 'right',
@@ -281,12 +282,18 @@ class MainContent extends React.PureComponent {
               <TabPane tabId="archives">
                 {this.props.archives && this.props.archives.length !== 0 && (
                   <ReactTable
-                    minRows={0}
+                    minRows={1}
                     data={this.props.archives || []}
                     filterable
+                    defaultFilterMethod={(filter, row) =>
+                      String(row._original[filter.id])
+                        .toLowerCase()
+                        .includes(String(filter.value).toLowerCase())
+                    }
+                    noDataText="No matching records found"
                     columns={[
                       {
-                        id: 'filename',
+                        id: 'name',
                         ...genericHeaderArrows(),
                         HeaderText: 'Filename',
                         HeaderTextAlign: 'left',

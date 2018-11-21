@@ -33,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     color: #565771;
   }
 }
+ .-odd {
+   background-color: #F9F9F9;
+ }
+
 `;
 
 export default GlobalStyle;
