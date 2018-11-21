@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import StatTile from 'components/StatTile';
 import Tabs from 'components/Tabs';
+import StatsTab from 'components/StatsTab';
 import ReactTable from 'react-table';
 
 import { Col, Row, Button, TabContent, TabPane, Alert } from 'reactstrap';
@@ -16,13 +17,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   fetchSourceStats,
+  fetchGlobalStats,
   fetchSourceFiles,
   fetchSourceArchives
 } from './actions';
 import {
   makeSelectSourceStats,
   makeSelectSourceFiles,
-  makeSelectSourceArchives
+  makeSelectSourceArchives,
+  makeSelectGlobalStats
 } from './selectors';
 
 import reducer from './reducer';
@@ -30,7 +33,8 @@ import saga from './saga';
 import {
   MainHeadingContainer,
   StyledDisplayName,
-  StyledSourceIP
+  StyledSourceIP,
+  StyledSHALink
 } from './style';
 import columns from './temp';
 
@@ -63,14 +67,20 @@ class MainContent extends React.PureComponent {
       this.props.fetchSourceStats(this.props.sourceId);
       this.props.fetchSourceFiles(this.props.sourceId);
       this.props.fetchSourceArchives(this.props.sourceId);
+    } else {
+      this.props.fetchGlobalStats();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.sourceId !== prevProps.sourceId && this.props.sourceId) {
-      this.props.fetchSourceStats(this.props.sourceId);
-      this.props.fetchSourceFiles(this.props.sourceId);
-      this.props.fetchSourceArchives(this.props.sourceId);
+    if (this.props.sourceId !== prevProps.sourceId) {
+      if (this.props.sourceId) {
+        this.props.fetchSourceStats(this.props.sourceId);
+        this.props.fetchSourceFiles(this.props.sourceId);
+        this.props.fetchSourceArchives(this.props.sourceId);
+      } else {
+        this.props.fetchGlobalStats();
+      }
     }
   }
 
@@ -87,37 +97,57 @@ class MainContent extends React.PureComponent {
     return <FontAwesomeIcon icon="exchange-alt" />;
   }
   render() {
-    const { stats } = this.props;
+    const { stats, globalStats } = this.props;
+    console.log(globalStats);
     const statTiles = [
       {
         id: 0,
         title: 'Messages/sec',
-        value: formatValues('Numeric', stats.messagesPerSecond)
+        value: formatValues(
+          'Numeric',
+          this.props.sourceId
+            ? stats.messagesPerSecond
+            : globalStats.totalMessagesPerSecond
+        )
       },
       {
         id: 1,
         title: 'Total Messages',
-        value: formatValues('Numeric', stats.messages)
+        value: formatValues(
+          'Numeric',
+          this.props.sourceId ? stats.messages : globalStats.totalMessages
+        )
       },
       {
         id: 2,
         title: 'Total Log Size',
-        value: formatValues('Bytes', stats.size)
+        value: formatValues(
+          'Bytes',
+          this.props.sourceId ? stats.size : globalStats.totalLogSize
+        )
       },
       {
         id: 3,
         title: 'Total Archive Size',
-        value: formatValues('Bytes', stats.archiveSize)
+        value: formatValues(
+          'Bytes',
+          this.props.sourceId ? stats.archiveSize : globalStats.totalArchiveSize
+        )
       }
     ];
-    const Sorted = <FontAwesomeIcon rotation={90} icon="exchange-alt" />;
+    const Sorted = (
+      <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6D6" />
+    );
     const genericHeaderArrows = () => ({
-      Header: (props) => (
-        <div className={`text-${props.column.HeaderTextAlign}`}>
-          {props.column.HeaderText}
-          <span style={{ float: 'right' }}> {Sorted}</span>
-        </div>
-      ),
+      Header: (props) => {
+        console.log(props);
+        return (
+          <div className={`text-${props.column.HeaderTextAlign}`}>
+            {props.column.HeaderText}
+            <span style={{ float: 'right' }}> {Sorted}</span>
+          </div>
+        );
+      },
       headerStyle: { boxShadow: 'none' }
     });
     return (
@@ -127,7 +157,7 @@ class MainContent extends React.PureComponent {
         lg={{ size: 8, offset: 4 }}
         xl={{ size: 9, offset: 3 }}
       >
-        {this.props.sourceId && (
+        {this.props.sourceId ? (
           <Fragment>
             <MainHeadingContainer>
               <Link to="/">
@@ -147,7 +177,7 @@ class MainContent extends React.PureComponent {
             {this.props.activeSource && this.props.activeSource.error && (
               <Alert color="danger">
                 <FontAwesomeIcon icon="exclamation-circle" /> Could not resolve
-                IP address for {this.props.stats.displayName}: No such host is
+                IP address for {this.props.stats.sourceHost}: No such host is
                 known
               </Alert>
             )}
@@ -160,146 +190,164 @@ class MainContent extends React.PureComponent {
                 )
               }
             />
+
+            <TabContent
+              activeTab={this.props.match.params.tab}
+              className="tabContent"
+            >
+              {/* <Route />{' '} */}
+              <TabPane tabId="stats">
+                <StatsTab statTiles={statTiles} />
+              </TabPane>
+
+              <TabPane tabId="files">
+                {this.props.files && this.props.files.length !== 0 && (
+                  <ReactTable
+                    minRows={0}
+                    data={this.props.files || []}
+                    filterable
+                    sortable
+                    defaultFilterMethod={(filter, row) =>
+                      String(row[filter.id]) === filter.value
+                    }
+                    columns={[
+                      {
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Filename',
+                        HeaderTextAlign: 'left',
+                        id: 'name',
+                        accessor: (row) => (
+                          <span>
+                            <a
+                              href={`/api/sources/getfile?id=${
+                                this.props.sourceId
+                              }&amp;file=${row.name}`}
+                              download={row.name}
+                            >
+                              {row.name}
+                            </a>
+                            <StyledSHALink
+                              href={`/api/sources/getfile?id=${
+                                this.props.sourceId
+                              }&amp;file=${row.sha}`}
+                              download={row.sha}
+                            >
+                              SHA256
+                            </StyledSHALink>
+                          </span>
+                        ),
+                        className: 'text-left',
+                        width: 343
+                      },
+                      {
+                        id: 'size',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Size',
+                        HeaderTextAlign: 'right',
+                        accessor: (row) => formatValues('Bytes', row.size),
+                        className: 'text-right'
+                      },
+                      {
+                        id: 'messages',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Message',
+                        HeaderTextAlign: 'right',
+                        accessor: (row) =>
+                          formatValues('Numeric', row.messageCount),
+                        className: 'text-right'
+                      },
+                      {
+                        id: 'modified',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Date',
+                        HeaderTextAlign: 'right',
+                        accessor: (row) =>
+                          new Date(row.modified).toLocaleString(),
+                        className: 'text-right'
+                      }
+                    ]}
+                    defaultPageSize={10}
+                  />
+                )}
+
+                {this.props.archives && this.props.archives.length === 0 && (
+                  <Alert color="warning">
+                    <FontAwesomeIcon icon="exclamation-circle" /> There are no
+                    files logs for this Source yet.
+                  </Alert>
+                )}
+              </TabPane>
+
+              <TabPane tabId="archives">
+                {this.props.archives && this.props.archives.length !== 0 && (
+                  <ReactTable
+                    minRows={0}
+                    data={this.props.archives || []}
+                    filterable
+                    columns={[
+                      {
+                        id: 'filename',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Filename',
+                        HeaderTextAlign: 'left',
+                        accessor: (row) => (
+                          <span>
+                            {' '}
+                            <a
+                              href={`/api/sources/getfile?id=${
+                                this.props.sourceId
+                              }&amp;file=${row.name}`}
+                              download={row.name}
+                            >
+                              {row.name}
+                            </a>
+                            <StyledSHALink
+                              href={`/api/sources/getfile?id=${
+                                this.props.sourceId
+                              }&amp;file=${row.sha}`}
+                              download={row.sha}
+                            >
+                              SHA256
+                            </StyledSHALink>
+                          </span>
+                        ),
+                        className: 'text-left',
+                        width: 343
+                      },
+                      {
+                        id: 'size',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Size',
+                        HeaderTextAlign: 'right',
+                        accessor: (row) => formatValues('Bytes', row.size),
+                        className: 'text-right'
+                      },
+                      {
+                        id: 'modified',
+                        ...genericHeaderArrows(),
+                        HeaderText: 'Date',
+                        HeaderTextAlign: 'right',
+                        accessor: (row) =>
+                          new Date(row.modified).toLocaleString(),
+                        className: 'text-right'
+                      }
+                    ]}
+                    defaultPageSize={10}
+                  />
+                )}
+
+                {this.props.archives && this.props.archives.length === 0 && (
+                  <Alert color="warning">
+                    <FontAwesomeIcon icon="exclamation-circle" /> There are no
+                    archived logs for this Source yet.
+                  </Alert>
+                )}
+              </TabPane>
+            </TabContent>
           </Fragment>
+        ) : (
+          <StatsTab statTiles={statTiles} />
         )}
-        <TabContent
-          activeTab={this.props.match.params.tab}
-          className="tabContent"
-        >
-          {/* <Route />{' '} */}
-          <TabPane tabId="stats">
-            <Row>
-              {' '}
-              {statTiles.map((tile) => (
-                <StatTile key={tile.id} {...tile} />
-              ))}
-            </Row>
-          </TabPane>
-
-          <TabPane tabId="files">
-            {this.props.files && this.props.files.length !== 0 && (
-              <ReactTable
-                minRows={0}
-                data={this.props.files || []}
-                columns={[
-                  {
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Filename',
-                    HeaderTextAlign: 'left',
-                    id: 'filename',
-                    accessor: (row) => (
-                      <a
-                        href={`/api/sources/getfile?id=${
-                          this.props.sourceId
-                        }&amp;file=${row.name}`}
-                        download={row.name}
-                      >
-                        {row.name}
-                      </a>
-                    ),
-                    className: 'text-left',
-                    width: 343
-                  },
-                  {
-                    id: 'size',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Size',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) => formatValues('Bytes', row.size),
-                    className: 'text-right'
-                  },
-                  {
-                    id: 'messages',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Message',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) =>
-                      formatValues('Numeric', row.messageCount),
-                    className: 'text-right'
-                  },
-                  {
-                    id: 'modified',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Date',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) => new Date(row.modified).toLocaleString(),
-                    className: 'text-right'
-                  }
-                ]}
-                defaultPageSize={10}
-              />
-            )}
-
-            {this.props.archives && this.props.archives.length === 0 && (
-              <Alert color="warning">
-                <FontAwesomeIcon icon="exclamation-circle" /> There are no files
-                logs for this Source yet.
-              </Alert>
-            )}
-          </TabPane>
-
-          <TabPane tabId="archives">
-            {this.props.archives && this.props.archives.length !== 0 && (
-              <ReactTable
-                minRows={0}
-                data={this.props.archives || []}
-                columns={[
-                  {
-                    id: 'filename',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Filename',
-                    HeaderTextAlign: 'left',
-                    accessor: (row) => (
-                      <a
-                        href={`/api/sources/getfile?id=${
-                          this.props.sourceId
-                        }&amp;file=${row.name}`}
-                        download={row.name}
-                      >
-                        {row.name}
-                      </a>
-                    ),
-                    className: 'text-left',
-                    width: 343
-                  },
-                  {
-                    id: 'size',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Size',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) => formatValues('Bytes', row.size),
-                    className: 'text-right'
-                  },
-                  {
-                    id: 'messages',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Messages',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) =>
-                      formatValues('Numeric', row.messageCount),
-                    className: 'text-right'
-                  },
-                  {
-                    id: 'modified',
-                    ...genericHeaderArrows(),
-                    HeaderText: 'Date',
-                    HeaderTextAlign: 'right',
-                    accessor: (row) => new Date(row.modified).toLocaleString(),
-                    className: 'text-right'
-                  }
-                ]}
-                defaultPageSize={10}
-              />
-            )}
-
-            {this.props.archives && this.props.archives.length === 0 && (
-              <Alert color="warning">
-                <FontAwesomeIcon icon="exclamation-circle" /> There are no
-                archived logs for this Source yet.
-              </Alert>
-            )}
-          </TabPane>
-        </TabContent>
       </Col>
     );
   }
@@ -313,19 +361,22 @@ MainContent.propTypes = {
   activeSource: PropTypes.any,
   fetchSourceFiles: PropTypes.func,
   fetchSourceStats: PropTypes.func,
-  fetchSourceArchives: PropTypes.func
+  fetchSourceArchives: PropTypes.func,
+  fetchGlobalStats: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSourceStats: (sourceId) => dispatch(fetchSourceStats(sourceId)),
   fetchSourceFiles: (sourceId) => dispatch(fetchSourceFiles(sourceId)),
-  fetchSourceArchives: (sourceId) => dispatch(fetchSourceArchives(sourceId))
+  fetchSourceArchives: (sourceId) => dispatch(fetchSourceArchives(sourceId)),
+  fetchGlobalStats: () => dispatch(fetchGlobalStats())
 });
 
 const mapStateToProps = createStructuredSelector({
   stats: makeSelectSourceStats(),
   files: makeSelectSourceFiles(),
-  archives: makeSelectSourceArchives()
+  archives: makeSelectSourceArchives(),
+  globalStats: makeSelectGlobalStats()
 });
 
 const withConnect = connect(

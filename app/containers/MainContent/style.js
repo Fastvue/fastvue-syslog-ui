@@ -17,4 +17,15 @@ const StyledSourceIP = styled.span`
   margin-top: 10px;
 `;
 
-export { MainHeadingContainer, StyledDisplayName, StyledSourceIP };
+const StyledSHALink = styled.a`
+  font-size: 10px;
+  color: #2399f0;
+  margin-left: 2px;
+`;
+
+export {
+  MainHeadingContainer,
+  StyledDisplayName,
+  StyledSourceIP,
+  StyledSHALink
+};

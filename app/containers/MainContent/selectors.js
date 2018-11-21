@@ -11,6 +11,12 @@ const makeSelectSourceStats = () =>
     (mainContentState) => mainContentState.get('stats').toJS()
   );
 
+const makeSelectGlobalStats = () =>
+  createSelector(
+    selectMainContent,
+    (mainContentState) => mainContentState.get('globalStats').toJS()
+  );
+
 const makeSelectSourceFiles = () =>
   createSelector(
     selectMainContent,
@@ -27,5 +33,6 @@ export {
   selectMainContent,
   makeSelectSourceStats,
   makeSelectSourceFiles,
-  makeSelectSourceArchives
+  makeSelectSourceArchives,
+  makeSelectGlobalStats
 };

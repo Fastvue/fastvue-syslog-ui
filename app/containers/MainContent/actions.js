@@ -2,6 +2,9 @@ import {
   FETCH_SOURCE_STATS,
   FETCH_SOURCE_STATS_SUCCESS,
   FETCH_SOURCE_STATS_FAIL,
+  FETCH_GLOBAL_STATS,
+  FETCH_GLOBAL_STATS_SUCCESS,
+  FETCH_GLOBAL_STATS_FAIL,
   FETCH_SOURCE_FILES,
   FETCH_SOURCE_FILES_SUCCESS,
   FETCH_SOURCE_FILES_FAIL,
@@ -22,6 +25,19 @@ export const fetchSourceStatsSuccess = (stats) => ({
 
 export const fetchSourceStatsFail = () => ({
   type: FETCH_SOURCE_STATS_FAIL
+});
+
+export const fetchGlobalStats = () => ({
+  type: FETCH_GLOBAL_STATS
+});
+
+export const fetchGlobalStatsSuccess = (globalStats) => ({
+  type: FETCH_GLOBAL_STATS_SUCCESS,
+  globalStats
+});
+
+export const fetchGlobalStatsFail = () => ({
+  type: FETCH_GLOBAL_STATS_FAIL
 });
 
 export const fetchSourceFiles = (sourceId) => ({

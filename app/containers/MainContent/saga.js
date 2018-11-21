@@ -2,6 +2,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 import {
   FETCH_SOURCE_STATS,
+  FETCH_GLOBAL_STATS,
   FETCH_SOURCE_FILES,
   FETCH_SOURCE_ARCHIVES
 } from './constants';
@@ -11,7 +12,9 @@ import {
   fetchSourceFilesSuccess,
   fetchSourceFilesFail,
   fetchSourceArchivesFail,
-  fetchSourceArchivesSuccess
+  fetchSourceArchivesSuccess,
+  fetchGlobalStatsFail,
+  fetchGlobalStatsSuccess
 } from './actions';
 
 export function* fetchSourcesStatsAPI(action) {
@@ -29,6 +32,17 @@ export function* fetchSourcesStatsAPI(action) {
     yield put(fetchSourceStatsSuccess(stats));
   } catch (err) {
     yield put(fetchSourceStatsFail(err));
+  }
+}
+
+export function* fetchGlobalStatsAPI() {
+  const requestURL = `${process.env.API_URL}/api/sources/globalstats`;
+
+  try {
+    const globalStats = yield call(request, requestURL);
+    yield put(fetchGlobalStatsSuccess(globalStats));
+  } catch (err) {
+    yield put(fetchGlobalStatsFail(err));
   }
 }
 
@@ -72,4 +86,5 @@ export default function* mainContentSaga() {
   yield takeLatest(FETCH_SOURCE_STATS, fetchSourcesStatsAPI);
   yield takeLatest(FETCH_SOURCE_FILES, fetchSourcesFilesAPI);
   yield takeLatest(FETCH_SOURCE_ARCHIVES, fetchSourceArchivesAPI);
+  yield takeLatest(FETCH_GLOBAL_STATS, fetchGlobalStatsAPI);
 }
