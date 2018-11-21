@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import StatTile from 'components/StatTile';
 import Tabs from 'components/Tabs';
@@ -130,12 +130,15 @@ class MainContent extends React.PureComponent {
         {this.props.sourceId && (
           <Fragment>
             <MainHeadingContainer>
-              <Button
-                color="success"
-                style={{ verticalAlign: 'middle', margin: 0 }}
-              >
-                <FontAwesomeIcon icon="chevron-left" /> Back
-              </Button>
+              <Link to="/">
+                {' '}
+                <Button
+                  color="success"
+                  style={{ verticalAlign: 'middle', margin: 0 }}
+                >
+                  <FontAwesomeIcon icon="chevron-left" /> Back
+                </Button>
+              </Link>
               <StyledDisplayName className="h4">
                 {this.props.stats.displayName}
               </StyledDisplayName>

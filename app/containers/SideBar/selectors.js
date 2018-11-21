@@ -81,7 +81,7 @@ const makeSelectIsAddSourceSuccessModalOpen = () =>
 const makeSelectActiveSource = () =>
   createSelector(
     selectSideBar,
-    (sideBarState) => sideBarState.get('activeSource')
+    (sideBarState) => sideBarState.get('activeSource').toJS()
   );
 
 export {

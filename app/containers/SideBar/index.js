@@ -81,11 +81,13 @@ class SideBar extends React.PureComponent {
       this.props.history.push('/');
     }
 
-    if (this.props.activeSourceId !== prevProps.activeSourceId) {
+    if (
+      this.props.activeSourceId !== prevProps.activeSourceId &&
+      this.props.activeSourceId
+    ) {
       const activeSource = this.props.sourceList.find(
         (source) => source.id === this.props.activeSourceId
       );
-      console.log('updated');
       this.props.updateActiveSource(activeSource);
     }
   }

@@ -36,7 +36,7 @@ const initialState = fromJS({
   isDeleteSourceSuccessModalOpen: false,
   sourceIdWhoseSourceEditorIsOpen: null,
   addOrUpdateSourceLoading: false,
-  activeSource: fromJS({}),
+  activeSource: {},
   toBeDeletedSource: {
     id: null,
     displayName: ''
