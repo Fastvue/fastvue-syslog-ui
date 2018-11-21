@@ -16,10 +16,10 @@ import './style.scss';
 
 const Header = (props) => (
   <Navbar className="header" dark color="dark" expand>
-    <NavbarBrand href="/">
+    <Link to="/">
       <img className="logo" src={Logo} alt="Logo" />
       <span className="appVersion"> {props.appVersion}</span>
-    </NavbarBrand>
+    </Link>
 
     <Nav navbar className="ml-auto">
       <NavItem>

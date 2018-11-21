@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
@@ -59,13 +59,15 @@ class MainContent extends React.PureComponent {
     sorted: []
   };
   componentDidMount() {
-    this.props.fetchSourceStats(this.props.sourceId);
-    this.props.fetchSourceFiles(this.props.sourceId);
-    this.props.fetchSourceArchives(this.props.sourceId);
+    if (this.props.sourceId) {
+      this.props.fetchSourceStats(this.props.sourceId);
+      this.props.fetchSourceFiles(this.props.sourceId);
+      this.props.fetchSourceArchives(this.props.sourceId);
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.sourceId !== prevProps.sourceId) {
+    if (this.props.sourceId !== prevProps.sourceId && this.props.sourceId) {
       this.props.fetchSourceStats(this.props.sourceId);
       this.props.fetchSourceFiles(this.props.sourceId);
       this.props.fetchSourceArchives(this.props.sourceId);
@@ -125,31 +127,38 @@ class MainContent extends React.PureComponent {
         lg={{ size: 8, offset: 4 }}
         xl={{ size: 9, offset: 3 }}
       >
-        <MainHeadingContainer>
-          <Button
-            color="success"
-            style={{ verticalAlign: 'middle', margin: 0 }}
-          >
-            <FontAwesomeIcon icon="chevron-left" /> Back
-          </Button>
-          <StyledDisplayName className="h4">
-            {this.props.stats.displayName}
-          </StyledDisplayName>
-          <StyledSourceIP>({this.props.stats.sourceIP})</StyledSourceIP>
-        </MainHeadingContainer>
-        {this.props.activeSource && this.props.activeSource.error && (
-          <Alert color="danger">
-            <FontAwesomeIcon icon="exclamation-circle" /> Could not resolve IP
-            address for {this.props.stats.displayName}: No such host is known
-          </Alert>
+        {this.props.sourceId && (
+          <Fragment>
+            <MainHeadingContainer>
+              <Button
+                color="success"
+                style={{ verticalAlign: 'middle', margin: 0 }}
+              >
+                <FontAwesomeIcon icon="chevron-left" /> Back
+              </Button>
+              <StyledDisplayName className="h4">
+                {this.props.stats.displayName}
+              </StyledDisplayName>
+              <StyledSourceIP>({this.props.stats.sourceIP})</StyledSourceIP>
+            </MainHeadingContainer>
+            {this.props.activeSource && this.props.activeSource.error && (
+              <Alert color="danger">
+                <FontAwesomeIcon icon="exclamation-circle" /> Could not resolve
+                IP address for {this.props.stats.displayName}: No such host is
+                known
+              </Alert>
+            )}
+            <Tabs
+              activeTab={this.props.match.params.tab}
+              tabs={tabsConfig}
+              onActiveTabChange={(tabId) =>
+                this.props.history.push(
+                  `/source/${this.props.sourceId}/${tabId}`
+                )
+              }
+            />
+          </Fragment>
         )}
-        <Tabs
-          activeTab={this.props.match.params.tab}
-          tabs={tabsConfig}
-          onActiveTabChange={(tabId) =>
-            this.props.history.push(`/source/${this.props.sourceId}/${tabId}`)
-          }
-        />
         <TabContent
           activeTab={this.props.match.params.tab}
           className="tabContent"
@@ -295,8 +304,8 @@ class MainContent extends React.PureComponent {
 
 MainContent.propTypes = {
   stats: PropTypes.any,
-  files: PropTypes.array,
-  archives: PropTypes.array,
+  files: PropTypes.any,
+  archives: PropTypes.any,
   sourceId: PropTypes.string,
   activeSource: PropTypes.any,
   fetchSourceFiles: PropTypes.func,

@@ -8,19 +8,19 @@ const selectMainContent = (state) => state.get('maincontent');
 const makeSelectSourceStats = () =>
   createSelector(
     selectMainContent,
-    (sideBarState) => sideBarState.get('stats').toJS()
+    (mainContentState) => mainContentState.get('stats').toJS()
   );
 
 const makeSelectSourceFiles = () =>
   createSelector(
     selectMainContent,
-    (sideBarState) => sideBarState.get('files').toJS()
+    (mainContentState) => mainContentState.get('files').toJS()
   );
 
 const makeSelectSourceArchives = () =>
   createSelector(
     selectMainContent,
-    (sideBarState) => sideBarState.get('archives').toJS()
+    (mainContentState) => mainContentState.get('archives').toJS()
   );
 
 export {
