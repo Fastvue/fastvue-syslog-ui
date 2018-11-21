@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -7,37 +7,113 @@ import {
   ModalBody,
   Button,
   ModalFooter,
-  Col
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Input
 } from 'reactstrap';
 import './style.scss';
 
 const Drawer = (props) => (
   <Col lg="6" md="12" xl="5">
-    <Modal isOpen toggle={() => {}} className="right">
-      <ModalHeader close={<FontAwesomeIcon icon="times" />}>
-       Global Settings
+    <Modal isOpen toggle={props.onClose} className="right">
+      <ModalHeader
+        close={<FontAwesomeIcon icon="times" onClick={props.onClose} />}
+      >
+        Global Settings
       </ModalHeader>
-      <ModalBody>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </ModalBody>
+      {props.globalSettings && (
+        <ModalBody>
+          <Form>
+            <FormGroup>
+              <Label for="exampleEmail">Default Log Folder</Label>
+              <Input
+                type="text"
+                value={props.globalSettings.defaultLogPath}
+                onChange={(e) => {}}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="examplePassword">Default Archive Folder</Label>
+              <Input
+                type="text"
+                value={props.globalSettings.defaultArchivePath}
+                onChange={(e) => {}}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Auto-Discover Syslog Sources</Label>
+              <p className="marginFix">
+                {' '}
+                <Input
+                  type="checkbox"
+                  checked={props.globalSettings.autoDiscover}
+                  onChange={(e) => {}}
+                />
+                Automatically start logging syslog traffic when it arrives from
+                new hosts.
+              </p>
+            </FormGroup>
+            <FormGroup>
+              <Label>Authentication</Label>
+              <p className="marginFix">
+                <Input
+                  type="checkbox"
+                  checked={props.globalSettings.authEnabled}
+                  onChange={(e) => {}}
+                />
+                Require a password to access the syslog server interface.
+              </p>
+            </FormGroup>
+            <FormGroup>
+              <Label for="exampleEmail">Username</Label>
+              <Input
+                type="text"
+                value={props.globalSettings.authUsername}
+                onChange={(e) => {}}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="examplePassword">Password</Label>
+              <Input
+                type="password"
+                onChange={(e) => {}}
+                autocomplete="current-password"
+              />
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      )}
       <ModalFooter>
-        <Button color="primary" onClick={() => {}}>
-          Do Something
-        </Button>{' '}
-        <Button color="secondary" onClick={() => {}}>
-          Cancel
-        </Button>
+        <FormGroup>
+          <Button className="halfButton" color="danger" onClick={props.onClose}>
+            Cancel
+          </Button>{' '}
+          <Button
+            onClick={(e) => this.props.onSubmit()}
+            className="halfButton"
+            color="success"
+            type="submit"
+          >
+            {props.loading ? (
+              <Fragment>
+                <FontAwesomeIcon spin icon="circle-notch" /> Saving
+              </Fragment>
+            ) : (
+              'Save'
+            )}
+          </Button>
+        </FormGroup>
       </ModalFooter>
     </Modal>
   </Col>
 );
 
-Drawer.propTypes = {};
+Drawer.propTypes = {
+  onClose: PropTypes.func,
+  globalSettings: PropTypes.object
+};
 
 export default Drawer;

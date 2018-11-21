@@ -37,7 +37,14 @@ class Header extends Component {
                   })
                 }
               />
-              {this.state.isGlobalSettingDrawerOpen && <Drawer />}
+              {this.state.isGlobalSettingDrawerOpen && (
+                <Drawer
+                  globalSettings={this.props.globalSettings}
+                  onClose={() =>
+                    this.setState({ isGlobalSettingDrawerOpen: false })
+                  }
+                />
+              )}
             </NavLink>
           </NavItem>
         </Nav>
@@ -47,7 +54,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  appVersion: PropTypes.string.isRequired
+  appVersion: PropTypes.string.isRequired,
+  globalSettings: PropTypes.object
 };
 
 export default Header;

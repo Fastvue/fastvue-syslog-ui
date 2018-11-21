@@ -11,18 +11,26 @@ import SideBar from 'containers/SideBar/Loadable';
 import MainContent from 'containers/MainContent/Loadable';
 import { Row, Container } from 'reactstrap';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
+import { fetchGlobalSettings } from './actions';
+import { makeSelectGlobalSettings } from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
 import './style.scss';
 
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
-
+  componentDidMount() {
+    this.props.fetchGlobalSettings();
+  }
   componentDidUpdate(prevProps) {}
   render() {
     return (
       <Fragment>
-        <Header appVersion="2.0.0.3" />
+        <Header
+          appVersion="2.0.0.3"
+          globalSettings={this.props.globalSettings}
+        />
         <Container fluid>
           <Row>
             <SideBar
@@ -47,15 +55,19 @@ HomePage.propTypes = {
   match: PropTypes.any,
   history: PropTypes.any,
   activeSource: PropTypes.any,
-  login: PropTypes.func
+  login: PropTypes.func,
+  fetchGlobalSettings: PropTypes.func,
+  globalSettings: PropTypes.object
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login: () => dispatch(login())
+  login: () => dispatch(login()),
+  fetchGlobalSettings: () => dispatch(fetchGlobalSettings())
 });
 
 const mapStateToProps = createStructuredSelector({
-  activeSource: makeSelectActiveSource()
+  activeSource: makeSelectActiveSource(),
+  globalSettings: makeSelectGlobalSettings()
 });
 
 const withConnect = connect(

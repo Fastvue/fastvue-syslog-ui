@@ -58,16 +58,9 @@ const GlobalStyle = createGlobalStyle`
     opacity: 0.87;
 }
 
-/* .ReactTable  .rt-resizable-header-content:after {
-    position: absolute;
-    right: 8px;
-    top: 3px;
-    height: 18px;
-    width: 18px;
-    z-index: 120;
-    color: transparent;
-    content: '.';
-} */
+.marginFix {
+  margin-left: 20px;
+}
 
 .ReactTable .rt-th.-sort-asc .rt-resizer:before {
   margin-top: 4px;

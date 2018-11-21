@@ -6,4 +6,9 @@ import { createSelector } from 'reselect';
 
 const selectHome = (state) => state.get('home');
 
-export { selectHome };
+const makeSelectGlobalSettings = () =>
+  createSelector(
+    selectHome,
+    (sideBarState) => sideBarState.get('globalSettings').toJS()
+  );
+export { selectHome, makeSelectGlobalSettings };
