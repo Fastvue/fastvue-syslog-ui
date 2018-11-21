@@ -18,8 +18,12 @@ import {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class StatsTab extends Component {
+  state = {
+    subTab: 'size'
+  };
   render() {
-    const series = [];
+    console.log(this.props.chartData);
+    let series = [];
     const logFilesSeries = {
       name: 'Log File Size',
       data: []
@@ -32,25 +36,73 @@ class StatsTab extends Component {
       name: 'Number of Messages',
       data: []
     };
-    const chartSeriesOption =
-      this.props.subTab === 'size'
-        ? multiSeriesBytesChartOptions
-        : singleSeriesNumericChartOptions;
 
-    if (this.props.chartData && this.props.chartData.length > 0) {
-      this.props.chartData.forEach((stat) => {
+    const sizePerDaySeries = [];
+    const msgPerDaySeries = [];
+
+    let chartSeriesOption;
+    if (this.props.sourceId) {
+      if (this.props.chartData && this.props.chartData.length > 0) {
+        this.props.chartData.forEach((stat) => {
+          if (this.props.subTab === 'size') {
+            logFilesSeries.data.push([stat.date, stat.size]);
+            archiveSeries.data.push([stat.date, stat.archiveSize]);
+          } else {
+            messageSeries.data.push([stat.date, stat.messages]);
+          }
+        });
         if (this.props.subTab === 'size') {
-          logFilesSeries.data.push([stat.date, stat.size]);
-          archiveSeries.data.push([stat.date, stat.archiveSize]);
+          series.push(logFilesSeries, archiveSeries);
         } else {
-          messageSeries.data.push([stat.date, stat.messages]);
+          series.push(messageSeries);
         }
-      });
-      if (this.props.subTab === 'size') {
-        series.push(logFilesSeries, archiveSeries);
-      } else {
-        series.push(messageSeries);
       }
+
+      chartSeriesOption =
+        this.props.subTab === 'size'
+          ? multiSeriesBytesChartOptions
+          : singleSeriesNumericChartOptions;
+    } else if (Array.isArray(this.props.chartData)) {
+      if (this.state.subTab === 'size') {
+        this.props.chartData.forEach((source) => {
+          const sizeSeries = {
+            name: source.sourceHost,
+            data: []
+          };
+
+          if (source.dates !== null && source.dates.length > 0) {
+            source.dates.forEach((stat) => {
+              sizeSeries.data.push([stat.date, stat.size]);
+            });
+            sizePerDaySeries.push(sizeSeries);
+          }
+        });
+      } else {
+        this.props.chartData.forEach((source) => {
+          const msgSeries = {
+            name: source.sourceHost,
+            data: []
+          };
+
+          if (source.dates !== null && source.dates.length > 0) {
+            source.dates.forEach((stat) => {
+              msgSeries.data.push([stat.date, stat.messages]);
+            });
+
+            msgPerDaySeries.push(msgSeries);
+          }
+        });
+      }
+
+      if (this.state.subTab === 'size') {
+        series = sizePerDaySeries;
+      } else {
+        series = msgPerDaySeries;
+      }
+      chartSeriesOption =
+        this.state.subTab === 'size'
+          ? multiSeriesBytesChartOptions
+          : singleSeriesNumericChartOptions;
     }
 
     const options = {
@@ -70,23 +122,35 @@ class StatsTab extends Component {
           <Col xs="12" lg="12">
             <StyledButtonGroup>
               <Button
-                active={this.props.subTab === 'size'}
+                active={
+                  this.props.sourceId
+                    ? this.props.subTab === 'size'
+                    : this.state.subTab === 'size'
+                }
                 size="sm"
                 onClick={() =>
-                  this.props.history.push(
-                    `/source/${this.props.sourceId}/stats/size`
-                  )
+                  (this.props.sourceId
+                    ? this.props.history.push(
+                        `/source/${this.props.sourceId}/stats/size`
+                      )
+                    : this.setState({ subTab: 'size' }))
                 }
               >
                 Size
               </Button>
               <Button
                 size="sm"
-                active={this.props.subTab === 'messages'}
+                active={
+                  this.props.sourceId
+                    ? this.props.subTab === 'messages'
+                    : this.state.subTab === 'messages'
+                }
                 onClick={() =>
-                  this.props.history.push(
-                    `/source/${this.props.sourceId}/stats/messages`
-                  )
+                  (this.props.sourceId
+                    ? this.props.history.push(
+                        `/source/${this.props.sourceId}/stats/messages`
+                      )
+                    : this.setState({ subTab: 'messages' }))
                 }
               >
                 Messages

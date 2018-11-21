@@ -98,6 +98,7 @@ class MainContent extends React.PureComponent {
   }
   render() {
     const { stats, globalStats } = this.props;
+
     const statTiles = [
       {
         id: 0,
@@ -361,7 +362,7 @@ class MainContent extends React.PureComponent {
           <StatsTab
             statTiles={statTiles}
             subTab={this.props.match.params.subTab}
-            chartData={this.props.stats.sources}
+            chartData={this.props.globalStats.sources}
           />
         )}
       </Col>
