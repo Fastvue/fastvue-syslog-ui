@@ -9,13 +9,10 @@ import Logo from 'images/logo.png';
 import './style.scss';
 // eslint-disable-next-line react/prefer-stateless-function
 class Header extends Component {
-  state = {
-    isGlobalSettingDrawerOpen: false
-  };
   render() {
     return (
       <Navbar className="header" dark color="dark" expand>
-        <Link to="/">
+        <Link to="/" className="nav-link">
           <img className="logo" src={Logo} alt="Logo" />
           <span className="appVersion"> {this.props.appVersion}</span>
         </Link>
@@ -27,26 +24,9 @@ class Header extends Component {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink>
-              <FontAwesomeIcon
-                icon="cog"
-                onClick={() =>
-                  this.setState({
-                    isGlobalSettingDrawerOpen: !this.state
-                      .isGlobalSettingDrawerOpen
-                  })
-                }
-              />
-              {this.state.isGlobalSettingDrawerOpen && (
-                <Drawer
-                  globalSettings={this.props.globalSettings}
-                  onClose={() =>
-                    this.setState({ isGlobalSettingDrawerOpen: false })
-                  }
-                  onSubmit={(globalSettings) => console.log(globalSettings)}
-                />
-              )}
-            </NavLink>
+            <Link to="/settings" className="nav-link">
+              <FontAwesomeIcon icon="cog" />
+            </Link>
           </NavItem>
         </Nav>
       </Navbar>
@@ -55,8 +35,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  appVersion: PropTypes.string.isRequired,
-  globalSettings: PropTypes.object
+  appVersion: PropTypes.string
 };
 
 export default Header;

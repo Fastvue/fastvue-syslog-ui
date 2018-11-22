@@ -244,7 +244,7 @@ class MainContent extends React.PureComponent {
                           </span>
                         ),
                         className: 'text-left',
-                        width: 343
+                        style: { whiteSpace: 'unset' }
                       },
                       {
                         id: 'size',
@@ -270,14 +270,15 @@ class MainContent extends React.PureComponent {
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
                           new Date(row.modified).toLocaleString(),
-                        className: 'text-right'
+                        className: 'text-right',
+                        style: { whiteSpace: 'unset' }
                       }
                     ]}
                     defaultPageSize={10}
                   />
                 )}
 
-                {this.props.archives && this.props.archives.length === 0 && (
+                {this.props.files && this.props.files.length === 0 && (
                   <Alert color="warning">
                     <FontAwesomeIcon icon="exclamation-circle" /> There are no
                     files logs for this Source yet.

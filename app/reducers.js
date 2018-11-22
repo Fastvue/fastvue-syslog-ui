@@ -8,6 +8,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 import globalReducer from 'containers/App/reducer';
 import sideBarReducer from 'containers/SideBar/reducer';
+import globalSettingsReducer from 'containers/GlobalSettings/reducer';
 
 /*
  * routeReducer
@@ -45,6 +46,7 @@ export default function createReducer(injectedReducers) {
     route: routeReducer,
     global: globalReducer,
     sidebar: sideBarReducer,
+    globalSettings: globalSettingsReducer,
     ...injectedReducers
   });
 }

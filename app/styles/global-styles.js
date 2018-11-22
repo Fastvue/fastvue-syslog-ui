@@ -58,6 +58,7 @@ const GlobalStyle = createGlobalStyle`
     opacity: 0.87;
 }
 
+
 .marginFix {
   margin-left: 20px;
 }

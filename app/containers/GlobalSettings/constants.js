@@ -1,0 +1,17 @@
+export const FETCH_GLOBAL_SETTINGS =
+  'syslog/GlobalSettings/FETCH_GLOBAL_SETTINGS';
+
+export const FETCH_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/GlobalSettings/FETCH_GLOBAL_SETTINGS_SUCCESS';
+
+export const FETCH_GLOBAL_SETTINGS_FAIL =
+  'syslog/GlobalSettings/FETCH_GLOBAL_SETTINGS_FAIL';
+
+export const UPDATE_GLOBAL_SETTINGS =
+  'syslog/GlobalSettings/UPDATE_GLOBAL_SETTINGS';
+
+export const UPDATE_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/GlobalSettings/UPDATE_GLOBAL_SETTINGS_SUCCESS';
+
+export const UPDATE_GLOBAL_SETTINGS_FAIL =
+  'syslog/GlobalSettings/UPDATE_GLOBAL_SETTINGS_FAIL';
