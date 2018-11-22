@@ -12,6 +12,7 @@ import MainContent from 'containers/MainContent/Loadable';
 import { Row, Container } from 'reactstrap';
 import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
+import { fetchGlobalSettings } from './actions';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -20,12 +21,12 @@ import './style.scss';
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
+    this.props.fetchGlobalSettings();
     this.props.fetchSourceList();
     setInterval(() => {
       this.props.fetchSourceList();
     }, 5000);
   }
-  componentDidUpdate(prevProps) {}
   render() {
     return (
       <Fragment>
@@ -56,12 +57,14 @@ HomePage.propTypes = {
   activeSource: PropTypes.any,
   login: PropTypes.func,
   fetchSourceList: PropTypes.func,
-  globalSettings: PropTypes.object
+  globalSettings: PropTypes.object,
+  fetchGlobalSettings: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
   login: () => dispatch(login()),
-  fetchSourceList: () => dispatch(fetchSourceList())
+  fetchSourceList: () => dispatch(fetchSourceList()),
+  fetchGlobalSettings: () => dispatch(fetchGlobalSettings())
 });
 
 const mapStateToProps = createStructuredSelector({

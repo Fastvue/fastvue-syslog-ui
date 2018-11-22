@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 const ToggleButton = (props) => (
-  <div
-    className="toggle-button"
-    role="button"
-    onClick={(e) => props.onClick(props.isButtonOn)}
-  >
+  <div className="toggle-button" role="button" onClick={props.onClick}>
     <div
       className={`switch ${props.isButtonOn ? 'switch-on' : null}`}
       id="globalAutoDiscover"

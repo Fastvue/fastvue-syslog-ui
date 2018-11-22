@@ -1,6 +1,7 @@
 .header {
   min-height: 50px;
   z-index: 999;
+  background-color: #21232e;
   .logo {
     width: 160px;
     height: 27px;
@@ -9,7 +10,6 @@
     padding-left: 5px;
     padding-top: 10px;
     font-size: small;
-    &:hover {
-    }
+    float: right;
   }
 }

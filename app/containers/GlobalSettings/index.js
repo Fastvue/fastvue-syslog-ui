@@ -11,11 +11,14 @@ import injectSaga from 'utils/injectSaga';
 import Drawer from 'components/Drawer';
 import Header from 'components/Header';
 
-import { fetchGlobalSettings, updateGlobalSettings } from './actions';
+import {
+  fetchGlobalSettings,
+  updateGlobalSettings
+} from 'containers/HomePage/actions';
 import {
   makeSelectGlobalSettings,
   makeSelectUpdateGlobalSettingsLoading
-} from './selectors';
+} from 'containers/HomePage/selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -81,8 +84,8 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: 'globalSettings', reducer });
-const withSaga = injectSaga({ key: 'globalSettings', saga });
+const withReducer = injectReducer({ key: 'globalsettings', reducer });
+const withSaga = injectSaga({ key: 'globalsettings', saga });
 
 export default compose(
   withReducer,

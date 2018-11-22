@@ -1,10 +1,8 @@
 import { fromJS } from 'immutable';
 import {
-  TOGGLE_AUTO_DISCOVER,
   TOGGLE_SOURCE_AUTO_DISCOVER,
   TOGGLE_SOURCE_AUTO_DISCOVER_SUCCESS,
   TOGGLE_SOURCE_AUTO_DISCOVER_FAIL,
-  FETCH_SOURCE_LIST,
   FETCH_SOURCE_LIST_SUCCESS,
   FETCH_SOURCE_LIST_FAIL,
   OPEN_SYSLOG_SOURCE_ADD_FORM,
@@ -27,7 +25,6 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  isAutoDiscoverOn: false,
   isAddSysLogSourceOpen: false,
   isListeningPortModalOpen: false,
   isListeningPortSuccessModalOpen: false,
@@ -47,9 +44,6 @@ const initialState = fromJS({
 
 function sideBarReducer(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_AUTO_DISCOVER:
-      return state.set('isAutoDiscoverOn', !state.get('isAutoDiscoverOn'));
-
     case TOGGLE_SOURCE_AUTO_DISCOVER:
       return state.setIn(
         [

@@ -1,5 +1,4 @@
 import {
-  TOGGLE_AUTO_DISCOVER,
   TOGGLE_SOURCE_AUTO_DISCOVER,
   FETCH_SOURCE_LIST,
   FETCH_SOURCE_LIST_SUCCESS,
@@ -27,10 +26,6 @@ import {
   TOGGLE_ADD_SOURCE_SUCCESS_MODAL,
   UPDATE_ACTIVE_SOURCE
 } from './constants';
-
-export const toggleAutoDiscover = () => ({
-  type: TOGGLE_AUTO_DISCOVER
-});
 
 export const toggleSourceAutoDiscover = (sourceId, isSourceEnabled) => ({
   type: TOGGLE_SOURCE_AUTO_DISCOVER,

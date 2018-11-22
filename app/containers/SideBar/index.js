@@ -22,8 +22,10 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
+import { makeSelectGlobalSettings } from 'containers/HomePage/selectors';
+import { fetchAndUpdateGlobalSettings } from 'containers/HomePage/actions';
+
 import {
-  toggleAutoDiscover,
   fetchSourceList,
   toggleSourceAutoDiscover,
   openSyslogSourceAddForm,
@@ -44,7 +46,6 @@ import {
   updateActiveSource
 } from './actions';
 import {
-  makeSelectIsAutoDiscoverOn,
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
   makeSelectIsListeningPortModalOpen,
@@ -57,6 +58,7 @@ import {
   makeSelectAddOrUpdateSourceLoading,
   makeSelectIsAddSourceSuccessModalOpen
 } from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
 
@@ -88,6 +90,13 @@ class SideBar extends React.PureComponent {
       this.props.updateActiveSource(activeSource);
     }
   }
+  fetchAndUpdateGlobalSettings = () => {
+    console.log(this.props.globalSettings);
+    this.props.fetchAndUpdateGlobalSettings(
+      this.props.globalSettings.autoDiscover
+    );
+  };
+
   render() {
     return (
       <Col className="sidebar" md={12} lg={4} xl={3}>
@@ -136,7 +145,6 @@ class SideBar extends React.PureComponent {
           <ModalHeader toggle={() => this.props.closeDeleteSourceModal()}>
             Are you sure?
           </ModalHeader>
-          {/* <FontAwesomeIcon icon="exclamation-circle" /> */}
           <ModalBody>
             Delete syslog source {this.props.toBeDeletedSource.displayName}?
           </ModalBody>
@@ -223,10 +231,10 @@ class SideBar extends React.PureComponent {
           <Tile
             variant="autoDiscover"
             label="Auto Discover"
-            onClick={() => this.props.toggleAutoDiscover()}
-            isAutoDiscoverOn={this.props.isAutoDiscoverOn}
+            onClick={this.fetchAndUpdateGlobalSettings}
+            isAutoDiscoverOn={this.props.globalSettings.autoDiscover}
           />
-          {this.props.isAutoDiscoverOn ? (
+          {this.props.globalSettings.autoDiscover ? (
             <Tile
               onClick={() => {
                 this.props.openListeningPortModal();
@@ -288,9 +296,8 @@ class SideBar extends React.PureComponent {
 }
 
 SideBar.propTypes = {
-  isAutoDiscoverOn: PropTypes.bool.isRequired,
   isAddSysLogSourceOpen: PropTypes.bool,
-  toggleAutoDiscover: PropTypes.func.isRequired,
+  globalSettings: PropTypes.object,
   sourceList: PropTypes.any,
   activeSourceId: PropTypes.any,
   sourceIdWhoseSourceEditorIsOpen: PropTypes.any,
@@ -320,11 +327,11 @@ SideBar.propTypes = {
   toggleDeleteSourceSuccessModal: PropTypes.func,
   toggleListeningPortSuccessModal: PropTypes.func,
   toggleAddSourceSuccessModal: PropTypes.func,
-  updateActiveSource: PropTypes.func
+  updateActiveSource: PropTypes.func,
+  fetchAndUpdateGlobalSettings: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleAutoDiscover: () => dispatch(toggleAutoDiscover()),
   toggleSourceAutoDiscover: (sourceId, isSourceEnabled) =>
     dispatch(toggleSourceAutoDiscover(sourceId, isSourceEnabled)),
   fetchSourceList: () => dispatch(fetchSourceList()),
@@ -346,11 +353,12 @@ const mapDispatchToProps = (dispatch) => ({
   toggleListeningPortSuccessModal: () =>
     dispatch(toggleListeningPortSuccessModal()),
   toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal()),
-  updateActiveSource: (source) => dispatch(updateActiveSource(source))
+  updateActiveSource: (source) => dispatch(updateActiveSource(source)),
+  fetchAndUpdateGlobalSettings: (autoDiscover) =>
+    dispatch(fetchAndUpdateGlobalSettings(autoDiscover))
 });
 
 const mapStateToProps = createStructuredSelector({
-  isAutoDiscoverOn: makeSelectIsAutoDiscoverOn(),
   isAddSysLogSourceOpen: makeSelectIsAddSysLogSourceOpen(),
   isListeningPortModalOpen: makeSelectIsListeningPortModalOpen(),
   sourceList: makeSelectSourceList(),
@@ -361,7 +369,8 @@ const mapStateToProps = createStructuredSelector({
   isDeleteSourceSuccessModalOpen: makeSelectIsDeleteSourceSuccessModalOpen(),
   toBeDeletedSource: makeSelectToBeDeletedSource(),
   addOrUpdateSourceLoading: makeSelectAddOrUpdateSourceLoading(),
-  isAddSourceSuccessModalOpen: makeSelectIsAddSourceSuccessModalOpen()
+  isAddSourceSuccessModalOpen: makeSelectIsAddSourceSuccessModalOpen(),
+  globalSettings: makeSelectGlobalSettings()
 });
 
 const withConnect = connect(

@@ -11,10 +11,10 @@ import './style.scss';
 class Header extends Component {
   render() {
     return (
-      <Navbar className="header" dark color="dark" expand>
-        <Link to="/" className="nav-link">
+      <Navbar className="header" dark expand>
+        <Link to="/" className="navbar-brand">
           <img className="logo" src={Logo} alt="Logo" />
-          <span className="appVersion"> {this.props.appVersion}</span>
+          <div className="appVersion"> {this.props.appVersion}</div>
         </Link>
 
         <Nav navbar className="ml-auto">
