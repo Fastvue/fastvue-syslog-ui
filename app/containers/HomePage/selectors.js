@@ -18,8 +18,15 @@ const makeSelectUpdateGlobalSettingsLoading = () =>
     (globalSettingsState) =>
       globalSettingsState.get('updateGlobalSettingsLoading')
   );
+
+const makeSelectAppVersion = () =>
+  createSelector(
+    selectHome,
+    (globalSettingsState) => globalSettingsState.get('appVersion')
+  );
 export {
   selectHome,
   makeSelectGlobalSettings,
+  makeSelectAppVersion,
   makeSelectUpdateGlobalSettingsLoading
 };

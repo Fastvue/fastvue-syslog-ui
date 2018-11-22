@@ -92,5 +92,6 @@ export {
   makeSelectToBeDeletedSource,
   makeSelectAddOrUpdateSourceLoading,
   makeSelectIsAddSourceSuccessModalOpen,
-  makeSelectActiveSource
+  makeSelectActiveSource,
+  makeSelectPorts
 };

@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Col, Row } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 
 import Drawer from 'components/Drawer';
 import Header from 'components/Header';
@@ -84,12 +82,7 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: 'globalsettings', reducer });
-const withSaga = injectSaga({ key: 'globalsettings', saga });
-
 export default compose(
-  withReducer,
-  withSaga,
   withConnect,
   withRouter
 )(GlobalSettings);

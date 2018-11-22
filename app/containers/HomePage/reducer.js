@@ -5,13 +5,15 @@ import {
   UPDATE_GLOBAL_SETTINGS,
   UPDATE_GLOBAL_SETTINGS_FAIL,
   UPDATE_GLOBAL_SETTINGS_SUCCESS,
-  FETCH_AND_UPDATE_GLOBAL_SETTINGS
+  FETCH_AND_UPDATE_GLOBAL_SETTINGS,
+  FETCH_APP_VERSION_SUCCESS
 } from './constants';
 
 // The initial state of the App
 const initialState = fromJS({
   globalSettings: {},
-  updateGlobalSettingsLoading: false
+  updateGlobalSettingsLoading: false,
+  appVersion: ''
 });
 
 function homeReducer(state = initialState, action) {
@@ -24,6 +26,8 @@ function homeReducer(state = initialState, action) {
       return state.set('updateGlobalSettingsLoading', false);
     case UPDATE_GLOBAL_SETTINGS_FAIL:
       return state.set('updateGlobalSettingsLoading', false);
+    case FETCH_APP_VERSION_SUCCESS:
+      return state.set('appVersion', action.appVersion);
     default:
       return state;
   }

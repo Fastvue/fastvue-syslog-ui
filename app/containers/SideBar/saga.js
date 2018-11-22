@@ -5,7 +5,8 @@ import {
   TOGGLE_SOURCE_AUTO_DISCOVER,
   ADD_OR_UPDATE_SOURCE,
   DELETE_SOURCE,
-  SET_PORTS
+  UPDATE_PORTS,
+  FETCH_PORTS
 } from './constants';
 import {
   fetchSourceListSuccess,
@@ -17,7 +18,11 @@ import {
   closeSourceEditor,
   fetchSourceList,
   closeSyslogSourceAddForm,
-  toggleAddSourceSuccessModal
+  toggleAddSourceSuccessModal,
+  updatePortsSuccess,
+  updatePortsFail,
+  fetchPortsFail,
+  fetchPortsSuccess
 } from './actions';
 
 export function* fetchSourcesListAPI() {
@@ -90,7 +95,7 @@ export function* deleteSource(action) {
   }
 }
 
-export function* setPorts(action) {
+export function* updatePorts(action) {
   const requestURL = `${process.env.API_URL}/api/settings/setports`;
   const requestOptions = {
     method: 'POST',
@@ -98,10 +103,22 @@ export function* setPorts(action) {
   };
 
   try {
-    const res = yield call(request, requestURL, requestOptions);
-    yield put(deleteSourceSuccess(res));
+    yield call(request, requestURL, requestOptions);
+    yield put(updatePortsSuccess());
   } catch (err) {
-    yield put(deleteSourceFail(err));
+    yield put(updatePortsFail(err));
+  }
+}
+
+export function* fetchPorts() {
+  const requestURL = `${process.env.API_URL}/api/settings/ports`;
+
+  try {
+    const ports = yield call(request, requestURL);
+    console.log(ports);
+    yield put(fetchPortsSuccess(ports));
+  } catch (err) {
+    yield put(fetchPortsFail(err));
   }
 }
 
@@ -110,5 +127,6 @@ export default function* sideBarSaga() {
   yield takeLatest(TOGGLE_SOURCE_AUTO_DISCOVER, toggleSourceAutoDiscover);
   yield takeLatest(ADD_OR_UPDATE_SOURCE, addOrUpdateSource);
   yield takeLatest(DELETE_SOURCE, deleteSource);
-  yield takeLatest(SET_PORTS, setPorts);
+  yield takeLatest(UPDATE_PORTS, updatePorts);
+  yield takeLatest(FETCH_PORTS, fetchPorts);
 }

@@ -1,7 +1,11 @@
 export const LOGIN = 'syslog/HomePage/LOGIN';
+export const FETCH_APP_VERSION = 'syslog/HomePage/FETCH_APP_VERSION';
+export const FETCH_APP_VERSION_SUCCESS =
+  'syslog/HomePage/FETCH_APP_VERSION_SUCCESS';
 
-export const FETCH_GLOBAL_SETTINGS =
-  'syslog/HomePage/FETCH_GLOBAL_SETTINGS';
+export const FETCH_APP_VERSION_FAIL = 'syslog/HomePage/FETCH_APP_VERSION_FAIL';
+
+export const FETCH_GLOBAL_SETTINGS = 'syslog/HomePage/FETCH_GLOBAL_SETTINGS';
 
 export const FETCH_GLOBAL_SETTINGS_SUCCESS =
   'syslog/HomePage/FETCH_GLOBAL_SETTINGS_SUCCESS';
@@ -9,8 +13,7 @@ export const FETCH_GLOBAL_SETTINGS_SUCCESS =
 export const FETCH_GLOBAL_SETTINGS_FAIL =
   'syslog/HomePage/FETCH_GLOBAL_SETTINGS_FAIL';
 
-export const UPDATE_GLOBAL_SETTINGS =
-  'syslog/HomePage/UPDATE_GLOBAL_SETTINGS';
+export const UPDATE_GLOBAL_SETTINGS = 'syslog/HomePage/UPDATE_GLOBAL_SETTINGS';
 
 export const UPDATE_GLOBAL_SETTINGS_SUCCESS =
   'syslog/HomePage/UPDATE_GLOBAL_SETTINGS_SUCCESS';

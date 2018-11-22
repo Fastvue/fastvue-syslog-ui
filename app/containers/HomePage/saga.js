@@ -3,13 +3,16 @@ import request from 'utils/request';
 import {
   FETCH_GLOBAL_SETTINGS,
   UPDATE_GLOBAL_SETTINGS,
-  FETCH_AND_UPDATE_GLOBAL_SETTINGS
+  FETCH_AND_UPDATE_GLOBAL_SETTINGS,
+  FETCH_APP_VERSION
 } from './constants';
 import {
   fetchGlobalSettingsFail,
   fetchGlobalSettingsSuccess,
   updateGlobalSettingsFail,
-  updateGlobalSettingsSuccess
+  updateGlobalSettingsSuccess,
+  fetchAppVersionSuccess,
+  fetchAppVersionFail
 } from './actions';
 
 // export function* login() {
@@ -63,6 +66,17 @@ export function* updateGlobalSettings(action) {
   }
 }
 
+export function* fetchAppVersion() {
+  const requestURL = `${process.env.API_URL}/api/appinfo/version`;
+
+  try {
+    const appVersion = yield call(request, requestURL);
+    yield put(fetchAppVersionSuccess(appVersion));
+  } catch (err) {
+    yield put(fetchAppVersionFail(err));
+  }
+}
+
 export function* fetchAndUpdateGlobalSettings(action) {
   const requestURL = `${process.env.API_URL}/api/settings/globalsettings`;
 
@@ -71,7 +85,6 @@ export function* fetchAndUpdateGlobalSettings(action) {
     fetchedGlobalSettings = yield call(request, requestURL);
   } catch (err) {
     yield put(fetchGlobalSettingsFail(err));
-    console.log(err);
   }
 
   const toUpdateGlobalSettings = {
@@ -90,7 +103,6 @@ export function* fetchAndUpdateGlobalSettings(action) {
   };
   try {
     yield call(request, updateRequestURL, requestOptions);
-    console.log('okkkk');
     yield put(fetchGlobalSettingsSuccess(toUpdateGlobalSettings));
   } catch (err) {
     yield put(updateGlobalSettingsFail(err));
@@ -106,4 +118,5 @@ export default function* homePageSaga() {
   );
   yield takeLatest(FETCH_GLOBAL_SETTINGS, fetchGlobalSettings);
   yield takeLatest(UPDATE_GLOBAL_SETTINGS, updateGlobalSettings);
+  yield takeLatest(FETCH_APP_VERSION, fetchAppVersion);
 }

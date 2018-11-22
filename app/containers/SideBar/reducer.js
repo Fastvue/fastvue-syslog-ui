@@ -13,7 +13,6 @@ import {
   CLOSE_LISTENING_PORT_MODAL,
   OPEN_DELETE_SOURCE_MODAL,
   CLOSE_DELETE_SOURCE_MODAL,
-  SET_PORTS,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
   TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
   UPDATE_TO_BE_DELETED_SOURCE,
@@ -21,7 +20,8 @@ import {
   ADD_OR_UPDATE_SOURCE_FAIL,
   ADD_OR_UPDATE_SOURCE_SUCCESS,
   TOGGLE_ADD_SOURCE_SUCCESS_MODAL,
-  UPDATE_ACTIVE_SOURCE
+  UPDATE_ACTIVE_SOURCE,
+  FETCH_PORTS_SUCCESS
 } from './constants';
 
 const initialState = fromJS({
@@ -38,7 +38,7 @@ const initialState = fromJS({
     id: null,
     displayName: ''
   },
-  listeningPorts: '514',
+  listeningPorts: '',
   sourceList: []
 });
 
@@ -111,8 +111,8 @@ function sideBarReducer(state = initialState, action) {
 
     case UPDATE_ACTIVE_SOURCE:
       return state.set('activeSource', fromJS(action.source));
-    case SET_PORTS:
-      return state.set('ports', action.ports);
+    case FETCH_PORTS_SUCCESS:
+      return state.set('listeningPorts', action.ports);
 
     case ADD_OR_UPDATE_SOURCE:
       return state

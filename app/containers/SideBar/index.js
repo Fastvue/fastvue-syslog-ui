@@ -38,7 +38,8 @@ import {
   closeSourceEditor,
   addOrUpdateSource,
   deleteSource,
-  setPorts,
+  updatePorts,
+  fetchPorts,
   updateToBeDeletedSource,
   toggleDeleteSourceSuccessModal,
   toggleListeningPortSuccessModal,
@@ -69,6 +70,7 @@ class SideBar extends React.PureComponent {
 
   componentDidMount() {
     this.props.fetchSourceList();
+    this.props.fetchPorts();
   }
 
   componentDidUpdate(prevProps) {
@@ -128,7 +130,7 @@ class SideBar extends React.PureComponent {
               color="primary"
               onClick={() => {
                 this.props.closeListeningPortModal();
-                this.props.setPorts(this.props.listeningPorts);
+                this.props.updatePorts(this.props.listeningPorts);
                 this.props.toggleListeningPortSuccessModal();
               }}
             >
@@ -320,7 +322,7 @@ SideBar.propTypes = {
   closeSourceEditor: PropTypes.func,
   addOrUpdateSource: PropTypes.func,
   deleteSource: PropTypes.func,
-  setPorts: PropTypes.func,
+  updatePorts: PropTypes.func,
   openDeleteSourceModal: PropTypes.func,
   closeDeleteSourceModal: PropTypes.func,
   updateToBeDeletedSource: PropTypes.func,
@@ -343,7 +345,8 @@ const mapDispatchToProps = (dispatch) => ({
   closeSourceEditor: () => dispatch(closeSourceEditor()),
   addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id)),
   deleteSource: (sourceId) => dispatch(deleteSource(sourceId)),
-  setPorts: (ports) => dispatch(setPorts(ports)),
+  updatePorts: (ports) => dispatch(updatePorts(ports)),
+  fetchPorts: () => dispatch(fetchPorts()),
   openDeleteSourceModal: () => dispatch(openDeleteSourceModal()),
   closeDeleteSourceModal: () => dispatch(closeDeleteSourceModal()),
   updateToBeDeletedSource: (sourceId, displayName) =>
@@ -355,7 +358,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal()),
   updateActiveSource: (source) => dispatch(updateActiveSource(source)),
   fetchAndUpdateGlobalSettings: (autoDiscover) =>
-    dispatch(fetchAndUpdateGlobalSettings(autoDiscover))
+    dispatch(fetchAndUpdateGlobalSettings(autoDiscover)),
+  fetchPorts: () => dispatch(fetchPorts())
 });
 
 const mapStateToProps = createStructuredSelector({

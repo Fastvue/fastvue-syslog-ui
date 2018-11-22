@@ -12,7 +12,8 @@ import MainContent from 'containers/MainContent/Loadable';
 import { Row, Container } from 'reactstrap';
 import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
-import { fetchGlobalSettings } from './actions';
+import { fetchGlobalSettings, fetchAppVersion } from './actions';
+import { makeSelectAppVersion } from './selectors';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -21,8 +22,9 @@ import './style.scss';
 class HomePage extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
-    this.props.fetchGlobalSettings();
     this.props.fetchSourceList();
+    this.props.fetchGlobalSettings();
+    this.props.fetchAppVersion();
     setInterval(() => {
       this.props.fetchSourceList();
     }, 5000);
@@ -30,7 +32,7 @@ class HomePage extends React.PureComponent {
   render() {
     return (
       <Fragment>
-        <Header appVersion="2.0.0.3" />
+        <Header appVersion={this.props.appVersion} />
         <Container fluid>
           <Row>
             <SideBar
@@ -64,11 +66,13 @@ HomePage.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   login: () => dispatch(login()),
   fetchSourceList: () => dispatch(fetchSourceList()),
-  fetchGlobalSettings: () => dispatch(fetchGlobalSettings())
+  fetchGlobalSettings: () => dispatch(fetchGlobalSettings()),
+  fetchAppVersion: () => dispatch(fetchAppVersion())
 });
 
 const mapStateToProps = createStructuredSelector({
-  activeSource: makeSelectActiveSource()
+  activeSource: makeSelectActiveSource(),
+  appVersion: makeSelectAppVersion()
 });
 
 const withConnect = connect(
