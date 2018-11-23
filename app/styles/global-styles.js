@@ -73,6 +73,50 @@ const GlobalStyle = createGlobalStyle`
     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=);
 }
 
+
+
+.files_table{
+ font-size: 14px;
+}
+
+.files_table .-header{
+ font-weight:bold;
+}
+
+
+.files_table .-header .rt-tr div:nth-child(1), .files_table .rt-tbody .rt-tr div:nth-child(1),.files_table .-filters .rt-tr div:nth-child(1) {
+ width:41% !important;
+}
+
+.files_table .-header .rt-tr div:nth-child(2), .files_table .rt-tbody .rt-tr div:nth-child(2),.files_table .-filters .rt-tr div:nth-child(2){
+ width: 12% !important;
+}
+
+.files_table .-header .rt-tr div:nth-child(3), .files_table .rt-tbody .rt-tr div:nth-child(3),.files_table .-filters .rt-tr div:nth-child(3){
+ width: 18% !important;
+}
+
+.files_table .-header .rt-tr div:nth-child(4), .files_table .rt-tbody .rt-tr div:nth-child(4),.files_table .-filters .rt-tr div:nth-child(4){
+ width: 29% !important;
+}
+
+.files_table .rt-resizable-header{
+ padding: 6px !important;
+}
+
+
+.archive_table .-header .rt-tr div:nth-child(1), .archive_table .rt-tbody .rt-tr div:nth-child(1),.archive_table .-filters .rt-tr div:nth-child(1) {
+ width: 56% !important;
+}
+
+.archive_table .-header .rt-tr div:nth-child(2), .archive_table .rt-tbody .rt-tr div:nth-child(2),.archive_table .-filters .rt-tr div:nth-child(2){
+ width: 13% !important;
+}
+
+.archive_table .-header .rt-tr div:nth-child(3), .archive_table .rt-tbody .rt-tr div:nth-child(3),.archive_table .-filters .rt-tr div:nth-child(3){
+ width: 31% !important;
+}
+
 `;
 
 export default GlobalStyle;

@@ -12,11 +12,11 @@ import Header from 'components/Header';
 import {
   fetchGlobalSettings,
   updateGlobalSettings
-} from 'containers/HomePage/actions';
+} from 'containers/App/actions';
 import {
   makeSelectGlobalSettings,
   makeSelectUpdateGlobalSettingsLoading
-} from 'containers/HomePage/selectors';
+} from 'containers/App/selectors';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -39,10 +39,8 @@ class GlobalSettings extends Component {
   }
 
   render() {
-    console.log(this.props.globalSettings);
     return (
       <Fragment>
-        <Header />
         <Col md={12} lg={12} xl={12}>
           <Row>
             <Drawer

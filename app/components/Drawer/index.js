@@ -22,7 +22,6 @@ class Drawer extends Component {
       Object.keys(prevProps.globalSettings).length === 0 &&
       this.props.globalSettings
     ) {
-      console.log('updated');
       this.setState({ ...this.props.globalSettings });
     }
   }

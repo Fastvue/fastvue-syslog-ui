@@ -22,8 +22,8 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import { makeSelectGlobalSettings } from 'containers/HomePage/selectors';
-import { fetchAndUpdateGlobalSettings } from 'containers/HomePage/actions';
+import { makeSelectGlobalSettings } from 'containers/App/selectors';
+import { fetchAndUpdateGlobalSettings } from 'containers/App/actions';
 
 import {
   fetchSourceList,
@@ -68,9 +68,11 @@ import './style.scss';
 class SideBar extends React.PureComponent {
   // eslint-disable-line react/prefer-stateless-function
 
+  state = {
+    listeningPorts: ''
+  };
   componentDidMount() {
     this.props.fetchSourceList();
-   
   }
 
   componentDidUpdate(prevProps) {
@@ -80,6 +82,17 @@ class SideBar extends React.PureComponent {
       this.props.isDeleteSourceSuccessModalOpen
     ) {
       this.props.history.push('/');
+    }
+
+    if (
+      !prevProps.isListeningPortModalOpen &&
+      this.props.isListeningPortModalOpen
+    ) {
+      this.props.fetchPorts();
+    }
+
+    if (!this.props.listeningPorts !== prevProps.listeningPorts) {
+      this.setState({ listeningPorts: this.props.listeningPorts });
     }
 
     if (
@@ -93,7 +106,6 @@ class SideBar extends React.PureComponent {
     }
   }
   fetchAndUpdateGlobalSettings = () => {
-    console.log(this.props.globalSettings);
     this.props.fetchAndUpdateGlobalSettings(
       this.props.globalSettings.autoDiscover
     );
@@ -113,9 +125,9 @@ class SideBar extends React.PureComponent {
             Enter each port to listen on, separated by commas
             <Input
               type="text"
-              value={this.props.listeningPorts}
+              value={this.state.listeningPorts}
               onChange={(e) => {
-                this.setState({ ports: e.target.value });
+                this.setState({ listeningPorts: e.target.value });
               }}
             />
           </ModalBody>
@@ -358,8 +370,7 @@ const mapDispatchToProps = (dispatch) => ({
   toggleAddSourceSuccessModal: () => dispatch(toggleAddSourceSuccessModal()),
   updateActiveSource: (source) => dispatch(updateActiveSource(source)),
   fetchAndUpdateGlobalSettings: (autoDiscover) =>
-    dispatch(fetchAndUpdateGlobalSettings(autoDiscover)),
-  fetchPorts: () => dispatch(fetchPorts())
+    dispatch(fetchAndUpdateGlobalSettings(autoDiscover))
 });
 
 const mapStateToProps = createStructuredSelector({

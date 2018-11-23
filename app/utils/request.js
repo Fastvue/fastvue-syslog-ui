@@ -42,11 +42,10 @@ function checkStatus(response) {
 export default function request(url, options) {
   return fetch(url, {
     ...options,
-    ...(!url.includes('login') &&
-      {
-        // withCredentials: true,
-        // credentials: 'include'
-      })
+    ...(!url.includes('login') && {
+      withCredentials: true,
+      credentials: 'include'
+    })
   })
     .then(checkStatus)
     .then(parseJSON);

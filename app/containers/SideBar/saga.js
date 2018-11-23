@@ -115,8 +115,7 @@ export function* fetchPorts() {
 
   try {
     const ports = yield call(request, requestURL);
-    console.log(ports);
-    yield put(fetchPortsSuccess(ports));
+    yield put(fetchPortsSuccess(ports.join(',')));
   } catch (err) {
     yield put(fetchPortsFail(err));
   }

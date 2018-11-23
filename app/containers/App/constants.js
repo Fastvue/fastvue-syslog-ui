@@ -2,4 +2,39 @@ export const LOGIN = 'syslog/App/LOGIN';
 export const LOGIN_SUCCESS = 'syslog/App/LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'syslog/App/LOGIN_FAIL';
 
-export const DEFAULT_LOCALE = 'en';
+export const LOGOUT = 'syslog/App/LOGOUT';
+
+export const FETCH_INIT_CONFIG = 'syslog/App/FETCH_INIT_CONFIG';
+export const FETCH_INIT_CONFIG_SUCCESS = 'syslog/App/FETCH_INIT_CONFIG_SUCCESS';
+export const FETCH_INIT_CONFIG_FAIL = 'syslog/App/FETCH_INIT_CONFIG_FAIL';
+
+export const FETCH_APP_VERSION = 'syslog/HomePage/FETCH_APP_VERSION';
+export const FETCH_APP_VERSION_SUCCESS =
+  'syslog/HomePage/FETCH_APP_VERSION_SUCCESS';
+
+export const FETCH_APP_VERSION_FAIL = 'syslog/HomePage/FETCH_APP_VERSION_FAIL';
+
+export const FETCH_GLOBAL_SETTINGS = 'syslog/HomePage/FETCH_GLOBAL_SETTINGS';
+
+export const FETCH_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/HomePage/FETCH_GLOBAL_SETTINGS_SUCCESS';
+
+export const FETCH_GLOBAL_SETTINGS_FAIL =
+  'syslog/HomePage/FETCH_GLOBAL_SETTINGS_FAIL';
+
+export const UPDATE_GLOBAL_SETTINGS = 'syslog/HomePage/UPDATE_GLOBAL_SETTINGS';
+
+export const UPDATE_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/HomePage/UPDATE_GLOBAL_SETTINGS_SUCCESS';
+
+export const UPDATE_GLOBAL_SETTINGS_FAIL =
+  'syslog/HomePage/UPDATE_GLOBAL_SETTINGS_FAIL';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS =
+  'syslog/HomePage/FETCH_AND_UPDATE_GLOBAL_SETTINGS';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/HomePage/FETCH_AND_UPDATE_GLOBAL_SETTINGS_SUCCESS';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL =
+  'syslog/HomePage/FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL';

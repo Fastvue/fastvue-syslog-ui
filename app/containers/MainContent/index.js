@@ -207,6 +207,7 @@ class MainContent extends React.PureComponent {
               <TabPane tabId="files">
                 {this.props.files && this.props.files.length !== 0 && (
                   <ReactTable
+                    className="files_table"
                     minRows={1}
                     data={this.props.files || []}
                     filterable
@@ -244,7 +245,7 @@ class MainContent extends React.PureComponent {
                           </span>
                         ),
                         className: 'text-left',
-                        style: { whiteSpace: 'unset' }
+                        style: { whiteSpace: 'unset', width: '41%' }
                       },
                       {
                         id: 'size',
@@ -252,7 +253,8 @@ class MainContent extends React.PureComponent {
                         HeaderText: 'Size',
                         HeaderTextAlign: 'right',
                         accessor: (row) => formatValues('Bytes', row.size),
-                        className: 'text-right'
+                        className: 'text-right',
+                        style: { width: '12%' }
                       },
                       {
                         id: 'messageCount',
@@ -261,7 +263,8 @@ class MainContent extends React.PureComponent {
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
                           formatValues('Numeric', row.messageCount),
-                        className: 'text-right'
+                        className: 'text-right',
+                        style: { width: '18%' }
                       },
                       {
                         id: 'modified',
@@ -271,7 +274,7 @@ class MainContent extends React.PureComponent {
                         accessor: (row) =>
                           new Date(row.modified).toLocaleString(),
                         className: 'text-right',
-                        style: { whiteSpace: 'unset' }
+                        style: { whiteSpace: 'unset', width: '29%' }
                       }
                     ]}
                     defaultPageSize={10}
@@ -289,6 +292,7 @@ class MainContent extends React.PureComponent {
               <TabPane tabId="archives">
                 {this.props.archives && this.props.archives.length !== 0 && (
                   <ReactTable
+                    className="archive_table"
                     minRows={1}
                     data={this.props.archives || []}
                     filterable

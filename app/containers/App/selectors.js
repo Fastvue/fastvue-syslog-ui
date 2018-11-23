@@ -1,7 +1,3 @@
-/**
- * The global state selectors
- */
-
 import { createSelector } from 'reselect';
 
 const selectGlobal = (state) => state.get('app');
@@ -26,9 +22,45 @@ const makeSelectIsLoggedIn = () =>
     (routeState) => routeState.get('isLoggedIn')
   );
 
+const makeSelectInitConfig = () =>
+  createSelector(
+    selectGlobal,
+    (routeState) => routeState.get('initConfig')
+  );
+
+const makeSelectAppVersion = () =>
+  createSelector(
+    selectGlobal,
+    (routeState) => routeState.get('appVersion')
+  );
+
+const makeSelectIsLoggedOut = () =>
+  createSelector(
+    selectGlobal,
+    (routeState) => routeState.get('isLoggedOut')
+  );
+
+const makeSelectGlobalSettings = () =>
+  createSelector(
+    selectGlobal,
+    (globalSettingsState) => globalSettingsState.get('globalSettings').toJS()
+  );
+
+const makeSelectUpdateGlobalSettingsLoading = () =>
+  createSelector(
+    selectGlobal,
+    (globalSettingsState) =>
+      globalSettingsState.get('updateGlobalSettingsLoading')
+  );
+
 export {
   selectGlobal,
   makeSelectLocation,
   makeSelectIsLoggingIn,
-  makeSelectIsLoggedIn
+  makeSelectIsLoggedIn,
+  makeSelectInitConfig,
+  makeSelectAppVersion,
+  makeSelectIsLoggedOut,
+  makeSelectGlobalSettings,
+  makeSelectUpdateGlobalSettingsLoading
 };
