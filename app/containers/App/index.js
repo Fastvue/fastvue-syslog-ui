@@ -11,13 +11,13 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
+import Login from 'components/Login';
+import Header from 'components/Header';
 import HomePage from 'containers/HomePage/Loadable';
 import GlobalSettings from 'containers/GlobalSettings/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import './style.scss';
 import GlobalStyle from './../../styles/global-styles';
-import Header from 'components/Header';
-import Login from 'components/Login';
 import { login } from './actions';
 import { makeSelectIsLoggedIn, makeSelectIsLoggingIn } from './selectors';
 
@@ -26,82 +26,78 @@ import saga from './saga';
 
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
-  state = {
-    toLogin: false,
-    toRoutes: true,
-    toInitalSetup: false
-  };
-  componentDidMount() {
-    // document.cookies.onChanged.addListener((changeInfo) => {
-    //   console.log(changeInfo);
-    // });
+  // state = {
+  //   toLogin: false,
+  //   toRoutes: true,
+  //   toInitalSetup: false
+  // };
+  // componentDidMount() {
+  //   // document.cookies.onChanged.addListener((changeInfo) => {
+  //   //   console.log(changeInfo);
+  //   // });
 
-    const cookie = document.cookie;
-    console.log(cookie);
-    if (!cookie) {
-    }
-  }
+  //   const cookie = document.cookie;
+  //   console.log(cookie);
+  //   if (!cookie) {
+  //   }
+  // }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.setState({
-        toLogin: false,
-        toRoutes: true,
-        toInitalSetup: false
-      });
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
+  //     this.setState({
+  //       toLogin: false,
+  //       toRoutes: true,
+  //       toInitalSetup: false
+  //     });
+  //   }
+  // }
   render() {
-    console.log(this.props);
     return (
       <div className="app-wrapper">
         <Header />
-        {this.state.toRoutes && (
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route
-              exact
-              path="/source/:id/:tab(stats|files|archives)?/:subTab(size|messages)?"
-              component={HomePage}
-            />
-            <Route exact path="/settings" component={GlobalSettings} />
-            <Route path="" component={NotFoundPage} />
-          </Switch>
-        )}
-        {this.state.toLogin && (
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route
+            exact
+            path="/source/:id/:tab(stats|files|archives)?/:subTab(size|messages)?"
+            component={HomePage}
+          />
+          <Route exact path="/settings" component={GlobalSettings} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+
+        {/* {this.state.toLogin && (
           <Login onSubmit={(fields) => this.props.login(fields)} />
-        )}
+        )} */}
         <GlobalStyle />
       </div>
     );
   }
 }
-App.propTypes = {
-  globalSettings: PropTypes.object,
-  updateGlobalSettingsLoading: PropTypes.bool,
-  fetchGlobalSettings: PropTypes.func,
-  updateGlobalSettings: PropTypes.func
-};
+// App.propTypes = {};
 
-const mapDispatchToProps = (dispatch) => ({
-  login: (fields) => dispatch(login(fields))
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   login: (fields) => dispatch(login(fields))
+// });
 
-const mapStateToProps = createStructuredSelector({
-  isLoggedIn: makeSelectIsLoggedIn(),
-  isLoggingIn: makeSelectIsLoggingIn()
-});
+// const mapStateToProps = createStructuredSelector({
+//   isLoggedIn: makeSelectIsLoggedIn(),
+//   isLoggingIn: makeSelectIsLoggingIn()
+// });
 
-const withReducer = injectReducer({ key: 'app', reducer });
-const withSaga = injectSaga({ key: 'app', saga });
+// const withReducer = injectReducer({ key: 'app', reducer });
+// const withSaga = injectSaga({ key: 'app', saga });
 
-const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-);
+// const withConnect = connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// );
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect
-)(App);
+// const AppTemp = compose(
+//   withReducer,
+//   withSaga,
+//   withConnect
+// )(App);
+
+// const AppWrapper = () => <AppTemp />;
+export default App;

@@ -70,7 +70,7 @@ class SideBar extends React.PureComponent {
 
   componentDidMount() {
     this.props.fetchSourceList();
-    this.props.fetchPorts();
+   
   }
 
   componentDidUpdate(prevProps) {
