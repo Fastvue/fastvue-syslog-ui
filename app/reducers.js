@@ -6,7 +6,7 @@ import { fromJS } from 'immutable';
 import { combineReducers } from 'redux-immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
-import globalReducer from 'containers/App/reducer';
+import appReducer from 'containers/App/reducer';
 import sideBarReducer from 'containers/SideBar/reducer';
 
 /*
@@ -43,7 +43,7 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
-    global: globalReducer,
+    app: appReducer,
     sidebar: sideBarReducer,
     ...injectedReducers
   });

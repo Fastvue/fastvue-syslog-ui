@@ -4,7 +4,7 @@
 
 import { createSelector } from 'reselect';
 
-const selectGlobal = (state) => state.get('global');
+const selectGlobal = (state) => state.get('app');
 
 const selectRoute = (state) => state.get('route');
 
@@ -14,4 +14,21 @@ const makeSelectLocation = () =>
     (routeState) => routeState.get('location').toJS()
   );
 
-export { selectGlobal, makeSelectLocation };
+const makeSelectIsLoggingIn = () =>
+  createSelector(
+    selectGlobal,
+    (routeState) => routeState.get('isLoggingIn')
+  );
+
+const makeSelectIsLoggedIn = () =>
+  createSelector(
+    selectGlobal,
+    (routeState) => routeState.get('isLoggedIn')
+  );
+
+export {
+  selectGlobal,
+  makeSelectLocation,
+  makeSelectIsLoggingIn,
+  makeSelectIsLoggedIn
+};

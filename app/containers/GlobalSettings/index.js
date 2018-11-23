@@ -86,4 +86,3 @@ export default compose(
   withConnect,
   withRouter
 )(GlobalSettings);
-export { mapDispatchToProps };

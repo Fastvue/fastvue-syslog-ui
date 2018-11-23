@@ -32,7 +32,7 @@ class HomePage extends React.PureComponent {
   render() {
     return (
       <Fragment>
-        <Header appVersion={this.props.appVersion} />
+        {/* <Header appVersion={this.props.appVersion} /> */}
         <Container fluid>
           <Row>
             <SideBar
