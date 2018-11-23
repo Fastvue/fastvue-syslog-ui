@@ -3,18 +3,17 @@ import { compose } from 'redux';
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
-import StatTile from 'components/StatTile';
 import Tabs from 'components/Tabs';
 import StatsTab from 'components/StatsTab';
 import ReactTable from 'react-table';
 
-import { Col, Row, Button, TabContent, TabPane, Alert } from 'reactstrap';
+import { Col, Button, TabContent, TabPane, Alert } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import formatValues from 'utils/helpers';
 import {
   fetchSourceStats,
   fetchGlobalStats,
@@ -36,11 +35,11 @@ import {
   StyledSourceIP,
   StyledSHALink
 } from './style';
-import columns from './temp';
-
-import formatValues from 'utils/helpers';
 
 import './style.scss';
+
+const parseSHA = (string) =>
+  string.substring(string.lastIndexOf('.') + 1).toUpperCase();
 
 const tabsConfig = [
   {
@@ -135,7 +134,6 @@ class MainContent extends React.PureComponent {
         )
       }
     ];
-    // <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6D6" />
     const Sorted = null;
     const genericHeaderArrows = () => ({
       Header: (props) => (
@@ -240,12 +238,12 @@ class MainContent extends React.PureComponent {
                               }&amp;file=${row.sha}`}
                               download={row.sha}
                             >
-                              SHA256
+                              {parseSHA(row.sha)}
                             </StyledSHALink>
                           </span>
                         ),
-                        className: 'text-left',
-                        style: { whiteSpace: 'unset', width: '41%' }
+                        className: 'text-left text-capitalize',
+                        style: { whiteSpace: 'unset' }
                       },
                       {
                         id: 'size',
@@ -253,8 +251,7 @@ class MainContent extends React.PureComponent {
                         HeaderText: 'Size',
                         HeaderTextAlign: 'right',
                         accessor: (row) => formatValues('Bytes', row.size),
-                        className: 'text-right',
-                        style: { width: '12%' }
+                        className: 'text-right'
                       },
                       {
                         id: 'messageCount',
@@ -263,8 +260,7 @@ class MainContent extends React.PureComponent {
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
                           formatValues('Numeric', row.messageCount),
-                        className: 'text-right',
-                        style: { width: '18%' }
+                        className: 'text-right'
                       },
                       {
                         id: 'modified',
@@ -274,7 +270,7 @@ class MainContent extends React.PureComponent {
                         accessor: (row) =>
                           new Date(row.modified).toLocaleString(),
                         className: 'text-right',
-                        style: { whiteSpace: 'unset', width: '29%' }
+                        style: { whiteSpace: 'unset' }
                       }
                     ]}
                     defaultPageSize={10}
@@ -325,12 +321,12 @@ class MainContent extends React.PureComponent {
                               }&amp;file=${row.sha}`}
                               download={row.sha}
                             >
-                              SHA256
+                              {parseSHA(row.sha)}
                             </StyledSHALink>
                           </span>
                         ),
                         className: 'text-left',
-                        width: 343
+                        style: { whiteSpace: 'unset' }
                       },
                       {
                         id: 'size',
@@ -347,7 +343,8 @@ class MainContent extends React.PureComponent {
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
                           new Date(row.modified).toLocaleString(),
-                        className: 'text-right'
+                        className: 'text-right',
+                        style: { whiteSpace: 'unset' }
                       }
                     ]}
                     defaultPageSize={10}

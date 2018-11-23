@@ -20,8 +20,9 @@ class Drawer extends Component {
   componentDidUpdate(prevProps) {
     if (
       Object.keys(prevProps.globalSettings).length === 0 &&
-      this.props.globalSettings
+      Object.keys(this.props.globalSettings).length > 0
     ) {
+      console.log('timesss');
       this.setState({ ...this.props.globalSettings });
     }
   }

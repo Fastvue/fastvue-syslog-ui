@@ -32,7 +32,8 @@ import {
   faChevronLeft,
   faSortAmountDown,
   faSortAmountUp,
-  faExchangeAlt
+  faExchangeAlt,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 
 // Import root app
@@ -60,7 +61,8 @@ library.add(
   faChevronLeft,
   faSortAmountDown,
   faSortAmountUp,
-  faExchangeAlt
+  faExchangeAlt,
+  faCheck
 );
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in

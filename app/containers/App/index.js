@@ -15,6 +15,7 @@ import Header from 'components/Header';
 import HomePage from 'containers/HomePage/Loadable';
 import GlobalSettings from 'containers/GlobalSettings/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
+import InitialSetup from 'components/InitialSetup';
 import GlobalStyle from './../../styles/global-styles';
 import {
   login,
@@ -77,6 +78,7 @@ class App extends Component {
     }
 
     if (prevProps.initConfig === 'null' && !this.props.initConfig) {
+      console.log('check');
       this.setState({
         toLogin: false,
         toRoutes: false,
@@ -97,16 +99,16 @@ class App extends Component {
   render() {
     return (
       <div className="app-wrapper">
-        {!this.state.toInitalSetup && (
-          <Header
-            appVersion={this.props.appVersion}
-            toShowLogout={
-              this.state.toShowLogout && this.props.globalSettings.authEnabled
-            }
-            toShowSettings={this.state.toRoutes}
-            onLogout={this.props.logout}
-          />
-        )}
+        <Header
+          appVersion={this.props.appVersion}
+          toShowLogout={
+            this.state.toShowLogout &&
+            this.props.globalSettings.authEnabled &&
+            this.state.toRoutes
+          }
+          toShowSettings={this.state.toRoutes}
+          onLogout={this.props.logout}
+        />
 
         {this.state.toRoutes && (
           <Switch>
@@ -119,6 +121,10 @@ class App extends Component {
             <Route exact path="/settings" component={GlobalSettings} />
             <Route path="" component={NotFoundPage} />
           </Switch>
+        )}
+
+        {this.state.toInitalSetup && (
+          <InitialSetup globalSettings={this.props.globalSettings} />
         )}
 
         {this.state.toLogin && (
