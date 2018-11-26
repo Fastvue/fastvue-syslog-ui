@@ -1,4 +1,3 @@
-const proxy = require('http-proxy-middleware');
 const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -19,14 +18,7 @@ module.exports = function addDevMiddlewares(app, webpackConfig) {
     compiler,
     webpackConfig.output.publicPath
   );
-  app.use(
-    '/api',
-    proxy({
-      target: 'http://localhost:47279/api',
-      logLevel: 'silent',
-      changeOrigin: true
-    })
-  );
+
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
