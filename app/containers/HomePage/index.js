@@ -13,7 +13,6 @@ import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
 
 import reducer from './reducer';
-import saga from './saga';
 
 class HomePage extends Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -67,11 +66,10 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'home', reducer });
-const withSaga = injectSaga({ key: 'home', saga });
+// const withSaga = injectSaga({ key: 'home', saga });
 
 export default compose(
   withReducer,
-  withSaga,
   withConnect
 )(HomePage);
 export { mapDispatchToProps };

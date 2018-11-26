@@ -72,12 +72,14 @@ class App extends Component {
     }
 
     if (!prevProps.isLoggedOut && this.props.isLoggedOut) {
+      console.log('logout');
       document.cookie = 't=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
       this.props.push('/');
       this.setState({
         toLogin: true,
         toRoutes: false,
-        toShowLogout: false
+        toShowLogout: false,
+        toInitalSetup: false
       });
     }
 

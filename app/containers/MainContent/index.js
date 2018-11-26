@@ -37,11 +37,6 @@ import StyledMainContent, {
   StyledTabContent
 } from './style';
 
-const parseSHA = (string) => {
-  return 'SHA256';
-  string.substring(string.lastIndexOf('.') + 1).toUpperCase();
-};
-
 const tabsConfig = [
   {
     id: 'stats',
@@ -70,6 +65,12 @@ class MainContent extends Component {
     } else {
       this.props.fetchGlobalStats();
     }
+
+    if (this.props.match.params.tab === 'stats') {
+      setInterval(() => {
+        this.props.fetchSourceStats(this.props.sourceId);
+      }, 5000);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -82,8 +83,14 @@ class MainContent extends Component {
         this.props.fetchGlobalStats();
       }
     }
+    if (this.props.match.params.tab !== prevProps.match.params.tab) {
+      if (this.props.match.params.tab === 'stats') {
+        setInterval(() => {
+          this.props.fetchSourceStats(this.props.sourceId);
+        }, 5000);
+      }
+    }
   }
-
   getSortedComponent() {
     // const sortInfo = this.state.sorted.filter((item) => item.id === id);
     // if (sortInfo.length) {
@@ -224,7 +231,7 @@ class MainContent extends Component {
                             <a
                               href={`/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&amp;file=${row.name}`}
+                              }&file=${row.name}`}
                               download={row.name}
                             >
                               {row.name}
@@ -232,10 +239,10 @@ class MainContent extends Component {
                             <StyledSHALink
                               href={`/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&amp;file=${row.sha}`}
+                              }&file=${row.sha}`}
                               download={row.sha}
                             >
-                              {parseSHA(row.sha)}
+                              SHA256
                             </StyledSHALink>
                           </span>
                         ),
@@ -308,7 +315,7 @@ class MainContent extends Component {
                             <a
                               href={`/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&amp;file=${row.name}`}
+                              }&file=${row.name}`}
                               download={row.name}
                             >
                               {row.name}
@@ -316,10 +323,10 @@ class MainContent extends Component {
                             <StyledSHALink
                               href={`/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&amp;file=${row.sha}`}
+                              }&file=${row.sha}`}
                               download={row.sha}
                             >
-                              {parseSHA(row.sha)}
+                              SHA256
                             </StyledSHALink>
                           </span>
                         ),

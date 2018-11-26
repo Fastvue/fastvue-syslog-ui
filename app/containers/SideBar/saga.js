@@ -21,10 +21,13 @@ import {
 } from './actions';
 
 export function* fetchSourcesListAPI() {
-  const requestURL = `${process.env.API_URL}/api/sources/list`;
-
+  // const requestURL = `/api/sources/list`;
+  const axiosOptions = {
+    method: 'get',
+    url: '/api/sources/list'
+  };
   try {
-    const sourceList = yield call(request, requestURL);
+    const sourceList = yield call(request, axiosOptions);
     if (sourceList === 'undefined') {
       yield put(push('/'));
     }
@@ -35,16 +38,25 @@ export function* fetchSourcesListAPI() {
 }
 
 export function* toggleSourceAutoDiscover(action) {
-  const requestURL = `${process.env.API_URL}/api/sources/${
-    !action.isSourceEnabled ? 'enable' : 'disable'
-  }`;
-  const requestOptions = {
-    method: 'POST',
-    body: JSON.stringify({ id: action.sourceId })
+  // const requestURL = `/api/sources/${
+  //   !action.isSourceEnabled ? 'enable' : 'disable'
+  // }`;
+  // const requestOptions = {
+  //   method: 'POST',
+  //   body: JSON.stringify({ id: action.sourceId })
+  // };
+
+  const axiosOptions = {
+    method: 'post',
+    url: `/api/sources/${!action.isSourceEnabled ? 'enable' : 'disable'}`,
+    data: { id: action.sourceId }
   };
 
   try {
-    yield call(request, requestURL, requestOptions);
+    const res = yield call(request, axiosOptions);
+    if (res === 'undefined') {
+      yield put(push('/'));
+    }
     yield put(fetchSourceList());
   } catch (err) {
     // yield put(fetchSourceListFail(err));
@@ -52,18 +64,27 @@ export function* toggleSourceAutoDiscover(action) {
 }
 
 export function* addOrUpdateSource(action) {
-  const requestURL = `${process.env.API_URL}/api/sources/add`;
+  // const requestURL = `/api/sources/add`;
   const params = action.fields;
   if (action.id) {
     params.id = action.id;
   }
-  const requestOptions = {
-    method: 'POST',
-    body: JSON.stringify(params)
+  // const requestOptions = {
+  //   method: 'POST',
+  //   body: JSON.stringify(params)
+  // };
+
+  const axiosOptions = {
+    method: 'post',
+    url: '/api/sources/add}',
+    data: params
   };
 
   try {
-    const res = yield call(request, requestURL, requestOptions);
+    const res = yield call(request, axiosOptions);
+    if (res === 'undefined') {
+      yield put(push('/'));
+    }
     yield put(addOrUpdateSourceSuccess(res));
     yield put(fetchSourceList());
     if (action.id) {
@@ -78,14 +99,23 @@ export function* addOrUpdateSource(action) {
 }
 
 export function* deleteSource(action) {
-  const requestURL = `${process.env.API_URL}/api/sources/delete`;
-  const requestOptions = {
-    method: 'POST',
-    body: JSON.stringify({ id: action.sourceId })
+  // const requestURL = `/api/sources/delete`;
+  // const requestOptions = {
+  //   method: 'POST',
+  //   body: JSON.stringify({ id: action.sourceId })
+  // };
+
+  const axiosOptions = {
+    method: 'post',
+    url: '/api/sources/delete',
+    data: { id: action.sourceId }
   };
 
   try {
-    const res = yield call(request, requestURL, requestOptions);
+    const res = yield call(request, axiosOptions);
+    if (res === 'undefined') {
+      yield put(push('/'));
+    }
     yield put(fetchSourceList());
     yield put(deleteSourceSuccess(res));
   } catch (err) {

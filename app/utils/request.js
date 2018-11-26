@@ -1,6 +1,6 @@
 import 'whatwg-fetch';
 
-// import axios from 'axios';
+import axios from 'axios';
 
 /**
  * Parses the JSON returned by a network request
@@ -33,7 +33,12 @@ function parseJSON(response) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 function checkStatus(response) {
+  // if (response.data === undefined) {
+  //   console.log('undefined');
+  //   return 'undefined';
+  // }
   if (response.status >= 200 && response.status < 300) {
+    // return JSON.parse(JSON.stringify(response.data));
     return response;
   }
 
@@ -50,10 +55,11 @@ function checkStatus(response) {
  *
  * @return {object}           The response data
  */
-export default function request(url, options) {
-  return fetch(url, {
+export default function request(options) {
+  return fetch(process.env.API_URL + options.url, {
     ...options,
-    ...(!url.includes('login') && {
+    body: JSON.stringify(options.data),
+    ...(!options.url.includes('login') && {
       withCredentials: true,
       credentials: 'include'
     })
@@ -61,3 +67,13 @@ export default function request(url, options) {
     .then(checkStatus)
     .then(parseJSON);
 }
+
+// export default function request(options) {
+//   return axios({
+//     ...options,
+//     ...(!options.url.includes('login') && {
+//       withCredentials: true,
+//       credentials: 'include'
+//     })
+//   }).then(checkStatus);
+// }

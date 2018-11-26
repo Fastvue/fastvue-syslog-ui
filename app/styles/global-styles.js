@@ -119,6 +119,15 @@ const GlobalStyle = createGlobalStyle`
  width: 31% !important;
 }
 
+
+.ReactTable .rt-thead.-header{
+ box-shadow: none;
+}
+
+.ReactTable .-pagination{
+ box-shadow:none;
+}
+
 `;
 
 export default GlobalStyle;
