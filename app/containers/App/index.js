@@ -52,7 +52,6 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchInitConfig();
     this.props.fetchAppVersion();
-    this.props.fetchGlobalSettings();
 
     const cookie = document.cookie.split(';');
     if (cookie[0]) {

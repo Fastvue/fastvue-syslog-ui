@@ -29,8 +29,11 @@ export function* fetchSourcesListAPI() {
   };
   try {
     const sourceList = yield call(request, axiosOptions);
-
-    yield put(fetchSourceListSuccess(sourceList));
+    if (sourceList === undefined) {
+      yield put(logout());
+    } else {
+      yield put(fetchSourceListSuccess(sourceList));
+    }
   } catch (err) {
     yield put(fetchSourceListFail(err));
   }
@@ -70,7 +73,7 @@ export function* addOrUpdateSource(action) {
   }
   const axiosOptions = {
     method: 'post',
-    url: '/api/sources/add}',
+    url: '/api/sources/add',
     data: params
   };
 

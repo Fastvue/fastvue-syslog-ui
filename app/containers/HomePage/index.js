@@ -16,11 +16,20 @@ import reducer from './reducer';
 
 class HomePage extends Component {
   // eslint-disable-line react/prefer-stateless-function
+
+  state = {
+    intervalId: null
+  };
   componentDidMount() {
     this.props.fetchSourceList();
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       this.props.fetchSourceList();
     }, 5000);
+    this.setState({ intervalId });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
   render() {
     return (

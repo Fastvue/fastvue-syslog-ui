@@ -38,11 +38,12 @@ export function* login(action) {
   };
   try {
     const res = yield call(request, axiosOptions);
-    document.cookie = `t=${res}`;
+
     if (res === undefined || res === '') {
       // yield put(logout());
       yield put(loginFail());
     } else {
+      document.cookie = `t=${res}`;
       yield put(loginSuccess());
     }
   } catch (err) {
@@ -63,7 +64,7 @@ export function* fetchInitConfig() {
     }
   } catch (err) {
     yield put(fetchInitConfigFail());
-    yield put(logout());
+    // yield put(logout());
   }
 }
 
@@ -74,10 +75,10 @@ export function* fetchAppVersion() {
 
   try {
     const appVersion = yield call(request, axiosOptions);
-    if (appVersion === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-    }
+    // if (appVersion === undefined) {
+    //   // yield put(push('/'));
+    //   yield put(logout());
+    // }
 
     yield put(fetchAppVersionSuccess(appVersion));
   } catch (err) {
@@ -93,11 +94,11 @@ export function* fetchGlobalSettings() {
 
   try {
     const globalSettings = yield call(request, axiosOptions);
-    if (globalSettings === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-      return;
-    }
+    // if (globalSettings === undefined) {
+    //   // yield put(push('/'));
+    //   yield put(logout());
+    //   return;
+    // }
     yield put(fetchGlobalSettingsSuccess(globalSettings));
   } catch (err) {
     yield put(fetchGlobalSettingsFail(err));
@@ -120,10 +121,10 @@ export function* updateGlobalSettings(action) {
   };
   try {
     const res = yield call(request, axiosOptions);
-    if (res === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-    }
+    // if (res === undefined) {
+    //   // yield put(push('/'));
+    //   yield put(logout());
+    // }
     yield put(updateGlobalSettingsSuccess());
     yield put(fetchGlobalSettingsSuccess(action.globalSettings));
   } catch (err) {
@@ -143,10 +144,10 @@ export function* fetchAndUpdateGlobalSettings(action) {
   let fetchedGlobalSettings;
   try {
     fetchedGlobalSettings = yield call(request, axiosOptions);
-    if (fetchGlobalSettings === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-    }
+    // if (fetchGlobalSettings === undefined) {
+    //   // yield put(push('/'));
+    //   yield put(logout());
+    // }
   } catch (err) {
     yield put(fetchGlobalSettingsFail(err));
   }
@@ -173,10 +174,10 @@ export function* fetchAndUpdateGlobalSettings(action) {
   };
   try {
     const res = yield call(request, axiosOptionsUpdate);
-    if (res === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-    }
+    // if (res === undefined) {
+    //   // yield put(push('/'));
+    //   yield put(logout());
+    // }
     yield put(fetchGlobalSettingsSuccess(toUpdateGlobalSettings));
   } catch (err) {
     yield put(updateGlobalSettingsFail(err));

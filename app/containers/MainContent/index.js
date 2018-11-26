@@ -103,13 +103,13 @@ class MainContent extends Component {
         });
       }
     }
-    if (this.props.match.params.tab !== prevProps.match.params.tab) {
-      if (this.props.match.params.tab === 'stats') {
-        setInterval(() => {
-          this.props.fetchSourceStats(this.props.sourceId);
-        }, 5000);
-      }
-    }
+    // if (this.props.match.params.tab !== prevProps.match.params.tab) {
+    //   if (this.props.match.params.tab === 'stats') {
+    //     setInterval(() => {
+    //       this.props.fetchSourceStats(this.props.sourceId);
+    //     }, 5000);
+    //   }
+    // }
   }
 
   componentWillUnmount() {
@@ -169,10 +169,10 @@ class MainContent extends Component {
     const Sorted = null;
     const genericHeaderArrows = () => ({
       Header: (props) => (
-        <div className={`text-${props.column.HeaderTextAlign}`}>
+        <span className={`text-${props.column.HeaderTextAlign}`}>
           {props.column.HeaderText}
-          <span style={{ float: 'right' }}> {Sorted}</span>
-        </div>
+          {/* <span style={{ float: 'right' }}> {Sorted}</span> */}
+        </span>
       ),
       headerStyle: { boxShadow: 'none' }
     });
