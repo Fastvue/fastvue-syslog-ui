@@ -100,7 +100,7 @@ class StatsTab extends Component {
       chartSeriesOption =
         this.state.subTab === 'size'
           ? multiSeriesBytesChartOptions
-          : singleSeriesNumericChartOptions;
+          : multiSeriesNumericChartOptions;
     }
 
     const options = {
@@ -129,8 +129,8 @@ class StatsTab extends Component {
                 onClick={() =>
                   (this.props.sourceId
                     ? this.props.history.push(
-                      `/source/${this.props.sourceId}/stats/size`
-                    )
+                        `/source/${this.props.sourceId}/stats/size`
+                      )
                     : this.setState({ subTab: 'size' }))
                 }
               >
@@ -146,8 +146,8 @@ class StatsTab extends Component {
                 onClick={() =>
                   (this.props.sourceId
                     ? this.props.history.push(
-                      `/source/${this.props.sourceId}/stats/messages`
-                    )
+                        `/source/${this.props.sourceId}/stats/messages`
+                      )
                     : this.setState({ subTab: 'messages' }))
                 }
               >
