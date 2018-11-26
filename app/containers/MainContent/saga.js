@@ -36,7 +36,7 @@ export function* fetchSourcesStatsAPI(action) {
 
   try {
     const stats = yield call(request, axiosOptions);
-    if (stats === 'undefined') {
+    if (stats === undefined) {
       yield put(push('/'));
     }
 
@@ -56,7 +56,7 @@ export function* fetchGlobalStatsAPI() {
 
   try {
     const globalStats = yield call(request, axiosOptions);
-    if (globalStats === 'undefined') {
+    if (globalStats === undefined) {
       yield put(push('/'));
     }
     yield put(fetchGlobalStatsSuccess(globalStats));
@@ -83,7 +83,7 @@ export function* fetchSourcesFilesAPI(action) {
   try {
     const files = yield call(request, axiosOptions);
 
-    if (files === 'undefined') {
+    if (files === undefined) {
       yield put(push('/'));
     }
     yield put(fetchSourceFilesSuccess(files));
@@ -110,7 +110,7 @@ export function* fetchSourceArchivesAPI(action) {
 
   try {
     const archives = yield call(request, axiosOptions);
-    if (archives === 'undefined') {
+    if (archives === undefined) {
       yield put(push('/'));
     }
 

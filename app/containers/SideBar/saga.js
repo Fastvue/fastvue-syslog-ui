@@ -1,12 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
 import { push } from 'react-router-dom';
+import { logout } from 'containers/App/actions';
 import {
   FETCH_SOURCE_LIST,
   TOGGLE_SOURCE_AUTO_DISCOVER,
   ADD_OR_UPDATE_SOURCE,
   DELETE_SOURCE
 } from './constants';
+
 import {
   fetchSourceListSuccess,
   fetchSourceListFail,
@@ -21,16 +23,13 @@ import {
 } from './actions';
 
 export function* fetchSourcesListAPI() {
-  // const requestURL = `/api/sources/list`;
   const axiosOptions = {
     method: 'get',
     url: '/api/sources/list'
   };
   try {
     const sourceList = yield call(request, axiosOptions);
-    if (sourceList === 'undefined') {
-      yield put(push('/'));
-    }
+
     yield put(fetchSourceListSuccess(sourceList));
   } catch (err) {
     yield put(fetchSourceListFail(err));
@@ -54,8 +53,8 @@ export function* toggleSourceAutoDiscover(action) {
 
   try {
     const res = yield call(request, axiosOptions);
-    if (res === 'undefined') {
-      yield put(push('/'));
+    if (res === undefined) {
+      yield put(logout());
     }
     yield put(fetchSourceList());
   } catch (err) {
@@ -69,11 +68,6 @@ export function* addOrUpdateSource(action) {
   if (action.id) {
     params.id = action.id;
   }
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify(params)
-  // };
-
   const axiosOptions = {
     method: 'post',
     url: '/api/sources/add}',
@@ -82,8 +76,8 @@ export function* addOrUpdateSource(action) {
 
   try {
     const res = yield call(request, axiosOptions);
-    if (res === 'undefined') {
-      yield put(push('/'));
+    if (res === undefined) {
+      yield put(logout());
     }
     yield put(addOrUpdateSourceSuccess(res));
     yield put(fetchSourceList());
@@ -113,8 +107,8 @@ export function* deleteSource(action) {
 
   try {
     const res = yield call(request, axiosOptions);
-    if (res === 'undefined') {
-      yield put(push('/'));
+    if (res === undefined) {
+      yield put(logout());
     }
     yield put(fetchSourceList());
     yield put(deleteSourceSuccess(res));

@@ -6,7 +6,7 @@ const AuthFailModal = (props) => (
     <ModalHeader toggle={props.onClose}>Error!</ModalHeader>
     <ModalBody>Invalid username or password.</ModalBody>
     <ModalFooter>
-      <Button color="danger" onClick={props.onClose}>
+      <Button color="primary" onClick={props.onClose}>
         OK
       </Button>
     </ModalFooter>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Row, Button } from 'reactstrap';
 import StatTile from 'components/StatTile';
 import { Link } from 'react-router-dom';
+import { unionBy as _unionBy } from 'lodash';
 
 import Highcharts from 'highcharts';
 import { StyledButtonGroup, StyledHighchartsReact } from './styles';
@@ -22,6 +23,7 @@ class StatsTab extends Component {
   };
   render() {
     let series = [];
+    let mergedSeries = [];
     const logFilesSeries = {
       name: 'Log File Size',
       data: []
@@ -55,7 +57,6 @@ class StatsTab extends Component {
           series.push(messageSeries);
         }
       }
-
       chartSeriesOption =
         this.props.subTab === 'size'
           ? multiSeriesBytesChartOptions
@@ -91,9 +92,9 @@ class StatsTab extends Component {
           }
         });
       }
-
       if (this.state.subTab === 'size') {
         series = sizePerDaySeries;
+        mergedSeries = _unionBy(series, series, 'name');
       } else {
         series = msgPerDaySeries;
       }
@@ -103,6 +104,7 @@ class StatsTab extends Component {
           : multiSeriesNumericChartOptions;
     }
 
+    console.log(series, mergedSeries);
     const options = {
       colors,
       ...chartSeriesOption,
@@ -129,8 +131,8 @@ class StatsTab extends Component {
                 onClick={() =>
                   (this.props.sourceId
                     ? this.props.history.push(
-                        `/source/${this.props.sourceId}/stats/size`
-                      )
+                      `/source/${this.props.sourceId}/stats/size`
+                    )
                     : this.setState({ subTab: 'size' }))
                 }
               >
@@ -146,8 +148,8 @@ class StatsTab extends Component {
                 onClick={() =>
                   (this.props.sourceId
                     ? this.props.history.push(
-                        `/source/${this.props.sourceId}/stats/messages`
-                      )
+                      `/source/${this.props.sourceId}/stats/messages`
+                    )
                     : this.setState({ subTab: 'messages' }))
                 }
               >

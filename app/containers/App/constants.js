@@ -1,6 +1,7 @@
 export const LOGIN = 'syslog/App/LOGIN';
 export const LOGIN_SUCCESS = 'syslog/App/LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'syslog/App/LOGIN_FAIL';
+export const RESET_LOGIN_FAIL = 'syslog/App/RESET_LOGIN_FAIL';
 
 export const LOGOUT = 'syslog/App/LOGOUT';
 

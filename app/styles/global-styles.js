@@ -52,6 +52,7 @@ const GlobalStyle = createGlobalStyle`
 
  .ReactTable .rt-resizable-header {
     padding: 6px 24px !important;
+    z-index: 999;
     -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
@@ -59,7 +60,7 @@ const GlobalStyle = createGlobalStyle`
 .ReactTable .rt-resizer:before {
     display: inline-block;
     position: absolute;
-    right: 25px;
+    right: 0px;
     top: 3px;
     height: 18px;
     width: 18px;
@@ -75,15 +76,6 @@ const GlobalStyle = createGlobalStyle`
   margin-left: 20px;
 }
 
-.ReactTable .rt-th.-sort-asc .rt-resizer:before {
-  margin-top: 4px;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAgMTVWNmw0IDQgMS0xLTYtNi02IDYgMSAxIDQtNHY5eiIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==);
-}
-
-.ReactTable .rt-th.-sort-desc .rt-resizer:before {
-  margin-top: 4px;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=);
-}
 
 
 .files_table .-header .rt-tr div:nth-child(1), .files_table .rt-tbody .rt-tr div:nth-child(1),.files_table .-filters .rt-tr div:nth-child(1) {
@@ -132,6 +124,17 @@ const GlobalStyle = createGlobalStyle`
  position: absolute;
  right: 10px;
 }
+
+ .rt-th.-sort-asc .rt-resizer:before {
+  margin-top: 4px !important;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAgMTVWNmw0IDQgMS0xLTYtNi02IDYgMSAxIDQtNHY5eiIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==) !important;
+}
+
+.rt-th.-sort-desc .rt-resizer:before {
+  margin-top: 4px !important;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=)!important;
+}
+
 
 `;
 

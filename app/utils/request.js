@@ -1,7 +1,5 @@
 import 'whatwg-fetch';
 
-import axios from 'axios';
-
 /**
  * Parses the JSON returned by a network request
  *
@@ -10,19 +8,36 @@ import axios from 'axios';
  * @return {object}          The parsed JSON from the request
  */
 function parseJSON(response) {
-  // console.log(response);
+  return response.text().then((text) => {
+    console.log(text === undefined);
+    if (text === 'undefined') {
+      return undefined;
+    }
+    return text ? JSON.parse(text) : {};
+  });
   // console.log(response.json());
   // try {
   //   response.json();
   // } catch (err) {
   //   console.log('undefined');
+  // }\
+  // let val;
+  // try {
+  //   val = response.json();
+  // } catch (err) {
+  //   console.log(err, 'Error');
   // }
-  if (response.status === 204 || response.status === 205) {
-    return null;
-  }
-  // let jsonResponse;
 
-  return response.json();
+  // console.log(val, 'dsfkdsfjdsl');
+  // console.log('dsfdsfdsf', response, response.body);
+  // JSON.parse(JSON.stringify(response.json().body));
+  // // response.json().then((val) => console.log(val));
+  // if (response.status === 204 || response.status === 205) {
+  //   return null;
+  // }
+  // // let jsonResponse;
+
+  // return response.json();
 }
 
 /**
@@ -33,7 +48,7 @@ function parseJSON(response) {
  * @return {object|undefined} Returns either the response, or throws an error
  */
 function checkStatus(response) {
-  // if (response.data === undefined) {
+  // if (response.data ==='undefined') {
   //   console.log('undefined');
   //   return 'undefined';
   // }

@@ -59,6 +59,12 @@ const makeSelectListeningPorts = () =>
     (sideBarState) => sideBarState.get('listeningPorts')
   );
 
+const makeSelectIsLoginFail = () =>
+  createSelector(
+    selectGlobal,
+    (sideBarState) => sideBarState.get('isLoginFail')
+  );
+
 export {
   selectGlobal,
   makeSelectLocation,
@@ -69,5 +75,6 @@ export {
   makeSelectIsLoggedOut,
   makeSelectGlobalSettings,
   makeSelectUpdateGlobalSettingsLoading,
-  makeSelectListeningPorts
+  makeSelectListeningPorts,
+  makeSelectIsLoginFail
 };

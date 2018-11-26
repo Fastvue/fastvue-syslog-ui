@@ -4,6 +4,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  RESET_LOGIN_FAIL,
   FETCH_INIT_CONFIG_SUCCESS,
   FETCH_APP_VERSION_SUCCESS,
   LOGOUT,
@@ -18,6 +19,7 @@ const initialState = fromJS({
   isLoggedIn: false,
   isLoggedOut: false,
   isLoggingIn: false,
+  isLoginFail: false,
   initConfig: 'null',
   appVersion: '',
   globalSettings: {},
@@ -35,9 +37,12 @@ function appReducer(state = initialState, action) {
       return state
         .set('isLoggingIn', false)
         .set('isLoggedIn', true)
-        .set('isLoggedOut', false);
+        .set('isLoggedOut', false)
+        .set('isLoginFail', false);
     case LOGIN_FAIL:
-      return state.set('isLoggingIn', false).set('isLoggedIn', false);
+      return state.set('isLoginFail', true);
+    case RESET_LOGIN_FAIL:
+      return state.set('isLoginFail', false);
     case FETCH_PORTS_SUCCESS:
       return state.set('listeningPorts', action.ports);
 

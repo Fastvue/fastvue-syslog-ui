@@ -25,7 +25,8 @@ import {
   fetchAppVersion,
   fetchGlobalSettings,
   logout,
-  fetchPorts
+  fetchPorts,
+  resetLoginFail
 } from './actions';
 import {
   makeSelectIsLoggedIn,
@@ -35,7 +36,8 @@ import {
   makeSelectIsLoggedOut,
   makeSelectGlobalSettings,
   makeSelectListeningPorts,
-  makeSelectUpdateGlobalSettingsLoading
+  makeSelectUpdateGlobalSettingsLoading,
+  makeSelectIsLoginFail
 } from './selectors';
 
 import reducer from './reducer';
@@ -44,9 +46,7 @@ import saga from './saga';
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
   state = {
-    toLogin: false,
-    toRoutes: false,
-    toInitalSetup: false,
+    show: null,
     toShowLogout: false
   };
   componentDidMount() {
@@ -64,9 +64,7 @@ class App extends Component {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
       this.props.fetchGlobalSettings();
       this.setState({
-        toLogin: false,
-        toRoutes: true,
-        toInitalSetup: false,
+        show: 'routes',
         toShowLogout: true
       });
     }
@@ -75,10 +73,8 @@ class App extends Component {
       document.cookie = 't=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
       this.props.push('/');
       this.setState({
-        toLogin: true,
-        toRoutes: false,
-        toShowLogout: false,
-        toInitalSetup: false
+        show: 'login',
+        toShowLogout: false
       });
     }
 
@@ -86,9 +82,7 @@ class App extends Component {
       this.props.fetchPorts();
       this.props.push('/');
       this.setState({
-        toLogin: false,
-        toRoutes: false,
-        toInitalSetup: true
+        show: 'initialSetup'
       });
     }
 
@@ -98,7 +92,7 @@ class App extends Component {
       this.props.initConfig !== prevProps.initConfig
     ) {
       this.setState({
-        toRoutes: true,
+        show: 'routes',
         toShowLogout: true
       });
     }
@@ -109,9 +103,7 @@ class App extends Component {
         this.props.isUpdateGlobalSettingsLoading
     ) {
       this.setState({
-        toRoutes: true,
-        toLogin: false,
-        toInitalSetup: false,
+        show: 'routes',
         toShowLogout: true
       });
     }
@@ -124,13 +116,12 @@ class App extends Component {
           toShowLogout={
             this.state.toShowLogout &&
             this.props.globalSettings.authEnabled &&
-            this.state.toRoutes
+            this.state.show === 'routes'
           }
-          toShowSettings={this.state.toRoutes}
+          toShowSettings={this.state.show === 'routes'}
           onLogout={this.props.logout}
         />
-
-        {this.state.toRoutes && (
+        {this.state.show === 'routes' && (
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route
@@ -146,17 +137,18 @@ class App extends Component {
             <Route path="" component={NotFoundPage} />
           </Switch>
         )}
-
-        {this.state.toInitalSetup && (
+        {this.state.show === 'initialSetup' && (
           <InitSetupAndGlobalSetting
             globalSettings={this.props.globalSettings}
             ports={this.props.listeningPorts}
             initSetup
           />
         )}
-
-        {this.state.toLogin && (
+        {this.state.show === 'login' && (
           <Login onSubmit={(fields) => this.props.login(fields)} />
+        )}
+        {this.props.isLoginFail && (
+          <AuthFailModal onClose={this.props.resetLoginFail} />
         )}
         <GlobalStyle />
       </Fragment>
@@ -174,7 +166,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchGlobalSettings: () => dispatch(fetchGlobalSettings()),
   logout: () => dispatch(logout()),
   push: (path) => dispatch(push(path)),
-  fetchPorts: () => dispatch(fetchPorts())
+  fetchPorts: () => dispatch(fetchPorts()),
+  resetLoginFail: () => dispatch(resetLoginFail())
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -185,7 +178,8 @@ const mapStateToProps = createStructuredSelector({
   appVersion: makeSelectAppVersion(),
   globalSettings: makeSelectGlobalSettings(),
   listeningPorts: makeSelectListeningPorts(),
-  isUpdateGlobalSettingsLoading: makeSelectUpdateGlobalSettingsLoading()
+  isUpdateGlobalSettingsLoading: makeSelectUpdateGlobalSettingsLoading(),
+  isLoginFail: makeSelectIsLoginFail()
 });
 
 const withReducer = injectReducer({ key: 'app', reducer });

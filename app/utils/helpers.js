@@ -4,7 +4,7 @@ export const isNormalInteger = (str) => {
 };
 export const formatNumber = (number) => {
   // returns an appropriatly formatted number with decimal places and thousand separators
-  if (number === undefined) {
+  if (number ==='undefined') {
     return 'undefined';
   }
 

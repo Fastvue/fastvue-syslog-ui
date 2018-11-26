@@ -55,32 +55,52 @@ const tabsConfig = [
 class MainContent extends Component {
   // eslint-disable-line react/prefer-stateless-function
   state = {
-    sorted: []
+    sorted: [],
+    intervalId: null
   };
   componentDidMount() {
+    const tab = this.props.match.params.tab;
     if (this.props.sourceId) {
       this.props.fetchSourceStats(this.props.sourceId);
-      this.props.fetchSourceFiles(this.props.sourceId);
-      this.props.fetchSourceArchives(this.props.sourceId);
+      tab === 'files' && this.props.fetchSourceFiles(this.props.sourceId);
+      tab === 'archives' && this.props.fetchSourceArchives(this.props.sourceId);
+      if (tab === 'stats') {
+        const intervalId = setInterval(() => {
+          this.props.fetchSourceStats(this.props.sourceId);
+        }, 5000);
+        this.setState({
+          intervalId
+        });
+      }
     } else {
       this.props.fetchGlobalStats();
-    }
-
-    if (this.props.match.params.tab === 'stats') {
-      setInterval(() => {
-        this.props.fetchSourceStats(this.props.sourceId);
-      }, 5000);
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.sourceId !== prevProps.sourceId) {
+    const tab = this.props.match.params.tab;
+    if (
+      this.props.sourceId !== prevProps.sourceId ||
+      prevProps.match.params.tab !== tab
+    ) {
       if (this.props.sourceId) {
-        this.props.fetchSourceStats(this.props.sourceId);
-        this.props.fetchSourceFiles(this.props.sourceId);
-        this.props.fetchSourceArchives(this.props.sourceId);
+        tab === 'stats' && this.props.fetchSourceStats(this.props.sourceId);
+        tab === 'files' && this.props.fetchSourceFiles(this.props.sourceId);
+        tab === 'archives' &&
+          this.props.fetchSourceArchives(this.props.sourceId);
       } else {
         this.props.fetchGlobalStats();
+      }
+      if (tab !== 'stats') {
+        clearInterval(this.state.intervalId);
+      } else {
+        clearInterval(this.state.intervalId);
+        const intervalId = setInterval(() => {
+          this.props.fetchSourceStats(this.props.sourceId);
+        }, 5000);
+        this.setState({
+          intervalId
+        });
       }
     }
     if (this.props.match.params.tab !== prevProps.match.params.tab) {
@@ -90,6 +110,10 @@ class MainContent extends Component {
         }, 5000);
       }
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
   }
   getSortedComponent() {
     // const sortInfo = this.state.sorted.filter((item) => item.id === id);
@@ -229,15 +253,19 @@ class MainContent extends Component {
                         accessor: (row) => (
                           <span>
                             <a
-                              href={`http://localhost:47279/api/sources/getfile?id=${
+                              href={`${
+                                process.env.API_URL
+                              }/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&;file=${row.name}`}
+                              }&file=${row.name}`}
                               download={row.name}
                             >
                               {row.name}
                             </a>
                             <StyledSHALink
-                              href={`/api/sources/getfile?id=${
+                              href={`${
+                                process.env.API_URL
+                              }/api/sources/getfile?id=${
                                 this.props.sourceId
                               }&file=${row.sha}`}
                               download={row.sha}
@@ -313,7 +341,9 @@ class MainContent extends Component {
                           <span>
                             {' '}
                             <a
-                              href={`/api/sources/getfile?id=${
+                              href={`${
+                                process.env.API_URL
+                              }/api/sources/getarchive?id=${
                                 this.props.sourceId
                               }&file=${row.name}`}
                               download={row.name}
@@ -321,7 +351,9 @@ class MainContent extends Component {
                               {row.name}
                             </a>
                             <StyledSHALink
-                              href={`/api/sources/getfile?id=${
+                              href={`${
+                                process.env.API_URL
+                              }/api/sources/getarchive?id=${
                                 this.props.sourceId
                               }&file=${row.sha}`}
                               download={row.sha}

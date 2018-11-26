@@ -2,6 +2,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  RESET_LOGIN_FAIL,
   LOGOUT,
   FETCH_INIT_CONFIG,
   FETCH_INIT_CONFIG_FAIL,
@@ -34,6 +35,10 @@ export const login = (credentials) => ({
 
 export const loginSuccess = () => ({
   type: LOGIN_SUCCESS
+});
+
+export const resetLoginFail = () => ({
+  type: RESET_LOGIN_FAIL
 });
 
 export const loginFail = () => ({
