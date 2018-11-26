@@ -14,13 +14,11 @@ class ListeningPortsModal extends PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps, this.props);
     if (prevProps.ports !== this.props.ports) {
       this.setState({ ports: this.props.ports });
     }
   }
   render() {
-    console.log(this.props.ports);
     return (
       <Modal isOpen toggle={this.props.onClose}>
         <ModalHeader toggle={this.props.onClose}>
