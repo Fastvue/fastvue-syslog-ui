@@ -11,6 +11,7 @@ import MainContent from 'containers/MainContent/Loadable';
 import { Row, Container } from 'reactstrap';
 import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
+import { fetchGlobalSettings } from 'containers/App/actions';
 
 import reducer from './reducer';
 
@@ -22,6 +23,7 @@ class HomePage extends Component {
   };
   componentDidMount() {
     this.props.fetchSourceList();
+    this.props.fetchGlobalSettings();
     const intervalId = setInterval(() => {
       this.props.fetchSourceList();
     }, 5000);
@@ -62,7 +64,8 @@ HomePage.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchSourceList: () => dispatch(fetchSourceList())
+  fetchSourceList: () => dispatch(fetchSourceList()),
+  fetchGlobalSettings: () => dispatch(fetchGlobalSettings())
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -75,7 +78,6 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'home', reducer });
-// const withSaga = injectSaga({ key: 'home', saga });
 
 export default compose(
   withReducer,
