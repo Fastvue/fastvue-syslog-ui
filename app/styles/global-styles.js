@@ -128,6 +128,11 @@ const GlobalStyle = createGlobalStyle`
  box-shadow:none;
 }
 
+.ReactTable .rt-th .text-right{
+ position: absolute;
+ right: 10px;
+}
+
 `;
 
 export default GlobalStyle;

@@ -229,9 +229,9 @@ class MainContent extends Component {
                         accessor: (row) => (
                           <span>
                             <a
-                              href={`/api/sources/getfile?id=${
+                              href={`http://localhost:47279/api/sources/getfile?id=${
                                 this.props.sourceId
-                              }&file=${row.name}`}
+                              }&;file=${row.name}`}
                               download={row.name}
                             >
                               {row.name}

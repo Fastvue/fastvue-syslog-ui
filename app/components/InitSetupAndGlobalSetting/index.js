@@ -32,7 +32,7 @@ import {
 } from 'containers/App/selectors';
 // eslint-disable-next-line react/prefer-stateless-function
 class InitSetupAndGlobalSetting extends Component {
-  state = { ...this.props.globalSettings };
+  state = {};
 
   componentDidMount() {
     if (!this.props.initSetup) {
@@ -40,12 +40,17 @@ class InitSetupAndGlobalSetting extends Component {
     } else {
       this.setState({ ports: this.props.ports });
     }
+
+    if (this.props.globalSettings) {
+      this.setState({ ...this.props.globalSettings });
+    }
   }
   componentDidUpdate(prevProps) {
     if (
       Object.keys(prevProps.globalSettings).length === 0 &&
       Object.keys(this.props.globalSettings).length > 0
     ) {
+      console.log('okk');
       this.setState({ ...this.props.globalSettings });
     }
 
@@ -77,7 +82,7 @@ class InitSetupAndGlobalSetting extends Component {
           <Input
             type="checkbox"
             checked={this.state.authEnabled}
-            onClick={() =>
+            onChange={() =>
               this.setState({ authEnabled: !this.state.authEnabled })
             }
           />
