@@ -59,7 +59,10 @@ class Login extends Component {
 
         <ModalFooter>
           <FormGroup>
-            <Button onClick={() => this.props.onSubmit(this.state)}>
+            <Button
+              color="success"
+              onClick={() => this.props.onSubmit(this.state)}
+            >
               {this.props.loading ? (
                 <Fragment>
                   <FontAwesomeIcon spin icon="circle-notch" /> Logging
