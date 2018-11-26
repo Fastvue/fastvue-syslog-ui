@@ -14,9 +14,15 @@ export const MainHeadingContainer = styled.div`
 export const StyledDisplayName = styled.span`
   margin: 0 10px;
   font-size: 28px;
+  @media screen and (max-width: ${variables.defaultBreakPoint}) {
+    word-break: break-all;
+  }
 `;
 export const StyledSourceIP = styled.span`
   margin-top: 10px;
+  @media screen and (max-width: ${variables.defaultBreakPoint}) {
+    word-break: break-all;
+  }
 `;
 
 export const StyledSHALink = styled.a`
@@ -33,15 +39,13 @@ export const StyledTabContent = styled(TabContent)`
 `;
 
 const StyledMainContent = styled(Col)`
-   {
-    background-color: #fafafa;
+  background-color: #fafafa;
 
-    @media screen and (min-width: ${variables.defaultBreakPoint}) {
-      position: absolute !important;
-      top: 59.236px;
-      right: 0;
-      bottom: 0;
-    }
+  @media screen and (min-width: ${variables.defaultBreakPoint}) {
+    position: absolute !important;
+    top: 59.236px;
+    right: 0;
+    bottom: 0;
   }
 `;
 

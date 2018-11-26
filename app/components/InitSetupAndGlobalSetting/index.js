@@ -50,7 +50,6 @@ class InitSetupAndGlobalSetting extends Component {
       Object.keys(prevProps.globalSettings).length === 0 &&
       Object.keys(this.props.globalSettings).length > 0
     ) {
-      console.log('okk');
       this.setState({ ...this.props.globalSettings });
     }
 

@@ -23,12 +23,12 @@ import {
 } from './actions';
 
 export function* fetchSourcesListAPI() {
-  const axiosOptions = {
+  const requestOptions = {
     method: 'get',
     url: '/api/sources/list'
   };
   try {
-    const sourceList = yield call(request, axiosOptions);
+    const sourceList = yield call(request, requestOptions);
     if (sourceList === undefined) {
       yield put(logout());
     } else {
@@ -40,45 +40,34 @@ export function* fetchSourcesListAPI() {
 }
 
 export function* toggleSourceAutoDiscover(action) {
-  // const requestURL = `/api/sources/${
-  //   !action.isSourceEnabled ? 'enable' : 'disable'
-  // }`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({ id: action.sourceId })
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: `/api/sources/${!action.isSourceEnabled ? 'enable' : 'disable'}`,
     data: { id: action.sourceId }
   };
 
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
     if (res === undefined) {
       yield put(logout());
     }
     yield put(fetchSourceList());
-  } catch (err) {
-    // yield put(fetchSourceListFail(err));
-  }
+  } catch (err) {}
 }
 
 export function* addOrUpdateSource(action) {
-  // const requestURL = `/api/sources/add`;
   const params = action.fields;
   if (action.id) {
     params.id = action.id;
   }
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/sources/add',
     data: params
   };
 
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
     if (res === undefined) {
       yield put(logout());
     }
@@ -96,20 +85,14 @@ export function* addOrUpdateSource(action) {
 }
 
 export function* deleteSource(action) {
-  // const requestURL = `/api/sources/delete`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({ id: action.sourceId })
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/sources/delete',
     data: { id: action.sourceId }
   };
 
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
     if (res === undefined) {
       yield put(logout());
     }

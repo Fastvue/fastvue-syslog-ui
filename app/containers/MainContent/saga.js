@@ -20,13 +20,7 @@ import {
 } from './actions';
 
 export function* fetchSourcesStatsAPI(action) {
-  // const requestURL = `/api/sources/stats`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify()
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'POST',
     url: '/api/sources/stats',
     data: {
@@ -35,7 +29,7 @@ export function* fetchSourcesStatsAPI(action) {
   };
 
   try {
-    const stats = yield call(request, axiosOptions);
+    const stats = yield call(request, requestOptions);
     if (stats === undefined) {
       yield put(push('/'));
     }
@@ -47,15 +41,13 @@ export function* fetchSourcesStatsAPI(action) {
 }
 
 export function* fetchGlobalStatsAPI() {
-  // const requestURL = `/api/sources/globalstats`;
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'get',
     url: '/api/sources/globalstats'
   };
 
   try {
-    const globalStats = yield call(request, axiosOptions);
+    const globalStats = yield call(request, requestOptions);
     if (globalStats === undefined) {
       yield put(push('/'));
     }
@@ -66,13 +58,7 @@ export function* fetchGlobalStatsAPI() {
 }
 
 export function* fetchSourcesFilesAPI(action) {
-  // const requestURL =;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify()
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/sources/filelist',
     data: {
@@ -81,7 +67,7 @@ export function* fetchSourcesFilesAPI(action) {
   };
 
   try {
-    const files = yield call(request, axiosOptions);
+    const files = yield call(request, requestOptions);
 
     if (files === undefined) {
       yield put(push('/'));
@@ -93,14 +79,7 @@ export function* fetchSourcesFilesAPI(action) {
 }
 
 export function* fetchSourceArchivesAPI(action) {
-  // const requestURL = `/api/sources/archivelist`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     id: action.sourceId
-  //   })
-  // };
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/sources/archivelist',
     data: {
@@ -109,7 +88,7 @@ export function* fetchSourceArchivesAPI(action) {
   };
 
   try {
-    const archives = yield call(request, axiosOptions);
+    const archives = yield call(request, requestOptions);
     if (archives === undefined) {
       yield put(push('/'));
     }

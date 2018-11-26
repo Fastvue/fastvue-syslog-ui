@@ -31,16 +31,15 @@ import {
 } from './actions';
 
 export function* login(action) {
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/auth/login',
     data: action.credentials
   };
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
 
     if (res === undefined || res === '') {
-      // yield put(logout());
       yield put(loginFail());
     } else {
       document.cookie = `t=${res}`;
@@ -52,11 +51,11 @@ export function* login(action) {
 }
 
 export function* fetchInitConfig() {
-  const axiosOptions = {
+  const requestOptions = {
     url: '/api/settings/getinitconfigured'
   };
   try {
-    const config = yield call(request, axiosOptions);
+    const config = yield call(request, requestOptions);
     if (config === undefined) {
       yield put(logout());
     } else {
@@ -64,21 +63,16 @@ export function* fetchInitConfig() {
     }
   } catch (err) {
     yield put(fetchInitConfigFail());
-    // yield put(logout());
   }
 }
 
 export function* fetchAppVersion() {
-  const axiosOptions = {
+  const requestOptions = {
     url: '/api/appinfo/version'
   };
 
   try {
-    const appVersion = yield call(request, axiosOptions);
-    // if (appVersion === undefined) {
-    //   // yield put(push('/'));
-    //   yield put(logout());
-    // }
+    const appVersion = yield call(request, requestOptions);
 
     yield put(fetchAppVersionSuccess(appVersion));
   } catch (err) {
@@ -87,18 +81,14 @@ export function* fetchAppVersion() {
 }
 
 export function* fetchGlobalSettings() {
-  const axiosOptions = {
+  const requestOptions = {
     method: 'get',
     url: '/api/settings/globalsettings'
   };
 
   try {
-    const globalSettings = yield call(request, axiosOptions);
-    // if (globalSettings === undefined) {
-    //   // yield put(push('/'));
-    //   yield put(logout());
-    //   return;
-    // }
+    const globalSettings = yield call(request, requestOptions);
+
     yield put(fetchGlobalSettingsSuccess(globalSettings));
   } catch (err) {
     yield put(fetchGlobalSettingsFail(err));
@@ -106,25 +96,14 @@ export function* fetchGlobalSettings() {
 }
 
 export function* updateGlobalSettings(action) {
-  // const requestURL = `/api/settings/setglobalsettings`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     ...action.globalSettings
-  //   })
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/settings/setglobalsettings',
     data: action.globalSettings
   };
   try {
-    const res = yield call(request, axiosOptions);
-    // if (res === undefined) {
-    //   // yield put(push('/'));
-    //   yield put(logout());
-    // }
+    const res = yield call(request, requestOptions);
+
     yield put(updateGlobalSettingsSuccess());
     yield put(fetchGlobalSettingsSuccess(action.globalSettings));
   } catch (err) {
@@ -133,9 +112,7 @@ export function* updateGlobalSettings(action) {
 }
 
 export function* fetchAndUpdateGlobalSettings(action) {
-  // const requestURL = ;
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'get',
     url: '/api/settings/globalsettings',
     data: action.globalSettings
@@ -143,11 +120,7 @@ export function* fetchAndUpdateGlobalSettings(action) {
 
   let fetchedGlobalSettings;
   try {
-    fetchedGlobalSettings = yield call(request, axiosOptions);
-    // if (fetchGlobalSettings === undefined) {
-    //   // yield put(push('/'));
-    //   yield put(logout());
-    // }
+    fetchedGlobalSettings = yield call(request, requestOptions);
   } catch (err) {
     yield put(fetchGlobalSettingsFail(err));
   }
@@ -157,27 +130,14 @@ export function* fetchAndUpdateGlobalSettings(action) {
     autoDiscover: !action.autoDiscover
   };
 
-  // const updateRequestURL = `${
-  //   process.env.API_URL
-  // }/api/settings/setglobalsettings`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({
-  //     ...toUpdateGlobalSettings
-  //   })
-  // };
-
-  const axiosOptionsUpdate = {
+  const requestOptionsUpdate = {
     method: 'post',
     url: '/api/settings/setglobalsettings',
     data: toUpdateGlobalSettings
   };
   try {
-    const res = yield call(request, axiosOptionsUpdate);
-    // if (res === undefined) {
-    //   // yield put(push('/'));
-    //   yield put(logout());
-    // }
+    const res = yield call(request, requestOptionsUpdate);
+
     yield put(fetchGlobalSettingsSuccess(toUpdateGlobalSettings));
   } catch (err) {
     yield put(updateGlobalSettingsFail(err));
@@ -185,19 +145,13 @@ export function* fetchAndUpdateGlobalSettings(action) {
 }
 
 export function* updatePorts(action) {
-  // const requestURL = `/api/settings/setports`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify(action.ports.split(','))
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/settings/setports',
     data: action.ports.split(',')
   };
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
     if (res === undefined) {
       // yield put(push('/'));
       yield put(logout());
@@ -210,17 +164,14 @@ export function* updatePorts(action) {
 }
 
 export function* fetchPorts() {
-  // const requestURL =
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'get',
     url: '/api/settings/ports'
   };
 
   try {
-    const ports = yield call(request, axiosOptions);
+    const ports = yield call(request, requestOptions);
     if (ports === undefined) {
-      // yield put(push('/'));
       yield put(logout());
     }
     yield put(fetchPortsSuccess(ports.join(',')));
@@ -230,28 +181,18 @@ export function* fetchPorts() {
 }
 
 export function* updateInitConfig() {
-  // const requestURL = `/api/settings/setinitconfigured`;
-  // const requestOptions = {
-  //   method: 'POST',
-  //   body: JSON.stringify({ initConfigured: true })
-  // };
-
-  const axiosOptions = {
+  const requestOptions = {
     method: 'post',
     url: '/api/settings/setinitconfigured',
     data: { initConfigured: true }
   };
 
   try {
-    const res = yield call(request, axiosOptions);
+    const res = yield call(request, requestOptions);
     if (res === undefined) {
-      // yield put(push('/'));
       yield put(logout());
     }
-    // yield put(updatePortsSuccess());
-  } catch (err) {
-    // yield put(updatePortsFail(err));
-  }
+  } catch (err) {}
 }
 
 export default function* appSaga() {
