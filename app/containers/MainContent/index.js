@@ -37,8 +37,10 @@ import StyledMainContent, {
   StyledTabContent
 } from './style';
 
-const parseSHA = (string) =>
+const parseSHA = (string) => {
+  return 'SHA256';
   string.substring(string.lastIndexOf('.') + 1).toUpperCase();
+};
 
 const tabsConfig = [
   {
