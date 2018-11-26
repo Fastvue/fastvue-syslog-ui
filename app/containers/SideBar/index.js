@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
@@ -8,22 +8,29 @@ import Tile from 'components/Tile';
 import SourceListItem from 'components/SourceListItem';
 import SourceEditor from 'components/SourceEditor';
 
-import {
-  Row,
-  Col,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  Button,
-  ModalHeader,
-  Input
-} from 'reactstrap';
+import { Row } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import { makeSelectGlobalSettings } from 'containers/App/selectors';
-import { fetchAndUpdateGlobalSettings } from 'containers/App/actions';
+import {
+  DeleteSourceModal,
+  ListeningPortsModal,
+  ListeningPortsSuccessModal,
+  DeleteSourceSuccessModal,
+  AddSourceSuccessModal
+} from 'components/Modals';
+
+import {
+  updatePorts,
+  fetchPorts,
+  fetchAndUpdateGlobalSettings
+} from 'containers/App/actions';
+
+import {
+  makeSelectListeningPorts,
+  makeSelectGlobalSettings
+} from 'containers/App/selectors';
 
 import {
   fetchSourceList,
@@ -38,21 +45,19 @@ import {
   closeSourceEditor,
   addOrUpdateSource,
   deleteSource,
-  updatePorts,
-  fetchPorts,
   updateToBeDeletedSource,
   toggleDeleteSourceSuccessModal,
   toggleListeningPortSuccessModal,
   toggleAddSourceSuccessModal,
   updateActiveSource
 } from './actions';
+
 import {
   makeSelectSourceList,
   makeSelectIsAddSysLogSourceOpen,
   makeSelectIsListeningPortModalOpen,
   makeSelectSourceIdWhoseSourceEditorIsOpen,
   makeSelectIsDeleteSourceModalOpen,
-  makeSelectListeningPorts,
   makeSelectIsListeningPortSuccessModalOpen,
   makeSelectIsDeleteSourceSuccessModalOpen,
   makeSelectToBeDeletedSource,
@@ -63,14 +68,10 @@ import {
 import reducer from './reducer';
 import saga from './saga';
 
-import './style.scss';
+import StyledSideBar, { StyledTileContainer } from './style';
 
-class SideBar extends React.PureComponent {
+class SideBar extends Component {
   // eslint-disable-line react/prefer-stateless-function
-
-  state = {
-    listeningPorts: ''
-  };
   componentDidMount() {
     this.props.fetchSourceList();
   }
@@ -91,7 +92,7 @@ class SideBar extends React.PureComponent {
       this.props.fetchPorts();
     }
 
-    if (!this.props.listeningPorts !== prevProps.listeningPorts) {
+    if (!this.props.listeningPorts && prevProps.listeningPorts) {
       this.setState({ listeningPorts: this.props.listeningPorts });
     }
 
@@ -111,137 +112,63 @@ class SideBar extends React.PureComponent {
     );
   };
 
+  handleListeningPortsModalSubmit = (ports) => {
+    this.props.closeListeningPortModal();
+    this.props.updatePorts(ports);
+    this.props.toggleListeningPortSuccessModal();
+  };
+
+  handleDeleteSourceModalSubmit = () => {
+    this.props.closeDeleteSourceModal();
+    this.props.deleteSource(this.props.toBeDeletedSource.id);
+    this.props.toggleDeleteSourceSuccessModal();
+  };
+
+  handleSourceSettingButtonClick = (id) => {
+    this.props.openSourceEditor(id);
+    this.props.isAddSysLogSourceOpen && this.props.closeSyslogSourceAddForm();
+  };
+
   render() {
     return (
-      <Col className="sidebar" md={12} lg={4} xl={3}>
-        <Modal
-          isOpen={this.props.isListeningPortModalOpen}
-          toggle={() => this.props.closeListeningPortModal()}
-        >
-          <ModalHeader toggle={() => this.props.closeListeningPortModal()}>
-            Edit Syslog Listening Ports
-          </ModalHeader>
-          <ModalBody>
-            Enter each port to listen on, separated by commas
-            <Input
-              type="text"
-              value={this.state.listeningPorts}
-              onChange={(e) => {
-                this.setState({ listeningPorts: e.target.value });
-              }}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="secondary"
-              onClick={() => this.props.closeListeningPortModal()}
-            >
-              Cancel
-            </Button>{' '}
-            <Button
-              color="primary"
-              onClick={() => {
-                this.props.closeListeningPortModal();
-                this.props.updatePorts(this.props.listeningPorts);
-                this.props.toggleListeningPortSuccessModal();
-              }}
-            >
-              OK
-            </Button>
-          </ModalFooter>
-        </Modal>
+      <StyledSideBar md={12} lg={4} xl={3}>
+        {this.props.isListeningPortModalOpen && (
+          <ListeningPortsModal
+            ports={this.props.listeningPorts}
+            onClose={this.props.closeListeningPortModal}
+            onSubmit={this.handleListeningPortsModalSubmit}
+          />
+        )}
 
-        {/* DeleteModal */}
-        <Modal
-          isOpen={this.props.isDeleteSourceModalOpen}
-          toggle={() => this.props.closeDeleteSourceModal()}
-        >
-          <ModalHeader toggle={() => this.props.closeDeleteSourceModal()}>
-            Are you sure?
-          </ModalHeader>
-          <ModalBody>
-            Delete syslog source {this.props.toBeDeletedSource.displayName}?
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="secondary"
-              onClick={() => this.props.closeDeleteSourceModal()}
-            >
-              Cancel
-            </Button>{' '}
-            <Button
-              color="danger"
-              onClick={() => {
-                this.props.closeDeleteSourceModal();
-                this.props.deleteSource(this.props.toBeDeletedSource.id);
-                this.props.toggleDeleteSourceSuccessModal();
-              }}
-            >
-              Yes, delete it !
-            </Button>
-          </ModalFooter>
-        </Modal>
+        {this.props.isDeleteSourceModalOpen && (
+          <DeleteSourceModal
+            displayName={this.props.toBeDeletedSource.displayName}
+            onClose={this.props.closeDeleteSourceModal}
+            onSubmit={this.handleDeleteSourceModalSubmit}
+          />
+        )}
 
-        <Modal
-          isOpen={this.props.isListeningPortSuccessModalOpen}
-          toggle={this.props.toggleListeningPortSuccessModal}
-        >
-          <ModalHeader toggle={this.props.toggleListeningPortSuccessModal}>
-            Ports Set!
-          </ModalHeader>
-          <ModalBody>
-            Don't forget to allow them in Windows Firewall. They are:{' '}
-            {this.props.listeningPorts}
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={this.props.toggleListeningPortSuccessModal}
-            >
-              OK
-            </Button>
-          </ModalFooter>
-        </Modal>
+        {this.props.isListeningPortSuccessModalOpen && (
+          <ListeningPortsSuccessModal
+            ports={this.props.listeningPorts}
+            onClose={this.props.toggleListeningPortSuccessModal}
+          />
+        )}
 
-        <Modal
-          isOpen={this.props.isAddSourceSuccessModalOpen}
-          toggle={this.props.toggleAddSourceSuccessModal}
-        >
-          <ModalHeader toggle={this.props.toggleAddSourceSuccessModal}>
-            Added!
-          </ModalHeader>
-          <ModalBody>Syslog source added successfully.</ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={this.props.toggleAddSourceSuccessModal}
-            >
-              OK
-            </Button>
-          </ModalFooter>
-        </Modal>
+        {this.props.isAddSourceSuccessModalOpen && (
+          <AddSourceSuccessModal
+            onClose={this.props.toggleAddSourceSuccessModal}
+          />
+        )}
 
-        <Modal
-          isOpen={this.props.isDeleteSourceSuccessModalOpen}
-          toggle={this.props.toggleDeleteSourceSuccessModal}
-        >
-          <ModalHeader toggle={this.props.toggleDeleteSourceSuccessModal}>
-            Deleted!
-          </ModalHeader>
-          <ModalBody>
-            Syslog source {this.props.toBeDeletedSource.displayName} deleted.
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="primary"
-              onClick={this.props.toggleDeleteSourceSuccessModal}
-            >
-              OK
-            </Button>
-          </ModalFooter>
-        </Modal>
+        {this.props.isDeleteSourceSuccessModalOpen && (
+          <DeleteSourceSuccessModal
+            displayName={this.props.toBeDeletedSource.displayName}
+            onClose={this.props.toggleDeleteSourceSuccessModal}
+          />
+        )}
 
-        <Row className="tileContainer">
+        <StyledTileContainer>
           <Tile
             variant="autoDiscover"
             label="Auto Discover"
@@ -250,30 +177,24 @@ class SideBar extends React.PureComponent {
           />
           {this.props.globalSettings.autoDiscover ? (
             <Tile
-              onClick={() => {
-                this.props.openListeningPortModal();
-              }}
+              onClick={this.props.openListeningPortModal}
               variant="listeningPort"
               label="Listening Ports"
             />
           ) : (
             <Tile
-              onClick={() => {
-                this.props.openSyslogSourceAddForm();
-              }}
+              onClick={this.props.openSyslogSourceAddForm}
               variant="addSource"
               label="Add Syslog Source"
             />
           )}
-        </Row>
+        </StyledTileContainer>
         <Row>
           {this.props.isAddSysLogSourceOpen && (
             <SourceEditor
               loading={this.props.addOrUpdateSourceLoading}
-              onFormCancel={() => this.props.closeSyslogSourceAddForm()}
-              onFormSubmit={(fields) => {
-                this.props.addOrUpdateSource(fields);
-              }}
+              onFormCancel={this.props.closeSyslogSourceAddForm}
+              onFormSubmit={this.props.addOrUpdateSource}
             />
           )}
         </Row>
@@ -290,11 +211,7 @@ class SideBar extends React.PureComponent {
               onToggleButtonClick={(id, isSourceEnabled) =>
                 this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
               }
-              onSettingButtonClick={(id) => {
-                this.props.openSourceEditor(id);
-                this.props.isAddSysLogSourceOpen &&
-                  this.props.closeSyslogSourceAddForm();
-              }}
+              onSettingButtonClick={this.handleSourceSettingButtonClick}
               onSourceEditorCancel={this.props.closeSourceEditor}
               addOrUpdateSource={this.props.addOrUpdateSource}
               onDeleteButtonClick={(sourceId, sourceDisplayName) => {
@@ -304,7 +221,7 @@ class SideBar extends React.PureComponent {
             />
           ))}
         </Row>
-      </Col>
+      </StyledSideBar>
     );
   }
 }
@@ -346,8 +263,8 @@ SideBar.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleSourceAutoDiscover: (sourceId, isSourceEnabled) =>
-    dispatch(toggleSourceAutoDiscover(sourceId, isSourceEnabled)),
+  toggleSourceAutoDiscover: (...args) =>
+    dispatch(toggleSourceAutoDiscover(...args)),
   fetchSourceList: () => dispatch(fetchSourceList()),
   openSyslogSourceAddForm: () => dispatch(openSyslogSourceAddForm()),
   closeSyslogSourceAddForm: () => dispatch(closeSyslogSourceAddForm()),
@@ -355,14 +272,14 @@ const mapDispatchToProps = (dispatch) => ({
   closeListeningPortModal: () => dispatch(closeListeningPortModal()),
   openSourceEditor: (id) => dispatch(openSourceEditor(id)),
   closeSourceEditor: () => dispatch(closeSourceEditor()),
-  addOrUpdateSource: (fields, id) => dispatch(addOrUpdateSource(fields, id)),
+  addOrUpdateSource: (...args) => dispatch(addOrUpdateSource(...args)),
   deleteSource: (sourceId) => dispatch(deleteSource(sourceId)),
   updatePorts: (ports) => dispatch(updatePorts(ports)),
   fetchPorts: () => dispatch(fetchPorts()),
   openDeleteSourceModal: () => dispatch(openDeleteSourceModal()),
   closeDeleteSourceModal: () => dispatch(closeDeleteSourceModal()),
-  updateToBeDeletedSource: (sourceId, displayName) =>
-    dispatch(updateToBeDeletedSource(sourceId, displayName)),
+  updateToBeDeletedSource: (...args) =>
+    dispatch(updateToBeDeletedSource(...args)),
   toggleDeleteSourceSuccessModal: () =>
     dispatch(toggleDeleteSourceSuccessModal()),
   toggleListeningPortSuccessModal: () =>
@@ -393,8 +310,8 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: 'sidebar', reducer });
-const withSaga = injectSaga({ key: 'sidebar', saga });
+const withReducer = injectReducer({ key: 'sideBar', reducer });
+const withSaga = injectSaga({ key: 'sideBar', saga });
 
 export default compose(
   withReducer,

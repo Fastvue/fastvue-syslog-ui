@@ -7,7 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import tabsConfig from './tabsConfig';
 
-import './style.scss';
+import StyledSourceEditor, {
+  StyledTabContent,
+  StyledHalfButton
+} from './style';
 
 class SourceEditor extends Component {
   // eslint-disable-line react/prefer-stateless-function
@@ -55,16 +58,14 @@ class SourceEditor extends Component {
 
   formActions = () => (
     <FormGroup>
-      <Button
-        className="halfButton"
+      <StyledHalfButton
         color="danger"
         onClick={() => this.props.onFormCancel()}
       >
         Cancel
-      </Button>{' '}
-      <Button
+      </StyledHalfButton>{' '}
+      <StyledHalfButton
         onClick={(e) => this.onFormSubmit(e)}
-        className="halfButton"
         color="success"
         type="submit"
       >
@@ -75,19 +76,19 @@ class SourceEditor extends Component {
         ) : (
           'Save'
         )}
-      </Button>
+      </StyledHalfButton>
     </FormGroup>
   );
 
   render() {
     return (
-      <Col className="sourceEditor">
+      <StyledSourceEditor>
         <Tabs
           activeTab={this.state.activeTab}
           tabs={tabsConfig}
           onActiveTabChange={(tabId) => this.setState({ activeTab: tabId })}
         />
-        <TabContent activeTab={this.state.activeTab} className="tabContent">
+        <StyledTabContent activeTab={this.state.activeTab}>
           {tabsConfig.map((tab) => (
             <TabPane key={tab.id} tabId={tab.id}>
               <Form>{this.prepareFormBuilder(tab.formConfig)}</Form>
@@ -95,8 +96,8 @@ class SourceEditor extends Component {
           ))}
 
           {this.formActions()}
-        </TabContent>
-      </Col>
+        </StyledTabContent>
+      </StyledSourceEditor>
     );
   }
 }

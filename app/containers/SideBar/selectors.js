@@ -1,11 +1,6 @@
-/**
- * Homepage selectors
- */
-
 import { createSelector } from 'reselect';
-import memoize from 'lodash.memoize';
 
-const selectSideBar = (state) => state.get('sidebar');
+const selectSideBar = (state) => state.get('sideBar');
 
 const makeSelectSourceList = () =>
   createSelector(
@@ -35,12 +30,6 @@ const makeSelectIsDeleteSourceModalOpen = () =>
   createSelector(
     selectSideBar,
     (sideBarState) => sideBarState.get('isDeleteSourceModalOpen')
-  );
-
-const makeSelectListeningPorts = () =>
-  createSelector(
-    selectSideBar,
-    (sideBarState) => sideBarState.get('listeningPorts')
   );
 
 const makeSelectIsListeningPortSuccessModalOpen = () =>
@@ -86,12 +75,10 @@ export {
   makeSelectIsListeningPortModalOpen,
   makeSelectSourceIdWhoseSourceEditorIsOpen,
   makeSelectIsDeleteSourceModalOpen,
-  makeSelectListeningPorts,
   makeSelectIsListeningPortSuccessModalOpen,
   makeSelectIsDeleteSourceSuccessModalOpen,
   makeSelectToBeDeletedSource,
   makeSelectAddOrUpdateSourceLoading,
   makeSelectIsAddSourceSuccessModalOpen,
-  makeSelectActiveSource,
-  makeSelectPorts
+  makeSelectActiveSource
 };

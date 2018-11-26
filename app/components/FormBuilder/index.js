@@ -3,24 +3,6 @@ import PropTypes from 'prop-types';
 import { Label, FormGroup, Input, Col } from 'reactstrap';
 import ToggleButton from 'components/ToggleButton';
 
-import './style.scss';
-
-const InputWidget = (props) => (
-  <Input
-    type={props.type}
-    name={props.name}
-    onChange={(e) => props.onChange(props.name, e.target.value)}
-    value={props.value}
-  />
-);
-
-const ToggleButtonWidget = (props) => (
-  <ToggleButton
-    isButtonOn={props.value}
-    onClick={(value) => props.onChange(props.name, !value)}
-  />
-);
-
 const FormBuilder = (props) => (
   <FormGroup>
     {props.label && <Label for={props.name}>{props.label}</Label>}
@@ -63,27 +45,10 @@ const FormBuilder = (props) => (
     {props.widget === 'toggleButton' && (
       <ToggleButton
         isButtonOn={props.value}
-        onClick={(value) => props.onChange(props.name, !value)}
+        onClick={(value) => props.onChange(props.name, value)}
       />
     )}
   </FormGroup>
-);
-
-export const buildForm = (props) => {
-  if (props.child) {
-    return (
-      <Fragment> {props.child.map((item) => [props.widget](item))}</Fragment>
-    );
-  }
-  return [props.widget](props);
-};
-
-export const NewFormBuilder = (props) => (
-  <Fragment>
-    {props.config.map((item) => {
-      buildForm(item);
-    })}
-  </Fragment>
 );
 
 FormBuilder.propTypes = {

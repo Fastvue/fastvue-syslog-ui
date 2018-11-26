@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Tabs from 'components/Tabs';
 import StatsTab from 'components/StatsTab';
 import ReactTable from 'react-table';
 
-import { Col, Button, TabContent, TabPane, Alert } from 'reactstrap';
+import { Button, TabContent, TabPane, Alert } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -29,14 +29,13 @@ import {
 
 import reducer from './reducer';
 import saga from './saga';
-import {
+import StyledMainContent, {
   MainHeadingContainer,
   StyledDisplayName,
   StyledSourceIP,
-  StyledSHALink
+  StyledSHALink,
+  StyledTabContent
 } from './style';
-
-import './style.scss';
 
 const parseSHA = (string) =>
   string.substring(string.lastIndexOf('.') + 1).toUpperCase();
@@ -56,7 +55,7 @@ const tabsConfig = [
   }
 ];
 
-class MainContent extends React.PureComponent {
+class MainContent extends Component {
   // eslint-disable-line react/prefer-stateless-function
   state = {
     sorted: []
@@ -145,7 +144,7 @@ class MainContent extends React.PureComponent {
       headerStyle: { boxShadow: 'none' }
     });
     return (
-      <Col
+      <StyledMainContent
         xs={12}
         md={12}
         lg={{ size: 8, offset: 4 }}
@@ -155,7 +154,6 @@ class MainContent extends React.PureComponent {
           <Fragment>
             <MainHeadingContainer>
               <Link to="/">
-                {' '}
                 <Button
                   color="success"
                   style={{ verticalAlign: 'middle', margin: 0 }}
@@ -187,11 +185,7 @@ class MainContent extends React.PureComponent {
               }
             />
 
-            <TabContent
-              activeTab={this.props.match.params.tab}
-              className="tabContent"
-            >
-              {/* <Route />{' '} */}
+            <StyledTabContent activeTab={this.props.match.params.tab}>
               <TabPane tabId="stats">
                 <StatsTab
                   statTiles={statTiles}
@@ -210,6 +204,7 @@ class MainContent extends React.PureComponent {
                     data={this.props.files || []}
                     filterable
                     sortable
+                    resizable={false}
                     defaultFilterMethod={(filter, row) =>
                       String(row._original[filter.id])
                         .toLowerCase()
@@ -292,6 +287,7 @@ class MainContent extends React.PureComponent {
                     minRows={1}
                     data={this.props.archives || []}
                     filterable
+                    resizable={false}
                     defaultFilterMethod={(filter, row) =>
                       String(row._original[filter.id])
                         .toLowerCase()
@@ -358,7 +354,7 @@ class MainContent extends React.PureComponent {
                   </Alert>
                 )}
               </TabPane>
-            </TabContent>
+            </StyledTabContent>
           </Fragment>
         ) : (
           <StatsTab
@@ -367,7 +363,7 @@ class MainContent extends React.PureComponent {
             chartData={this.props.globalStats.sources}
           />
         )}
-      </Col>
+      </StyledMainContent>
     );
   }
 }

@@ -10,7 +10,8 @@ import {
   FETCH_GLOBAL_SETTINGS_SUCCESS,
   UPDATE_GLOBAL_SETTINGS,
   UPDATE_GLOBAL_SETTINGS_FAIL,
-  UPDATE_GLOBAL_SETTINGS_SUCCESS
+  UPDATE_GLOBAL_SETTINGS_SUCCESS,
+  FETCH_PORTS_SUCCESS
 } from './constants';
 
 const initialState = fromJS({
@@ -20,7 +21,8 @@ const initialState = fromJS({
   initConfig: 'null',
   appVersion: '',
   globalSettings: {},
-  updateGlobalSettingsLoading: false
+  updateGlobalSettingsLoading: false,
+  listeningPorts: ''
 });
 
 function appReducer(state = initialState, action) {
@@ -36,6 +38,9 @@ function appReducer(state = initialState, action) {
         .set('isLoggedOut', false);
     case LOGIN_FAIL:
       return state.set('isLoggingIn', false).set('isLoggedIn', false);
+    case FETCH_PORTS_SUCCESS:
+      return state.set('listeningPorts', action.ports);
+
     case FETCH_INIT_CONFIG_SUCCESS:
       return state.set('initConfig', action.initConfig);
     case FETCH_APP_VERSION_SUCCESS:

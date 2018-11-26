@@ -44,9 +44,6 @@ import App from 'containers';
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 /* eslint-enable import/no-webpack-loader-syntax */
 
-// Import CSS reset and Global Styles
-import 'styles/theme.scss';
-
 import configureStore from './configureStore';
 
 library.add(

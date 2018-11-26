@@ -1,4 +1,7 @@
-.tile {
+import styled from 'styled-components';
+import { Col } from 'reactstrap';
+
+const StyledTile = styled(Col)`
   height: 100%;
   text-align: center;
   color: #565672;
@@ -15,10 +18,9 @@
       width: 75px;
     }
   }
-  .tileLabel {
-  }
   &:hover {
     background-color: #7baf37;
     color: white;
   }
-}
+`;
+export default StyledTile;

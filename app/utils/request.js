@@ -1,5 +1,7 @@
 import 'whatwg-fetch';
 
+// import axios from 'axios';
+
 /**
  * Parses the JSON returned by a network request
  *
@@ -8,9 +10,18 @@ import 'whatwg-fetch';
  * @return {object}          The parsed JSON from the request
  */
 function parseJSON(response) {
+  // console.log(response);
+  // console.log(response.json());
+  // try {
+  //   response.json();
+  // } catch (err) {
+  //   console.log('undefined');
+  // }
   if (response.status === 204 || response.status === 205) {
     return null;
   }
+  // let jsonResponse;
+
   return response.json();
 }
 

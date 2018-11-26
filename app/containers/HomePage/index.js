@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
-import React, { Fragment } from 'react';
+import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import SideBar from 'containers/SideBar/Loadable';
 import MainContent from 'containers/MainContent/Loadable';
@@ -14,9 +14,8 @@ import { makeSelectActiveSource } from 'containers/SideBar/selectors';
 
 import reducer from './reducer';
 import saga from './saga';
-import './style.scss';
 
-class HomePage extends React.Component {
+class HomePage extends Component {
   // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.props.fetchSourceList();

@@ -12,9 +12,8 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import './style.scss';
 // eslint-disable-next-line react/prefer-stateless-function
-class Drawer extends Component {
+class Login extends Component {
   state = { u: '', p: '' };
 
   render() {
@@ -76,11 +75,11 @@ class Drawer extends Component {
   }
 }
 
-Drawer.propTypes = {
+Login.propTypes = {
   globalSettings: PropTypes.object,
   loading: PropTypes.bool,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func
 };
 
-export default Drawer;
+export default Login;

@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Col } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ToggleButton from 'components/ToggleButton';
-
-import './style.scss';
+import StyledTile from './style';
 
 const Tile = (props) => (
-  <Col className="tile" onClick={props.onClick} xs="6" md="6" lg="6">
+  <StyledTile onClick={props.onClick} xs="6" md="6" lg="6">
     <Col className="iconBox">
       {props.variant === 'autoDiscover' && (
         <div className="toggle">
@@ -23,7 +22,7 @@ const Tile = (props) => (
       {props.variant === 'addSource' && <FontAwesomeIcon icon="plus" />}
     </Col>
     <span className="tileLabel">{props.label}</span>
-  </Col>
+  </StyledTile>
 );
 
 Tile.propTypes = {

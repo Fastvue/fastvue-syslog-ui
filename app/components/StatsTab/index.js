@@ -5,7 +5,6 @@ import StatTile from 'components/StatTile';
 import { Link } from 'react-router-dom';
 
 import Highcharts from 'highcharts';
-import './style.scss';
 import { StyledButtonGroup, StyledHighchartsReact } from './styles';
 
 import {

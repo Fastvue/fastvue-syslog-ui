@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Drawer from 'components/Drawer';
-import { Navbar, NavItem, Nav, NavLink } from 'reactstrap';
+import { NavItem, Nav, NavLink } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from 'images/logo.png';
-import './style.scss';
-// eslint-disable-next-line react/prefer-stateless-function
+import StyledNavbar, { StyledLogo, StyledAppVersion } from './style';
+
 const Header = (props) => (
-  <Navbar className="header" dark expand>
+  <StyledNavbar dark expand>
     <Link to="/" className="navbar-brand">
-      <img className="logo" src={Logo} alt="Logo" />
-      <div className="appVersion"> {props.appVersion}</div>
+      <StyledLogo src={Logo} alt="Logo" />
+      <StyledAppVersion> {props.appVersion}</StyledAppVersion>
     </Link>
 
     <Nav navbar className="ml-auto">
@@ -31,7 +30,7 @@ const Header = (props) => (
         </NavItem>
       )}
     </Nav>
-  </Navbar>
+  </StyledNavbar>
 );
 
 Header.propTypes = {

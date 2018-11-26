@@ -1,7 +1,3 @@
-/**
- * Homepage selectors
- */
-
 import { createSelector } from 'reselect';
 
 const selectMainContent = (state) => state.get('maincontent');

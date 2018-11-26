@@ -17,20 +17,11 @@ import {
   DELETE_SOURCE,
   DELETE_SOURCE_SUCCESS,
   DELETE_SOURCE_FAIL,
-  SET_PORTS,
-  SET_PORTS_SUCCESS,
-  SET_PORTS_FAIL,
   UPDATE_TO_BE_DELETED_SOURCE,
   TOGGLE_DELETE_SOURCE_SUCCESS_MODAL,
   TOGGLE_LISTENING_PORT_SUCCESS_MODAL,
   TOGGLE_ADD_SOURCE_SUCCESS_MODAL,
-  UPDATE_ACTIVE_SOURCE,
-  FETCH_PORTS,
-  FETCH_PORTS_SUCCESS,
-  FETCH_PORTS_FAIL,
-  UPDATE_PORTS,
-  UPDATE_PORTS_SUCCESS,
-  UPDATE_PORTS_FAIL
+  UPDATE_ACTIVE_SOURCE
 } from './constants';
 
 export const toggleSourceAutoDiscover = (sourceId, isSourceEnabled) => ({
@@ -112,34 +103,6 @@ export const deleteSourceSuccess = () => ({
 
 export const deleteSourceFail = (err) => ({
   type: DELETE_SOURCE_FAIL,
-  err
-});
-
-export const updatePorts = (ports) => ({
-  type: UPDATE_PORTS,
-  ports
-});
-
-export const updatePortsSuccess = () => ({
-  type: UPDATE_PORTS_SUCCESS
-});
-
-export const updatePortsFail = (err) => ({
-  type: UPDATE_PORTS_FAIL,
-  err
-});
-
-export const fetchPorts = () => ({
-  type: FETCH_PORTS
-});
-
-export const fetchPortsSuccess = (ports) => ({
-  type: FETCH_PORTS_SUCCESS,
-  ports
-});
-
-export const fetchPortsFail = (err) => ({
-  type: FETCH_PORTS_FAIL,
   err
 });
 

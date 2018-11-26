@@ -17,7 +17,14 @@ import {
   UPDATE_GLOBAL_SETTINGS_SUCCESS,
   FETCH_AND_UPDATE_GLOBAL_SETTINGS,
   FETCH_AND_UPDATE_GLOBAL_SETTINGS_SUCCESS,
-  FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL
+  FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL,
+  FETCH_PORTS,
+  FETCH_PORTS_SUCCESS,
+  FETCH_PORTS_FAIL,
+  UPDATE_PORTS,
+  UPDATE_PORTS_SUCCESS,
+  UPDATE_PORTS_FAIL,
+  UPDATE_INIT_CONFIG
 } from './constants';
 
 export const login = (credentials) => ({
@@ -97,4 +104,36 @@ export const fetchAndUpdateGlobalSettingsSuccess = () => ({
 });
 export const fetchAndUpdateGlobalSettingsFail = () => ({
   type: FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL
+});
+
+export const updatePorts = (ports) => ({
+  type: UPDATE_PORTS,
+  ports
+});
+
+export const updatePortsSuccess = () => ({
+  type: UPDATE_PORTS_SUCCESS
+});
+
+export const updatePortsFail = (err) => ({
+  type: UPDATE_PORTS_FAIL,
+  err
+});
+
+export const fetchPorts = () => ({
+  type: FETCH_PORTS
+});
+
+export const fetchPortsSuccess = (ports) => ({
+  type: FETCH_PORTS_SUCCESS,
+  ports
+});
+
+export const fetchPortsFail = (err) => ({
+  type: FETCH_PORTS_FAIL,
+  err
+});
+
+export const updateInitConfig = () => ({
+  type: UPDATE_INIT_CONFIG
 });

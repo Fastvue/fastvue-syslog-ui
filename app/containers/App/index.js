@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { push } from 'react-router-redux';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -13,16 +14,16 @@ import injectSaga from 'utils/injectSaga';
 import Login from 'components/Login';
 import Header from 'components/Header';
 import HomePage from 'containers/HomePage/Loadable';
-import GlobalSettings from 'containers/GlobalSettings/Loadable';
+import InitSetupAndGlobalSetting from 'components/InitSetupAndGlobalSetting';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import InitialSetup from 'components/InitialSetup';
 import GlobalStyle from './../../styles/global-styles';
 import {
   login,
   fetchInitConfig,
   fetchAppVersion,
   fetchGlobalSettings,
-  logout
+  logout,
+  fetchPorts
 } from './actions';
 import {
   makeSelectIsLoggedIn,
@@ -30,10 +31,11 @@ import {
   makeSelectInitConfig,
   makeSelectAppVersion,
   makeSelectIsLoggedOut,
-  makeSelectGlobalSettings
+  makeSelectGlobalSettings,
+  makeSelectListeningPorts,
+  makeSelectUpdateGlobalSettingsLoading
 } from './selectors';
 
-import './style.scss';
 import reducer from './reducer';
 import saga from './saga';
 
@@ -43,8 +45,7 @@ class App extends Component {
     toLogin: false,
     toRoutes: false,
     toInitalSetup: false,
-    toShowLogout: false,
-    toRedirect: false
+    toShowLogout: false
   };
   componentDidMount() {
     this.props.fetchInitConfig();
@@ -57,7 +58,7 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
       this.setState({
         toLogin: false,
@@ -69,7 +70,7 @@ class App extends Component {
 
     if (!prevProps.isLoggedOut && this.props.isLoggedOut) {
       document.cookie = 't=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-      console.log('isLoggedOut');
+      this.props.push('/');
       this.setState({
         toLogin: true,
         toRoutes: false,
@@ -78,7 +79,8 @@ class App extends Component {
     }
 
     if (prevProps.initConfig === 'null' && !this.props.initConfig) {
-      console.log('check');
+      this.props.fetchPorts();
+      this.props.push('/');
       this.setState({
         toLogin: false,
         toRoutes: false,
@@ -95,10 +97,18 @@ class App extends Component {
         toRoutes: true
       });
     }
+
+    if (
+      this.state.toInitalSetup &&
+      prevProps.isUpdateGlobalSettingsLoading !==
+        this.props.isUpdateGlobalSettingsLoading
+    ) {
+      this.setState({ toRoutes: true, toLogin: false,toInitalSetup: false});
+    }
   }
   render() {
     return (
-      <div className="app-wrapper">
+      <Fragment>
         <Header
           appVersion={this.props.appVersion}
           toShowLogout={
@@ -118,20 +128,28 @@ class App extends Component {
               path="/source/:id/:tab(stats|files|archives)?/:subTab(size|messages)?"
               component={HomePage}
             />
-            <Route exact path="/settings" component={GlobalSettings} />
+            <Route
+              exact
+              path="/settings"
+              component={InitSetupAndGlobalSetting}
+            />
             <Route path="" component={NotFoundPage} />
           </Switch>
         )}
 
         {this.state.toInitalSetup && (
-          <InitialSetup globalSettings={this.props.globalSettings} />
+          <InitSetupAndGlobalSetting
+            globalSettings={this.props.globalSettings}
+            ports={this.props.listeningPorts}
+            initSetup
+          />
         )}
 
         {this.state.toLogin && (
           <Login onSubmit={(fields) => this.props.login(fields)} />
         )}
         <GlobalStyle />
-      </div>
+      </Fragment>
     );
   }
 }
@@ -144,7 +162,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchInitConfig: () => dispatch(fetchInitConfig()),
   fetchAppVersion: () => dispatch(fetchAppVersion()),
   fetchGlobalSettings: () => dispatch(fetchGlobalSettings()),
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  push: (path) => dispatch(push(path)),
+  fetchPorts: () => dispatch(fetchPorts())
 });
 
 const mapStateToProps = createStructuredSelector({
@@ -153,7 +173,9 @@ const mapStateToProps = createStructuredSelector({
   isLoggedOut: makeSelectIsLoggedOut(),
   initConfig: makeSelectInitConfig(),
   appVersion: makeSelectAppVersion(),
-  globalSettings: makeSelectGlobalSettings()
+  globalSettings: makeSelectGlobalSettings(),
+  listeningPorts: makeSelectListeningPorts(),
+  isUpdateGlobalSettingsLoading: makeSelectUpdateGlobalSettingsLoading()
 });
 
 const withReducer = injectReducer({ key: 'app', reducer });

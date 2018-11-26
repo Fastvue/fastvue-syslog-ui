@@ -9,6 +9,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import appReducer from 'containers/App/reducer';
 import sideBarReducer from 'containers/SideBar/reducer';
 
+// import appReducer from 'containers/App/reducer';
+
 /*
  * routeReducer
  *
@@ -44,7 +46,7 @@ export default function createReducer(injectedReducers) {
   return combineReducers({
     route: routeReducer,
     app: appReducer,
-    sidebar: sideBarReducer,
+    sideBar: sideBarReducer,
     ...injectedReducers
   });
 }

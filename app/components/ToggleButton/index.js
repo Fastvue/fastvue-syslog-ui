@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './style.scss';
+import StyledToggleButton from './style';
 
 const ToggleButton = (props) => (
-  <div className="toggle-button" role="button" onClick={props.onClick}>
+  <StyledToggleButton
+    role="button"
+    onClick={() => props.onClick(!props.isButtonOn)}
+  >
     <div
       className={`switch ${props.isButtonOn ? 'switch-on' : null}`}
       id="globalAutoDiscover"
@@ -14,7 +17,7 @@ const ToggleButton = (props) => (
       <div className="switch-button" />
       <div className="switch-text-on">ON</div>
     </div>
-  </div>
+  </StyledToggleButton>
 );
 
 ToggleButton.propTypes = {

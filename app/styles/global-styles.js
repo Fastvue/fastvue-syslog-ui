@@ -29,9 +29,21 @@ const GlobalStyle = createGlobalStyle`
 }
 .form-group {
   label {
-    font-weight:700;
+    font-weight:600;
     color: #565771;
   }
+}
+
+.initSetupHeading{
+  color: black !important;
+  font-size: 20px !important;
+  font-weight: 700;
+
+}
+
+.line {
+ border-bottom: 1px solid #e9ecef;
+ margin: 10px 0;
 }
  .-odd {
    background-color: #F9F9F9;
@@ -71,16 +83,6 @@ const GlobalStyle = createGlobalStyle`
 .ReactTable .rt-th.-sort-desc .rt-resizer:before {
   margin-top: 4px;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHZpZXdCb3g9IjAgMCAxOCAxOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOCAzdjkuMTNMNCA4IDMgOWw2IDYgNi02LTEtMS00IDQuMTNWM3oiIGZpbGw9IiMzMzMiLz48L3N2Zz4=);
-}
-
-
-
-.files_table{
- font-size: 14px;
-}
-
-.files_table .-header{
- font-weight:bold;
 }
 
 

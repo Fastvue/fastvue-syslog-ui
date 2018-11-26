@@ -4,8 +4,6 @@ import { Col } from 'reactstrap';
 
 import styled from 'styled-components';
 
-import './style.scss';
-
 const StyledStatTile = styled(Col)`
   display: inline-block;
   text-align: center;

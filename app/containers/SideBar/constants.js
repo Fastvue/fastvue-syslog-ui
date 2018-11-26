@@ -61,11 +61,3 @@ export const TOGGLE_LISTENING_PORT_SUCCESS_MODAL =
 
 export const TOGGLE_ADD_SOURCE_SUCCESS_MODAL =
   'syslog/SideBar/TOGGLE_ADD_SOURCE_SUCCESS_MODAL';
-
-export const FETCH_PORTS = 'syslog/SideBar/FETCH_PORTS';
-export const FETCH_PORTS_SUCCESS = 'syslog/SideBar/FETCH_PORTS_SUCCESS';
-export const FETCH_PORTS_FAIL = 'syslog/SideBar/FETCH_PORTS_FAIL';
-
-export const UPDATE_PORTS = 'syslog/SideBar/UPDATE_PORTS';
-export const UPDATE_PORTS_SUCCESS = 'syslog/SideBar/UPDATE_PORTS_SUCCESS';
-export const UPDATE_PORTS_FAIL = 'syslog/SideBar/UPDATE_PORTS_FAIL';

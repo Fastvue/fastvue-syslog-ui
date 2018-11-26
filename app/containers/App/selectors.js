@@ -53,6 +53,12 @@ const makeSelectUpdateGlobalSettingsLoading = () =>
       globalSettingsState.get('updateGlobalSettingsLoading')
   );
 
+const makeSelectListeningPorts = () =>
+  createSelector(
+    selectGlobal,
+    (sideBarState) => sideBarState.get('listeningPorts')
+  );
+
 export {
   selectGlobal,
   makeSelectLocation,
@@ -62,5 +68,6 @@ export {
   makeSelectAppVersion,
   makeSelectIsLoggedOut,
   makeSelectGlobalSettings,
-  makeSelectUpdateGlobalSettingsLoading
+  makeSelectUpdateGlobalSettingsLoading,
+  makeSelectListeningPorts
 };

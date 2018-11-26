@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavItem, Nav, NavLink } from 'reactstrap';
-import './style.scss';
 
 const Tabs = (props) => (
   <Nav tabs>

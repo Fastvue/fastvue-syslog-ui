@@ -17,10 +17,8 @@ import {
   makeSelectGlobalSettings,
   makeSelectUpdateGlobalSettingsLoading
 } from 'containers/App/selectors';
-import reducer from './reducer';
-import saga from './saga';
-
-import './style.scss';
+// import reducer from './reducer';
+// import saga from './saga';
 
 class GlobalSettings extends Component {
   // eslint-disable-line react/prefer-stateless-function
