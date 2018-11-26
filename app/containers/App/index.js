@@ -11,6 +11,8 @@ import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
+import { AuthFailModal } from 'components/Modals';
+
 import Login from 'components/Login';
 import Header from 'components/Header';
 import HomePage from 'containers/HomePage/Loadable';
