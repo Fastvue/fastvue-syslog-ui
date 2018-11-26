@@ -60,6 +60,7 @@ class App extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
+      this.props.fetchGlobalSettings();
       this.setState({
         toLogin: false,
         toRoutes: true,
@@ -94,7 +95,8 @@ class App extends Component {
       this.props.initConfig !== prevProps.initConfig
     ) {
       this.setState({
-        toRoutes: true
+        toRoutes: true,
+        toShowLogout: true
       });
     }
 
@@ -103,7 +105,12 @@ class App extends Component {
       prevProps.isUpdateGlobalSettingsLoading !==
         this.props.isUpdateGlobalSettingsLoading
     ) {
-      this.setState({ toRoutes: true, toLogin: false,toInitalSetup: false});
+      this.setState({
+        toRoutes: true,
+        toLogin: false,
+        toInitalSetup: false,
+        toShowLogout: true
+      });
     }
   }
   render() {

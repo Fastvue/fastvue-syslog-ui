@@ -146,6 +146,7 @@ export function* updatePorts(action) {
   try {
     yield call(request, requestURL, requestOptions);
     yield put(updatePortsSuccess());
+    yield put(fetchPortsSuccess(action.ports));
   } catch (err) {
     yield put(updatePortsFail(err));
   }
