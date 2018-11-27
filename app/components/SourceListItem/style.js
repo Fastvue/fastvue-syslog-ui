@@ -1,4 +1,7 @@
-.sourceListItem {
+import styled from 'styled-components';
+import { Col } from 'reactstrap';
+
+const StyledSourceListItem = styled(Col)`
   padding-bottom: 6px;
   padding-top: 6px;
   cursor: pointer;
@@ -37,4 +40,6 @@
   &.highlights {
     background-color: #303143;
   }
-}
+`;
+
+export default StyledSourceListItem;

@@ -30,9 +30,17 @@ import {
   makeSelectGlobalSettings,
   makeSelectUpdateGlobalSettingsLoading
 } from 'containers/App/selectors';
-// eslint-disable-next-line react/prefer-stateless-function
+
 class InitSetupAndGlobalSetting extends Component {
-  state = {};
+  state = {
+    authEnabled: false,
+    authUsername: '',
+    autoDiscover: false,
+    defaultArchivePath: '',
+    defaultLogPath: '',
+    ports: '',
+    authPassword: ''
+  };
 
   componentDidMount() {
     if (!this.props.initSetup) {
@@ -65,7 +73,8 @@ class InitSetupAndGlobalSetting extends Component {
     }
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     if (this.props.initSetup) {
       this.props.updatePorts(this.state.ports);
       this.props.updateInitConfig();
@@ -218,9 +227,9 @@ class InitSetupAndGlobalSetting extends Component {
             </p>
           )}
         </ModalHeader>
-        {this.props.globalSettings && (
-          <ModalBody>
-            <Form onSubmit={() => this.props.onSubmit(this.state)}>
+        <Form onSubmit={this.handleSubmit}>
+          {this.props.globalSettings && (
+            <ModalBody>
               {this.props.initSetup && (
                 <Fragment>
                   {' '}
@@ -270,40 +279,39 @@ class InitSetupAndGlobalSetting extends Component {
                   {this.storageSection()}
                 </Fragment>
               )}
-            </Form>
-          </ModalBody>
-        )}
-        <ModalFooter>
-          <FormGroup>
-            {!this.props.initSetup && (
+            </ModalBody>
+          )}
+          <ModalFooter>
+            <FormGroup>
+              {!this.props.initSetup && (
+                <Button
+                  className="halfButton"
+                  color="danger"
+                  onClick={this.props.history.goBack}
+                >
+                  Cancel
+                </Button>
+              )}{' '}
               <Button
                 className="halfButton"
-                color="danger"
-                onClick={this.props.history.goBack}
+                color="success"
+                type="submit"
+                disabled={this.props.loading}
               >
-                Cancel
+                {this.props.loading ? (
+                  <Fragment>
+                    <FontAwesomeIcon spin icon="circle-notch" /> Saving
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <FontAwesomeIcon icon="check" /> Save{' '}
+                    {this.props.initSetup ? 'Configuration' : ''}
+                  </Fragment>
+                )}
               </Button>
-            )}{' '}
-            <Button
-              className="halfButton"
-              color="success"
-              type="submit"
-              onClick={this.handleSubmit}
-              disabled={this.props.loading}
-            >
-              {this.props.loading ? (
-                <Fragment>
-                  <FontAwesomeIcon spin icon="circle-notch" /> Saving
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <FontAwesomeIcon icon="check" /> Save{' '}
-                  {this.props.initSetup ? 'Configuration' : ''}
-                </Fragment>
-              )}
-            </Button>
-          </FormGroup>
-        </ModalFooter>
+            </FormGroup>
+          </ModalFooter>
+        </Form>
       </Col>
     );
   }
@@ -312,11 +320,14 @@ class InitSetupAndGlobalSetting extends Component {
 InitSetupAndGlobalSetting.propTypes = {
   globalSettings: PropTypes.object,
   loading: PropTypes.bool,
-  onClose: PropTypes.func,
-  onSubmit: PropTypes.func,
+  initSetup: PropTypes.bool,
+  history: PropTypes.any,
+  ports: PropTypes.string,
   updateGlobalSettingsLoading: PropTypes.bool,
   fetchGlobalSettings: PropTypes.func,
-  updateGlobalSettings: PropTypes.func
+  updateGlobalSettings: PropTypes.func,
+  updatePorts: PropTypes.func,
+  updateInitConfig: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -12,9 +12,14 @@ import {
   Label,
   Input
 } from 'reactstrap';
-// eslint-disable-next-line react/prefer-stateless-function
+
 class Login extends Component {
-  state = { u: '', p: '' };
+  state = { username: '', password: '' };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.onSubmit(this.state);
+  };
 
   render() {
     return (
@@ -28,60 +33,57 @@ class Login extends Component {
           border: '1px solid #E9ECEF'
         }}
       >
-        <ModalHeader
-          close={<FontAwesomeIcon icon="times" onClick={this.props.onClose} />}
-        >
+        <ModalHeader>
           <span className="h3"> Login</span>
           <p style={{ fontWeight: 'normal', marginTop: 10 }}>
             Please enter your credentials to log in to Fastvue Syslog Server.
           </p>
         </ModalHeader>
-        <ModalBody>
-          <Form onSubmit={() => this.props.onSubmit(this.state)}>
+        <Form onSubmit={this.handleSubmit}>
+          <ModalBody>
             <FormGroup>
               <Label>Username</Label>
               <Input
                 type="text"
-                value={this.state.u}
-                onChange={(e) => this.setState({ u: e.target.value })}
+                name="username"
+                autoComplete="username"
+                value={this.state.username}
+                onChange={(e) => this.setState({ username: e.target.value })}
               />
             </FormGroup>
             <FormGroup>
               <Label>Password</Label>
               <Input
                 type="password"
-                value={this.state.p}
-                onChange={(e) => this.setState({ p: e.target.value })}
+                name="password"
+                autoComplete="current-password"
+                value={this.state.password}
+                onChange={(e) => this.setState({ password: e.target.value })}
               />
             </FormGroup>
-          </Form>
-        </ModalBody>
+          </ModalBody>
 
-        <ModalFooter>
-          <FormGroup>
-            <Button
-              color="success"
-              onClick={() => this.props.onSubmit(this.state)}
-            >
-              {this.props.loading ? (
-                <Fragment>
-                  <FontAwesomeIcon spin icon="circle-notch" /> Logging
-                </Fragment>
-              ) : (
-                'Login'
-              )}
-            </Button>
-          </FormGroup>
-        </ModalFooter>
+          <ModalFooter>
+            <FormGroup>
+              <Button color="success" type="submit">
+                {this.props.loading ? (
+                  <Fragment>
+                    <FontAwesomeIcon spin icon="circle-notch" /> Logging
+                  </Fragment>
+                ) : (
+                  'Login'
+                )}
+              </Button>
+            </FormGroup>
+          </ModalFooter>
+        </Form>
       </Col>
     );
   }
 }
 
 Login.propTypes = {
-  globalSettings: PropTypes.object,
   loading: PropTypes.bool,
-  onClose: PropTypes.func,
   onSubmit: PropTypes.func
 };
 

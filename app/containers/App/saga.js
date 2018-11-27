@@ -1,5 +1,4 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
 import request from 'utils/request';
 import {
   LOGIN,
@@ -19,7 +18,6 @@ import {
   fetchInitConfigSuccess,
   fetchAppVersionSuccess,
   fetchAppVersionFail,
-  logout,
   fetchGlobalSettingsFail,
   fetchGlobalSettingsSuccess,
   updateGlobalSettingsFail,
@@ -34,12 +32,12 @@ export function* login(action) {
   const requestOptions = {
     method: 'post',
     url: '/api/auth/login',
-    data: action.credentials
+    data: { u: action.credentials.username, p: action.credentials.password }
   };
   try {
     const res = yield call(request, requestOptions);
 
-    if (res === undefined || res === '') {
+    if (res === '') {
       yield put(loginFail());
     } else {
       document.cookie = `t=${res}`;
@@ -56,11 +54,7 @@ export function* fetchInitConfig() {
   };
   try {
     const config = yield call(request, requestOptions);
-    if (config === undefined) {
-      yield put(logout());
-    } else {
-      yield put(fetchInitConfigSuccess(config));
-    }
+    yield put(fetchInitConfigSuccess(config));
   } catch (err) {
     yield put(fetchInitConfigFail());
   }
@@ -102,7 +96,7 @@ export function* updateGlobalSettings(action) {
     data: action.globalSettings
   };
   try {
-    const res = yield call(request, requestOptions);
+    yield call(request, requestOptions);
 
     yield put(updateGlobalSettingsSuccess());
     yield put(fetchGlobalSettingsSuccess(action.globalSettings));
@@ -136,7 +130,7 @@ export function* fetchAndUpdateGlobalSettings(action) {
     data: toUpdateGlobalSettings
   };
   try {
-    const res = yield call(request, requestOptionsUpdate);
+    yield call(request, requestOptionsUpdate);
 
     yield put(fetchGlobalSettingsSuccess(toUpdateGlobalSettings));
   } catch (err) {
@@ -151,11 +145,7 @@ export function* updatePorts(action) {
     data: action.ports.split(',')
   };
   try {
-    const res = yield call(request, requestOptions);
-    if (res === undefined) {
-      // yield put(push('/'));
-      yield put(logout());
-    }
+    yield call(request, requestOptions);
     yield put(updatePortsSuccess());
     yield put(fetchPortsSuccess(action.ports));
   } catch (err) {
@@ -171,9 +161,6 @@ export function* fetchPorts() {
 
   try {
     const ports = yield call(request, requestOptions);
-    if (ports === undefined) {
-      yield put(logout());
-    }
     yield put(fetchPortsSuccess(ports.join(',')));
   } catch (err) {
     yield put(fetchPortsFail(err));
@@ -188,10 +175,7 @@ export function* updateInitConfig() {
   };
 
   try {
-    const res = yield call(request, requestOptions);
-    if (res === undefined) {
-      yield put(logout());
-    }
+    yield call(request, requestOptions);
   } catch (err) {}
 }
 

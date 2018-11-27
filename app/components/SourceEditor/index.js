@@ -13,7 +13,6 @@ import StyledSourceEditor, {
 } from './style';
 
 class SourceEditor extends Component {
-  // eslint-disable-line react/prefer-stateless-function
   state = {
     activeTab: '0',
     formData: this.props.formData || {

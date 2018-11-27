@@ -16,7 +16,6 @@ import {
   multiSeriesNumericChartOptions
 } from './chartOptions';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class StatsTab extends Component {
   state = {
     subTab: 'size'

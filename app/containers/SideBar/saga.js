@@ -1,7 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { push } from 'react-router-dom';
-import { logout } from 'containers/App/actions';
 import {
   FETCH_SOURCE_LIST,
   TOGGLE_SOURCE_AUTO_DISCOVER,
@@ -29,11 +27,8 @@ export function* fetchSourcesListAPI() {
   };
   try {
     const sourceList = yield call(request, requestOptions);
-    if (sourceList === undefined) {
-      yield put(logout());
-    } else {
-      yield put(fetchSourceListSuccess(sourceList));
-    }
+
+    yield put(fetchSourceListSuccess(sourceList));
   } catch (err) {
     yield put(fetchSourceListFail(err));
   }
@@ -47,10 +42,7 @@ export function* toggleSourceAutoDiscover(action) {
   };
 
   try {
-    const res = yield call(request, requestOptions);
-    if (res === undefined) {
-      yield put(logout());
-    }
+    yield call(request, requestOptions);
     yield put(fetchSourceList());
   } catch (err) {}
 }
@@ -68,9 +60,7 @@ export function* addOrUpdateSource(action) {
 
   try {
     const res = yield call(request, requestOptions);
-    if (res === undefined) {
-      yield put(logout());
-    }
+
     yield put(addOrUpdateSourceSuccess(res));
     yield put(fetchSourceList());
     if (action.id) {
@@ -93,9 +83,6 @@ export function* deleteSource(action) {
 
   try {
     const res = yield call(request, requestOptions);
-    if (res === undefined) {
-      yield put(logout());
-    }
     yield put(fetchSourceList());
     yield put(deleteSourceSuccess(res));
   } catch (err) {

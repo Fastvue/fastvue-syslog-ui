@@ -1,55 +1,32 @@
 import 'whatwg-fetch';
+import { logout } from 'containers/App/actions';
+import store from './../store';
 
-/**
- * Parses the JSON returned by a network request
- *
- * @param  {object} response A response from a network request
- *
- * @return {object}          The parsed JSON from the request
- */
-function parseJSON(response) {
-  return response.text().then((text) => {
-    if (text === 'undefined') {
-      return undefined;
-    }
-    return text ? JSON.parse(text) : {};
-  });
-}
-
-/**
- * Checks if a network request came back fine, and throws an error if not
- *
- * @param  {object} response   A response from a network request
- *
- * @return {object|undefined} Returns either the response, or throws an error
- */
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
-
   const error = new Error(response.statusText);
   error.response = response;
   throw error;
 }
 
-/**
- * Requests a URL, returning a promise
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- *
- * @return {object}           The response data
- */
-export default function request(options) {
-  return fetch(process.env.API_URL + options.url, {
+export default async function request(options) {
+  let res = await fetch(process.env.API_URL + options.url, {
     ...options,
     body: JSON.stringify(options.data),
     ...(!options.url.includes('login') && {
       withCredentials: true,
       credentials: 'include'
     })
-  })
-    .then(checkStatus)
-    .then(parseJSON);
+  });
+
+  res = checkStatus(res);
+  res = await res.text();
+
+  if (res === 'undefined') {
+    store.dispatch(logout());
+    throw new Error('undefined');
+  }
+  return res ? JSON.parse(res) : {};
 }

@@ -16,11 +16,6 @@ const StyledSideBar = styled(Col)`
     padding-bottom: 99999px;
     margin-bottom: -99999px;
   }
-
-  @media (max-width: 767px) {
-    max-height: 220px;
-    overflow-y: scroll;
-  }
 `;
 
 export const StyledTileContainer = styled(Row)`

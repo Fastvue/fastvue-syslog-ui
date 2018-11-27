@@ -1,6 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'utils/request';
-import { push } from 'react-router-dom';
 
 import {
   FETCH_SOURCE_STATS,
@@ -30,10 +29,6 @@ export function* fetchSourcesStatsAPI(action) {
 
   try {
     const stats = yield call(request, requestOptions);
-    if (stats === undefined) {
-      yield put(push('/'));
-    }
-
     yield put(fetchSourceStatsSuccess(stats));
   } catch (err) {
     yield put(fetchSourceStatsFail(err));
@@ -48,9 +43,6 @@ export function* fetchGlobalStatsAPI() {
 
   try {
     const globalStats = yield call(request, requestOptions);
-    if (globalStats === undefined) {
-      yield put(push('/'));
-    }
     yield put(fetchGlobalStatsSuccess(globalStats));
   } catch (err) {
     yield put(fetchGlobalStatsFail(err));
@@ -68,10 +60,6 @@ export function* fetchSourcesFilesAPI(action) {
 
   try {
     const files = yield call(request, requestOptions);
-
-    if (files === undefined) {
-      yield put(push('/'));
-    }
     yield put(fetchSourceFilesSuccess(files));
   } catch (err) {
     yield put(fetchSourceFilesFail(err));
@@ -89,10 +77,6 @@ export function* fetchSourceArchivesAPI(action) {
 
   try {
     const archives = yield call(request, requestOptions);
-    if (archives === undefined) {
-      yield put(push('/'));
-    }
-
     yield put(fetchSourceArchivesSuccess(archives));
   } catch (err) {
     yield put(fetchSourceArchivesFail(err));

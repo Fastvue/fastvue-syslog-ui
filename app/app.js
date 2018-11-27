@@ -7,6 +7,7 @@
 
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
+import createHistory from 'history/createBrowserHistory';
 
 // Import all the third party stuff
 import React from 'react';
@@ -14,10 +15,10 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
-import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-table/react-table.css';
+import store from './store';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -43,8 +44,6 @@ import App from 'containers';
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 /* eslint-enable import/no-webpack-loader-syntax */
-
-import configureStore from './configureStore';
 
 library.add(
   faSignOutAlt,
@@ -76,11 +75,8 @@ openSansObserver.load().then(
   }
 );
 
-// Create redux store with history
-const initialState = {};
-const history = createHistory();
-const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+const history = createHistory();
 
 const render = () => {
   ReactDOM.render(
@@ -106,3 +102,5 @@ if (module.hot) {
 }
 
 render();
+
+export default store;

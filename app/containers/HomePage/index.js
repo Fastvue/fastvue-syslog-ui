@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
-import injectReducer from 'utils/injectReducer';
-import injectSaga from 'utils/injectSaga';
 
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
@@ -13,11 +11,7 @@ import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
 import { fetchGlobalSettings } from 'containers/App/actions';
 
-import reducer from './reducer';
-
 class HomePage extends Component {
-  // eslint-disable-line react/prefer-stateless-function
-
   state = {
     intervalId: null
   };
@@ -77,10 +71,5 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
-const withReducer = injectReducer({ key: 'home', reducer });
-
-export default compose(
-  withReducer,
-  withConnect
-)(HomePage);
+export default compose(withConnect)(HomePage);
 export { mapDispatchToProps };

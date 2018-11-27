@@ -7,7 +7,7 @@ import Tabs from 'components/Tabs';
 import StatsTab from 'components/StatsTab';
 import ReactTable from 'react-table';
 
-import { Button, TabContent, TabPane, Alert } from 'reactstrap';
+import { Button, TabPane, Alert } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -53,80 +53,108 @@ const tabsConfig = [
 ];
 
 class MainContent extends Component {
-  // eslint-disable-line react/prefer-stateless-function
   state = {
-    sorted: [],
-    intervalId: null
+    fileSorted: [],
+    archiveSorted: [],
+    statsIntervalId: null,
+    globalStatsIntervalId: null
   };
   componentDidMount() {
-    const tab = this.props.match.params.tab;
-    if (this.props.sourceId) {
-      this.props.fetchSourceStats(this.props.sourceId);
-      tab === 'files' && this.props.fetchSourceFiles(this.props.sourceId);
-      tab === 'archives' && this.props.fetchSourceArchives(this.props.sourceId);
-      if (tab === 'stats') {
-        const intervalId = setInterval(() => {
-          this.props.fetchSourceStats(this.props.sourceId);
-        }, 5000);
-        this.setState({
-          intervalId
-        });
-      }
-    } else {
-      this.props.fetchGlobalStats();
-    }
+    this.checkCurrentTabAndFetch();
   }
 
   componentDidUpdate(prevProps) {
-    const tab = this.props.match.params.tab;
+    const { tab } = this.props.match.params;
     if (
       this.props.sourceId !== prevProps.sourceId ||
       prevProps.match.params.tab !== tab
     ) {
-      if (this.props.sourceId) {
-        tab === 'stats' && this.props.fetchSourceStats(this.props.sourceId);
-        tab === 'files' && this.props.fetchSourceFiles(this.props.sourceId);
-        tab === 'archives' &&
-          this.props.fetchSourceArchives(this.props.sourceId);
-      } else {
-        this.props.fetchGlobalStats();
-      }
-      if (tab !== 'stats') {
-        clearInterval(this.state.intervalId);
-      } else {
-        clearInterval(this.state.intervalId);
-        const intervalId = setInterval(() => {
-          this.props.fetchSourceStats(this.props.sourceId);
-        }, 5000);
-        this.setState({
-          intervalId
-        });
-      }
+      this.checkCurrentTabAndFetch();
     }
-    // if (this.props.match.params.tab !== prevProps.match.params.tab) {
-    //   if (this.props.match.params.tab === 'stats') {
-    //     setInterval(() => {
-    //       this.props.fetchSourceStats(this.props.sourceId);
-    //     }, 5000);
-    //   }
-    // }
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    this.clearAllIntervals();
   }
-  getSortedComponent() {
-    // const sortInfo = this.state.sorted.filter((item) => item.id === id);
-    // if (sortInfo.length) {
-    //   if (sortInfo[0].desc === true) {
-    //     return <FontAwesomeIcon icon="sort-amount-down" />;
-    //   }
-    //   if (sortInfo[0].desc === false) {
-    //     return <FontAwesomeIcon icon="sort-amount-up" />;
-    //   }
-    // }
-    return null;
+
+  checkCurrentTabAndFetch = () => {
+    const { tab } = this.props.match.params;
+    if (this.props.sourceId) {
+      this.props.fetchSourceStats(this.props.sourceId);
+      
+      if (tab === 'files') {
+        this.clearAllIntervals();
+        this.props.fetchSourceFiles(this.props.sourceId);
+      } else if (tab === 'archives') {
+        this.clearAllIntervals();
+        this.props.fetchSourceArchives(this.props.sourceId);
+      } else if (tab === 'stats') {
+        this.startIntervalFetching('stats');
+      }
+    } else {
+      this.startIntervalFetching('globalStats');
+    }
+  };
+
+  startIntervalFetching = (type) => {
+    this.clearAllIntervals();
+    if (type === 'stats') {
+      const statsIntervalId = setInterval(() => {
+        this.props.fetchSourceStats(this.props.sourceId);
+      }, 5000);
+      this.setState({
+        statsIntervalId
+      });
+    } else if (type === 'globalStats') {
+      this.props.fetchGlobalStats();
+      const globalStatsIntervalId = setInterval(() => {
+        this.props.fetchGlobalStats();
+      }, 5000);
+      this.setState({
+        globalStatsIntervalId
+      });
+    }
+  };
+
+  clearAllIntervals = () => {
+    clearInterval(this.state.globalStatsIntervalId);
+    clearInterval(this.state.statsIntervalId);
+  };
+
+  getSortedComponent(id, table) {
+    const sortDesc = (
+      <FontAwesomeIcon icon="sort-amount-down" color="#282C34" />
+    );
+    const sortAsc = <FontAwesomeIcon icon="sort-amount-up" color="#282C34" />;
+    const noSort = (
+      <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6DE" />
+    );
+
+    const sortInfo = this.state[`${table}Sorted`].filter(
+      (item) => item.id === id
+    );
+    if (sortInfo.length) {
+      if (sortInfo[0].desc === true) return sortDesc;
+      if (sortInfo[0].desc === false) return sortAsc;
+    }
+    return noSort;
   }
+
+  genericHeaderArrows = (tableName) => ({
+    Header: (props) => {
+      const Sorted = this.getSortedComponent(props.column.id, tableName);
+      return (
+        <Fragment>
+          {' '}
+          <span className={`text-${props.column.HeaderTextAlign}`}>
+            {props.column.HeaderText}
+          </span>{' '}
+          <span style={{ position: 'absolute', right: 7 }}>{Sorted}</span>
+        </Fragment>
+      );
+    },
+    headerStyle: { boxShadow: 'none' }
+  });
   render() {
     const { stats, globalStats } = this.props;
 
@@ -166,16 +194,7 @@ class MainContent extends Component {
         )
       }
     ];
-    const Sorted = null;
-    const genericHeaderArrows = () => ({
-      Header: (props) => (
-        <span className={`text-${props.column.HeaderTextAlign}`}>
-          {props.column.HeaderText}
-          {/* <span style={{ float: 'right' }}> {Sorted}</span> */}
-        </span>
-      ),
-      headerStyle: { boxShadow: 'none' }
-    });
+
     return (
       <StyledMainContent
         xs={12}
@@ -244,9 +263,13 @@ class MainContent extends Component {
                         .includes(String(filter.value).toLowerCase())
                     }
                     noDataText="No matching records found"
+                    sorted={this.state.fileSorted}
+                    onSortedChange={(fileSorted) =>
+                      this.setState({ fileSorted })
+                    }
                     columns={[
                       {
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('file'),
                         HeaderText: 'Filename',
                         HeaderTextAlign: 'left',
                         id: 'name',
@@ -279,7 +302,7 @@ class MainContent extends Component {
                       },
                       {
                         id: 'size',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('file'),
                         HeaderText: 'Size',
                         HeaderTextAlign: 'right',
                         accessor: (row) => formatValues('Bytes', row.size),
@@ -287,7 +310,7 @@ class MainContent extends Component {
                       },
                       {
                         id: 'messageCount',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('file'),
                         HeaderText: 'Message',
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
@@ -296,7 +319,7 @@ class MainContent extends Component {
                       },
                       {
                         id: 'modified',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('file'),
                         HeaderText: 'Date',
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
@@ -331,10 +354,14 @@ class MainContent extends Component {
                         .includes(String(filter.value).toLowerCase())
                     }
                     noDataText="No matching records found"
+                    sorted={this.state.archiveSorted}
+                    onSortedChange={(archiveSorted) =>
+                      this.setState({ archiveSorted })
+                    }
                     columns={[
                       {
                         id: 'name',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('archive'),
                         HeaderText: 'Filename',
                         HeaderTextAlign: 'left',
                         accessor: (row) => (
@@ -367,7 +394,7 @@ class MainContent extends Component {
                       },
                       {
                         id: 'size',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('archive'),
                         HeaderText: 'Size',
                         HeaderTextAlign: 'right',
                         accessor: (row) => formatValues('Bytes', row.size),
@@ -375,7 +402,7 @@ class MainContent extends Component {
                       },
                       {
                         id: 'modified',
-                        ...genericHeaderArrows(),
+                        ...this.genericHeaderArrows('archive'),
                         HeaderText: 'Date',
                         HeaderTextAlign: 'right',
                         accessor: (row) =>
@@ -415,6 +442,7 @@ MainContent.propTypes = {
   globalStats: PropTypes.any,
   archives: PropTypes.any,
   sourceId: PropTypes.string,
+  match: PropTypes.any,
   activeSource: PropTypes.any,
   fetchSourceFiles: PropTypes.func,
   fetchSourceStats: PropTypes.func,

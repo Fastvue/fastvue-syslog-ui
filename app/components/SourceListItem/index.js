@@ -8,7 +8,7 @@ import ToggleButton from 'components/ToggleButton';
 import SourceEditor from 'components/SourceEditor';
 import { pick as _pick } from 'lodash';
 
-import './style.scss';
+import StyledSourceListItem from './style';
 
 const SourceListItem = (props) => {
   const formData = _pick(props, [
@@ -26,10 +26,10 @@ const SourceListItem = (props) => {
     'sourceHost'
   ]);
   return (
-    <Col
+    <StyledSourceListItem
       xs="12"
       lg="12"
-      className={`sourceListItem ${props.id ===
+      className={`${props.id ===
         (props.match.params && props.match.params.id) && 'highlights'}`}
       onClick={(e) => props.history.push(`/source/${props.id}/stats/size`)}
       id={`sourceEditor${props.id}`}
@@ -92,7 +92,7 @@ const SourceListItem = (props) => {
           />
         </Row>
       )}
-    </Col>
+    </StyledSourceListItem>
   );
 };
 

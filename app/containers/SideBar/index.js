@@ -71,7 +71,6 @@ import saga from './saga';
 import StyledSideBar, { StyledTileContainer } from './style';
 
 class SideBar extends Component {
-  // eslint-disable-line react/prefer-stateless-function
   componentDidMount() {
     this.props.fetchSourceList();
   }

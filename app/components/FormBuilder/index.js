@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Label, FormGroup, Input, Col } from 'reactstrap';
+import { Label, FormGroup, Input } from 'reactstrap';
 import ToggleButton from 'components/ToggleButton';
 
 const FormBuilder = (props) => (

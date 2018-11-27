@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { push } from 'react-router-redux';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -43,7 +42,6 @@ import {
 import reducer from './reducer';
 import saga from './saga';
 
-// eslint-disable-next-line react/prefer-stateless-function
 class App extends Component {
   state = {
     show: null,
@@ -61,7 +59,6 @@ class App extends Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isLoggedIn && this.props.isLoggedIn) {
-      this.props.fetchGlobalSettings();
       this.setState({
         show: 'routes',
         toShowLogout: true
@@ -70,7 +67,7 @@ class App extends Component {
 
     if (!prevProps.isLoggedOut && this.props.isLoggedOut) {
       document.cookie = 't=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-      this.props.push('/');
+      this.props.history.push('/');
       this.setState({
         show: 'login',
         toShowLogout: false
@@ -79,7 +76,8 @@ class App extends Component {
 
     if (prevProps.initConfig === 'null' && !this.props.initConfig) {
       this.props.fetchPorts();
-      this.props.push('/');
+      this.props.history.push('/');
+
       this.setState({
         show: 'initialSetup'
       });
@@ -164,7 +162,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAppVersion: () => dispatch(fetchAppVersion()),
   fetchGlobalSettings: () => dispatch(fetchGlobalSettings()),
   logout: () => dispatch(logout()),
-  push: (path) => dispatch(push(path)),
   fetchPorts: () => dispatch(fetchPorts()),
   resetLoginFail: () => dispatch(resetLoginFail())
 });
@@ -192,5 +189,6 @@ const withConnect = connect(
 export default compose(
   withReducer,
   withSaga,
-  withConnect
+  withConnect,
+  withRouter
 )(App);
