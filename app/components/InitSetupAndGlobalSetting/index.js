@@ -10,7 +10,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Modal
 } from 'reactstrap';
 
 import { omit as _omit } from 'lodash';
@@ -65,7 +66,7 @@ class InitSetupAndGlobalSetting extends Component {
       prevProps.updateGlobalSettingsLoading &&
       !this.props.updateGlobalSettingsLoading
     ) {
-      this.props.history.goBack();
+      this.props.history.push('/');
     }
 
     if (prevProps.ports !== this.props.ports) {
@@ -80,6 +81,10 @@ class InitSetupAndGlobalSetting extends Component {
       this.props.updateInitConfig();
     }
     this.props.updateGlobalSettings(_omit(this.state, ['ports']));
+  };
+
+  handleClose = () => {
+    this.props.history.push('/');
   };
 
   authSection = () => (
@@ -194,6 +199,114 @@ class InitSetupAndGlobalSetting extends Component {
     </Fragment>
   );
 
+  content = () => (
+    <Fragment>
+      <ModalHeader
+        close={
+          !this.props.initSetup ? (
+            <FontAwesomeIcon icon="times" onClick={this.handleClose} />
+          ) : null
+        }
+      >
+        <p className="h4">
+          {this.props.initSetup ? 'Initial Configuration' : 'Global Settings'}
+        </p>
+
+        {this.props.initSetup && (
+          <p style={{ fontWeight: 'normal', fontSize: 14 }}>
+            Welcome to Fastvue Syslog Server! This page will assist you in
+            performing initial configuration of your syslog server.
+          </p>
+        )}
+      </ModalHeader>
+      <Form onSubmit={this.handleSubmit}>
+        {this.props.globalSettings && (
+          <ModalBody>
+            {this.props.initSetup && (
+              <Fragment>
+                {' '}
+                <FormGroup>
+                  <Label className="initSetupHeading">Listening ports</Label>
+                  <p>
+                    Listen for syslog traffic on the following ports. (Separate
+                    multiple ports with a comma)
+                  </p>
+                  <Input
+                    type="text"
+                    value={this.state.ports}
+                    onChange={(e) => this.setState({ ports: e.target.value })}
+                  />
+                </FormGroup>
+                <div className="line" />
+              </Fragment>
+            )}
+            {!this.props.initSetup && this.storageSection()}
+
+            <FormGroup>
+              <Label className="initSetupHeading">
+                Auto-Discover Syslog Sources
+              </Label>
+              <p className="marginFix">
+                {' '}
+                <Input
+                  type="checkbox"
+                  checked={this.state.autoDiscover}
+                  onChange={() =>
+                    this.setState({
+                      autoDiscover: !this.state.autoDiscover
+                    })
+                  }
+                />
+                Automatically start logging syslog traffic when it arrives from
+                new hosts.
+              </p>
+            </FormGroup>
+
+            <div className="line" />
+            {this.authSection()}
+
+            {this.props.initSetup && (
+              <Fragment>
+                <div className="line" />
+                {this.storageSection()}
+              </Fragment>
+            )}
+          </ModalBody>
+        )}
+        <ModalFooter>
+          <FormGroup>
+            {!this.props.initSetup && (
+              <Button
+                className="halfButton"
+                color="danger"
+                onClick={this.handleClose}
+              >
+                Cancel
+              </Button>
+            )}{' '}
+            <Button
+              className="halfButton"
+              color="success"
+              type="submit"
+              disabled={this.props.loading}
+            >
+              {this.props.loading ? (
+                <Fragment>
+                  <FontAwesomeIcon spin icon="circle-notch" /> Saving
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <FontAwesomeIcon icon="check" /> Save{' '}
+                  {this.props.initSetup ? 'Configuration' : ''}
+                </Fragment>
+              )}
+            </Button>
+          </FormGroup>
+        </ModalFooter>
+      </Form>
+    </Fragment>
+  );
+
   render() {
     return (
       <Col
@@ -206,112 +319,13 @@ class InitSetupAndGlobalSetting extends Component {
           border: '1px solid #E9ECEF'
         }}
       >
-        <ModalHeader
-          close={
-            !this.props.initSetup ? (
-              <FontAwesomeIcon
-                icon="times"
-                onClick={this.props.history.goBack}
-              />
-            ) : null
-          }
-        >
-          <p className="h4">
-            {this.props.initSetup ? 'Initial Configuration' : 'Global Settings'}
-          </p>
-
-          {this.props.initSetup && (
-            <p style={{ fontWeight: 'normal', fontSize: 14 }}>
-              Welcome to Fastvue Syslog Server! This page will assist you in
-              performing initial configuration of your syslog server.
-            </p>
-          )}
-        </ModalHeader>
-        <Form onSubmit={this.handleSubmit}>
-          {this.props.globalSettings && (
-            <ModalBody>
-              {this.props.initSetup && (
-                <Fragment>
-                  {' '}
-                  <FormGroup>
-                    <Label className="initSetupHeading">Listening ports</Label>
-                    <p>
-                      Listen for syslog traffic on the following ports.
-                      (Separate multiple ports with a comma)
-                    </p>
-                    <Input
-                      type="text"
-                      value={this.state.ports}
-                      onChange={(e) => this.setState({ ports: e.target.value })}
-                    />
-                  </FormGroup>
-                  <div className="line" />
-                </Fragment>
-              )}
-              {!this.props.initSetup && this.storageSection()}
-
-              <FormGroup>
-                <Label className="initSetupHeading">
-                  Auto-Discover Syslog Sources
-                </Label>
-                <p className="marginFix">
-                  {' '}
-                  <Input
-                    type="checkbox"
-                    checked={this.state.autoDiscover}
-                    onChange={() =>
-                      this.setState({
-                        autoDiscover: !this.state.autoDiscover
-                      })
-                    }
-                  />
-                  Automatically start logging syslog traffic when it arrives
-                  from new hosts.
-                </p>
-              </FormGroup>
-
-              <div className="line" />
-              {this.authSection()}
-
-              {this.props.initSetup && (
-                <Fragment>
-                  <div className="line" />
-                  {this.storageSection()}
-                </Fragment>
-              )}
-            </ModalBody>
-          )}
-          <ModalFooter>
-            <FormGroup>
-              {!this.props.initSetup && (
-                <Button
-                  className="halfButton"
-                  color="danger"
-                  onClick={this.props.history.goBack}
-                >
-                  Cancel
-                </Button>
-              )}{' '}
-              <Button
-                className="halfButton"
-                color="success"
-                type="submit"
-                disabled={this.props.loading}
-              >
-                {this.props.loading ? (
-                  <Fragment>
-                    <FontAwesomeIcon spin icon="circle-notch" /> Saving
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <FontAwesomeIcon icon="check" /> Save{' '}
-                    {this.props.initSetup ? 'Configuration' : ''}
-                  </Fragment>
-                )}
-              </Button>
-            </FormGroup>
-          </ModalFooter>
-        </Form>
+        {!this.props.initSetup ? (
+          <Modal isOpen className="drawer" onClose={this.handleClose}>
+            {this.content()}
+          </Modal>
+        ) : (
+          this.content()
+        )}
       </Col>
     );
   }

@@ -10,18 +10,31 @@ import { Row, Container } from 'reactstrap';
 import { fetchSourceList } from 'containers/SideBar/actions';
 import { makeSelectActiveSource } from 'containers/SideBar/selectors';
 import { fetchGlobalSettings } from 'containers/App/actions';
+import { makeSelectGlobalSettings } from 'containers/App/selectors';
+
+import InitSetupAndGlobalSetting from 'components/InitSetupAndGlobalSetting';
 
 class HomePage extends Component {
   state = {
     intervalId: null
   };
   componentDidMount() {
+    console.log(this.props.match);
     this.props.fetchSourceList();
     this.props.fetchGlobalSettings();
     const intervalId = setInterval(() => {
       this.props.fetchSourceList();
     }, 5000);
     this.setState({ intervalId });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.match.path !== this.props.match.path &&
+      this.props.match.path === '/settings'
+    ) {
+      this.props.fetchGlobalSettings();
+    }
   }
 
   componentWillUnmount() {
@@ -43,6 +56,11 @@ class HomePage extends Component {
               match={this.props.match}
               history={this.props.history}
             />
+            {this.props.match.path === '/settings' && (
+              <InitSetupAndGlobalSetting
+                globalSettings={this.props.globalSettings}
+              />
+            )}
           </Row>
         </Container>
       </Fragment>
@@ -54,7 +72,8 @@ HomePage.propTypes = {
   match: PropTypes.any,
   history: PropTypes.any,
   activeSource: PropTypes.any,
-  fetchSourceList: PropTypes.func
+  fetchSourceList: PropTypes.func,
+  globalSettings: PropTypes.any
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -63,7 +82,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = createStructuredSelector({
-  activeSource: makeSelectActiveSource()
+  activeSource: makeSelectActiveSource(),
+  globalSettings: makeSelectGlobalSettings()
 });
 
 const withConnect = connect(

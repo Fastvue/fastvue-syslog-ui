@@ -101,6 +101,30 @@ const GlobalStyle = createGlobalStyle`
  right: 30px;
 }
 
+
+.drawer {
+  
+  width: 100%;
+  position: fixed;
+  margin: auto;
+  height: 100%;
+  right: 0;
+  -webkit-transform: translate3d(0%, 0, 0);
+  -ms-transform: translate3d(0%, 0, 0);
+  -o-transform: translate3d(0%, 0, 0);
+  transform: translate3d(0%, 0, 0);
+
+  .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .modal-body {
+    padding: 15px 15px 80px;
+  }
+
+}
+
 `;
 
 export default GlobalStyle;

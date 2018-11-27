@@ -50,6 +50,7 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchInitConfig();
     this.props.fetchAppVersion();
+    this.props.fetchGlobalSettings();
 
     const cookie = document.cookie.split(';');
     if (cookie[0]) {
@@ -95,7 +96,7 @@ class App extends Component {
     }
 
     if (
-      this.state.toInitalSetup &&
+      this.state.show === 'initialSetup' &&
       prevProps.isUpdateGlobalSettingsLoading !==
         this.props.isUpdateGlobalSettingsLoading
     ) {
@@ -126,11 +127,7 @@ class App extends Component {
               path="/source/:id/:tab(stats|files|archives)?/:subTab(size|messages)?"
               component={HomePage}
             />
-            <Route
-              exact
-              path="/settings"
-              component={InitSetupAndGlobalSetting}
-            />
+            <Route exact path="/settings" component={HomePage} />
             <Route path="" component={NotFoundPage} />
           </Switch>
         )}
