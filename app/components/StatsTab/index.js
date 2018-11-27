@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row, Button } from 'reactstrap';
 import StatTile from 'components/StatTile';
@@ -16,13 +16,29 @@ import {
   multiSeriesNumericChartOptions
 } from './chartOptions';
 
-class StatsTab extends Component {
+class StatsTab extends PureComponent {
   state = {
-    subTab: 'size'
+    subTab: 'size',
+    chartSeriesOption: null,
+    serires: []
   };
-  render() {
+
+  componentDidMount() {
+    this.prepareChartConfig();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.sourceId !== prevProps.sourceId ||
+      this.props.subTab !== prevProps.subTab ||
+      (!prevProps.chartData && this.props.chartData)
+    ) {
+      this.prepareChartConfig();
+    }
+  }
+
+  prepareChartConfig = () => {
     let series = [];
-    let mergedSeries = [];
     const logFilesSeries = {
       name: 'Log File Size',
       data: []
@@ -93,7 +109,6 @@ class StatsTab extends Component {
       }
       if (this.state.subTab === 'size') {
         series = sizePerDaySeries;
-        mergedSeries = _unionBy(series, series, 'name');
       } else {
         series = msgPerDaySeries;
       }
@@ -103,11 +118,28 @@ class StatsTab extends Component {
           : multiSeriesNumericChartOptions;
     }
 
-    const options = {
-      colors,
-      ...chartSeriesOption,
+    // const options = {
+    //   colors,
+    //   ...chartSeriesOption,
+    //   series
+    // };
+    this.setState({
+      chartSeriesOption,
       series
-    };
+    });
+  };
+
+  handleButtonClick = (subTab) => {
+    if (this.props.sourceId) {
+      this.props.history.push(`/source/${this.props.sourceId}/stats/${subTab}`);
+    } else {
+      this.setState({ subTab }, () => {
+        this.prepareChartConfig();
+      });
+    }
+  };
+
+  render() {
     return (
       <Col>
         <Row>
@@ -126,13 +158,7 @@ class StatsTab extends Component {
                     : this.state.subTab === 'size'
                 }
                 size="sm"
-                onClick={() =>
-                  (this.props.sourceId
-                    ? this.props.history.push(
-                        `/source/${this.props.sourceId}/stats/size`
-                      )
-                    : this.setState({ subTab: 'size' }))
-                }
+                onClick={() => this.handleButtonClick('size')}
               >
                 Size
               </Button>
@@ -143,19 +169,20 @@ class StatsTab extends Component {
                     ? this.props.subTab === 'messages'
                     : this.state.subTab === 'messages'
                 }
-                onClick={() =>
-                  (this.props.sourceId
-                    ? this.props.history.push(
-                        `/source/${this.props.sourceId}/stats/messages`
-                      )
-                    : this.setState({ subTab: 'messages' }))
-                }
+                onClick={() => this.handleButtonClick('messages')}
               >
                 Messages
               </Button>
             </StyledButtonGroup>
 
-            <StyledHighchartsReact highcharts={Highcharts} options={options} />
+            <StyledHighchartsReact
+              highcharts={Highcharts}
+              options={{
+                colors,
+                ...this.state.chartSeriesOption,
+                series: this.state.series
+              }}
+            />
           </Col>
         </Row>
       </Col>
