@@ -19,7 +19,6 @@ class HomePage extends Component {
     intervalId: null
   };
   componentDidMount() {
-    console.log(this.props.match);
     this.props.fetchSourceList();
     this.props.fetchGlobalSettings();
     const intervalId = setInterval(() => {
