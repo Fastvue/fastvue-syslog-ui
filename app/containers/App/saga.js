@@ -174,9 +174,7 @@ export function* updateInitConfig() {
     data: { initConfigured: true }
   };
 
-  try {
-    yield call(request, requestOptions);
-  } catch (err) {}
+  yield call(request, requestOptions);
 }
 
 export default function* appSaga() {

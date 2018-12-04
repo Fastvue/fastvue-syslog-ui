@@ -26,8 +26,6 @@ function configureStore(initialState = {}, history) {
     typeof window === 'object' &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // TODO Try to remove when `react-router-redux` is out of beta, LOCATION_CHANGE should not be fired more than once after hot reloading
-        // Prevent recomputing reducers for `replaceReducer`
         shouldHotReload: false
       })
       : compose;
@@ -59,4 +57,4 @@ function configureStore(initialState = {}, history) {
 // Create redux store with history
 const initialState = {};
 
-export default configureStore(initialState, history);
+export default configureStore(initialState, history); // eslint-disable-line no-restricted-globals

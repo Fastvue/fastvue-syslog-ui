@@ -1,10 +1,10 @@
 export const isNormalInteger = (str) => {
-  const n = ~~Number(str);
+  const n = ~~Number(str); // eslint-disable-line no-bitwise
   return String(n) === str && n >= 0;
 };
 export const formatNumber = (number) => {
   // returns an appropriatly formatted number with decimal places and thousand separators
-  if (number ==='undefined') {
+  if (number === 'undefined') {
     return 'undefined';
   }
 
@@ -34,7 +34,7 @@ export const formatNumber = (number) => {
 
   if (decimalIndex < numstr.length) {
     result += '.';
-    result += numstr.substr(decimalIndex + 1, numstr.length - decimalIndex + 1);
+    result += numstr.substr(decimalIndex + 1, numstr.length - decimalIndex + 1); // eslint-disable-line no-mixed-operators
   }
 
   return result.toLocaleString();
@@ -46,9 +46,9 @@ export const _bytesToSize = (bytes) => {
     return '0 Byte';
   }
 
-  const i = parseInt(Math.log(bytes) / Math.log(1024));
+  const i = parseInt(Math.log(bytes) / Math.log(1024), 10);
 
-  const finalSize = `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
+  const finalSize = `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`; // eslint-disable-line no-restricted-properties
 
   return finalSize;
 };

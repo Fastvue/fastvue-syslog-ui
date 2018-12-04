@@ -77,11 +77,30 @@ class MainContent extends Component {
     this.clearAllIntervals();
   }
 
+  getSortedComponent(id, table) {
+    const sortDesc = (
+      <FontAwesomeIcon icon="sort-amount-down" color="#282C34" />
+    );
+    const sortAsc = <FontAwesomeIcon icon="sort-amount-up" color="#282C34" />;
+    const noSort = (
+      <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6DE" />
+    );
+
+    const sortInfo = this.state[`${table}Sorted`].filter(
+      (item) => item.id === id
+    );
+    if (sortInfo.length) {
+      if (sortInfo[0].desc === true) return sortDesc;
+      if (sortInfo[0].desc === false) return sortAsc;
+    }
+    return noSort;
+  }
+
   checkCurrentTabAndFetch = () => {
     const { tab } = this.props.match.params;
     if (this.props.sourceId) {
       this.props.fetchSourceStats(this.props.sourceId);
-      
+
       if (tab === 'files') {
         this.clearAllIntervals();
         this.props.fetchSourceFiles(this.props.sourceId);
@@ -95,6 +114,26 @@ class MainContent extends Component {
       this.startIntervalFetching('globalStats');
     }
   };
+
+  clearAllIntervals = () => {
+    clearInterval(this.state.globalStatsIntervalId);
+    clearInterval(this.state.statsIntervalId);
+  };
+  genericHeaderArrows = (tableName) => ({
+    Header: (props) => {
+      const Sorted = this.getSortedComponent(props.column.id, tableName);
+      return (
+        <Fragment>
+          {' '}
+          <span className={`text-${props.column.HeaderTextAlign}`}>
+            {props.column.HeaderText}
+          </span>{' '}
+          <span style={{ position: 'absolute', right: 7 }}>{Sorted}</span>
+        </Fragment>
+      );
+    },
+    headerStyle: { boxShadow: 'none' }
+  });
 
   startIntervalFetching = (type) => {
     this.clearAllIntervals();
@@ -115,46 +154,6 @@ class MainContent extends Component {
       });
     }
   };
-
-  clearAllIntervals = () => {
-    clearInterval(this.state.globalStatsIntervalId);
-    clearInterval(this.state.statsIntervalId);
-  };
-
-  getSortedComponent(id, table) {
-    const sortDesc = (
-      <FontAwesomeIcon icon="sort-amount-down" color="#282C34" />
-    );
-    const sortAsc = <FontAwesomeIcon icon="sort-amount-up" color="#282C34" />;
-    const noSort = (
-      <FontAwesomeIcon rotation={90} icon="exchange-alt" color="#D6D6DE" />
-    );
-
-    const sortInfo = this.state[`${table}Sorted`].filter(
-      (item) => item.id === id
-    );
-    if (sortInfo.length) {
-      if (sortInfo[0].desc === true) return sortDesc;
-      if (sortInfo[0].desc === false) return sortAsc;
-    }
-    return noSort;
-  }
-
-  genericHeaderArrows = (tableName) => ({
-    Header: (props) => {
-      const Sorted = this.getSortedComponent(props.column.id, tableName);
-      return (
-        <Fragment>
-          {' '}
-          <span className={`text-${props.column.HeaderTextAlign}`}>
-            {props.column.HeaderText}
-          </span>{' '}
-          <span style={{ position: 'absolute', right: 7 }}>{Sorted}</span>
-        </Fragment>
-      );
-    },
-    headerStyle: { boxShadow: 'none' }
-  });
   render() {
     const { stats, globalStats } = this.props;
 
@@ -258,7 +257,7 @@ class MainContent extends Component {
                     sortable
                     resizable={false}
                     defaultFilterMethod={(filter, row) =>
-                      String(row._original[filter.id])
+                      String(row._original[filter.id]) // eslint-disable-line  no-underscore-dangle
                         .toLowerCase()
                         .includes(String(filter.value).toLowerCase())
                     }
@@ -349,7 +348,7 @@ class MainContent extends Component {
                     filterable
                     resizable={false}
                     defaultFilterMethod={(filter, row) =>
-                      String(row._original[filter.id])
+                      String(row._original[filter.id]) // eslint-disable-line no-underscore-dangle
                         .toLowerCase()
                         .includes(String(filter.value).toLowerCase())
                     }
@@ -447,7 +446,8 @@ MainContent.propTypes = {
   fetchSourceFiles: PropTypes.func,
   fetchSourceStats: PropTypes.func,
   fetchSourceArchives: PropTypes.func,
-  fetchGlobalStats: PropTypes.func
+  fetchGlobalStats: PropTypes.func,
+  history: PropTypes.any
 };
 
 const mapDispatchToProps = (dispatch) => ({

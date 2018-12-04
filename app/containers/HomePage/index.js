@@ -72,7 +72,8 @@ HomePage.propTypes = {
   history: PropTypes.any,
   activeSource: PropTypes.any,
   fetchSourceList: PropTypes.func,
-  globalSettings: PropTypes.any
+  globalSettings: PropTypes.any,
+  fetchGlobalSettings: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({

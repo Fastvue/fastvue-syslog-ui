@@ -4,10 +4,8 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { Col, Row } from 'reactstrap';
+import InitSetupAndGlobalSetting from 'components/InitSetupAndGlobalSetting';
 import { createStructuredSelector } from 'reselect';
-
-import Drawer from 'components/Drawer';
-import Header from 'components/Header';
 
 import {
   fetchGlobalSettings,
@@ -37,7 +35,7 @@ class GlobalSettings extends Component {
       <Fragment>
         <Col md={12} lg={12} xl={12}>
           <Row>
-            <Drawer
+            <InitSetupAndGlobalSetting
               globalSettings={this.props.globalSettings}
               onClose={() => {
                 this.props.history.goBack();
@@ -56,7 +54,8 @@ GlobalSettings.propTypes = {
   globalSettings: PropTypes.object,
   updateGlobalSettingsLoading: PropTypes.bool,
   fetchGlobalSettings: PropTypes.func,
-  updateGlobalSettings: PropTypes.func
+  updateGlobalSettings: PropTypes.func,
+  history: PropTypes.any
 };
 
 const mapDispatchToProps = (dispatch) => ({

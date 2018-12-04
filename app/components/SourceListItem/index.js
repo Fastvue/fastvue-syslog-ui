@@ -55,7 +55,9 @@ const SourceListItem = (props) => {
               role="button"
               onClick={() => {
                 props.onSettingButtonClick(props.id);
-                props.isSourceEditorOpen && props.onSourceEditorCancel();
+                if (props.isSourceEditorOpen) {
+                  props.onSourceEditorCancel();
+                }
               }}
             >
               <FontAwesomeIcon icon="cog" />

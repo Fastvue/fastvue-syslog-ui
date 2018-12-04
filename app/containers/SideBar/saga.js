@@ -41,10 +41,8 @@ export function* toggleSourceAutoDiscover(action) {
     data: { id: action.sourceId }
   };
 
-  try {
-    yield call(request, requestOptions);
-    yield put(fetchSourceList());
-  } catch (err) {}
+  yield call(request, requestOptions);
+  yield put(fetchSourceList());
 }
 
 export function* addOrUpdateSource(action) {

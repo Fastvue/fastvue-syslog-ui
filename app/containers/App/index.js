@@ -187,7 +187,18 @@ App.propTypes = {
   fetchInitConfig: PropTypes.func,
   fetchAppVersion: PropTypes.func,
   fetchGlobalSettings: PropTypes.func,
-  history: PropTypes.object
+  history: PropTypes.object,
+  globalSettings: PropTypes.object,
+  logout: PropTypes.func,
+  listeningPorts: PropTypes.string,
+  isLoginFail: PropTypes.bool,
+  login: PropTypes.func,
+  isUpdateGlobalSettingsLoading: PropTypes.bool,
+  resetLoginFail: PropTypes.func,
+  isLoggedIn: PropTypes.bool,
+  isLoggedOut: PropTypes.bool,
+  initConfig: PropTypes.bool,
+  fetchPorts: PropTypes.func
 };
 
 export default compose(

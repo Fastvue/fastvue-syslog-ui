@@ -5,7 +5,8 @@ export const singleSeriesBytesChartOptions = {
   chart: {
     backgroundColor: '#fafafa',
     type: 'column',
-    /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
+    zoomType: 'x'
+    /* renderTo: "globalLogsPerDayContainer", */
   },
   title: { text: 'Log Size per Day' }, // if changing this, make sure you also change in renderGlobalStats
   xAxis: { type: 'datetime', minRange: 8 * 24 * 60 * 15 },
@@ -25,7 +26,7 @@ export const singleSeriesBytesChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i++) {
+      for (let i = 0; i < this.points.length; i + 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -100,7 +101,7 @@ export const multiSeriesBytesChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i++) {
+      for (let i = 0; i < this.points.length; i + 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -177,7 +178,7 @@ export const singleSeriesNumericChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i++) {
+      for (let i = 0; i < this.points.length; i + 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -252,7 +253,7 @@ export const multiSeriesNumericChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i++) {
+      for (let i = 0; i < this.points.length; i + 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -322,36 +323,3 @@ export const colors = [
   '#71C68D',
   '#D6DE7E'
 ];
-
-// if (sourceId) {
-//   const logfilesSeries = {
-//     name: 'Log File Size',
-//     data: []
-//   };
-
-//   const archiveSeries = {
-//     name: 'Archived Log Size',
-//     data: []
-//   };
-
-//   const messageSeries = {
-//     name: 'Number of Messages',
-//     data: []
-//   };
-
-//   if (source.dates !== null && source.dates.length > 0) {
-//     source.dates.forEach((stat) => {
-//       if (chart === 'size') {
-//         logfilesSeries.data.push([stat.date, stat.size]);
-//         archiveSeries.data.push([stat.date, stat.archiveSize]);
-//       } else {
-//         messageSeries.data.push([stat.date, stat.messages]);
-//       }
-//     });
-//     if (chart === 'size') {
-//       seriesArray.push(logfilesSeries, archiveSeries);
-//     } else {
-//       seriesArray.push(messageSeries);
-//     }
-//   }
-// }

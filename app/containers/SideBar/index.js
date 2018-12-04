@@ -91,10 +91,6 @@ class SideBar extends Component {
       this.props.fetchPorts();
     }
 
-    if (!this.props.listeningPorts && prevProps.listeningPorts) {
-      this.setState({ listeningPorts: this.props.listeningPorts });
-    }
-
     if (
       this.props.activeSourceId !== prevProps.activeSourceId &&
       this.props.activeSourceId
@@ -125,7 +121,9 @@ class SideBar extends Component {
 
   handleSourceSettingButtonClick = (id) => {
     this.props.openSourceEditor(id);
-    this.props.isAddSysLogSourceOpen && this.props.closeSyslogSourceAddForm();
+    if (this.props.isAddSysLogSourceOpen) {
+      this.props.closeSyslogSourceAddForm();
+    }
   };
 
   render() {
@@ -231,7 +229,6 @@ SideBar.propTypes = {
   sourceList: PropTypes.any,
   activeSourceId: PropTypes.any,
   sourceIdWhoseSourceEditorIsOpen: PropTypes.any,
-  listeningPorts: PropTypes.any,
   isDeleteSourceSuccessModalOpen: PropTypes.bool,
   isListeningPortSuccessModalOpen: PropTypes.bool,
   isDeleteSourceModalOpen: PropTypes.bool,
@@ -240,6 +237,7 @@ SideBar.propTypes = {
   addOrUpdateSourceLoading: PropTypes.bool,
   isAddSourceSuccessModalOpen: PropTypes.bool,
   history: PropTypes.any,
+  listeningPorts: PropTypes.string,
   toggleSourceAutoDiscover: PropTypes.func,
   fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
@@ -258,7 +256,8 @@ SideBar.propTypes = {
   toggleListeningPortSuccessModal: PropTypes.func,
   toggleAddSourceSuccessModal: PropTypes.func,
   updateActiveSource: PropTypes.func,
-  fetchAndUpdateGlobalSettings: PropTypes.func
+  fetchAndUpdateGlobalSettings: PropTypes.func,
+  fetchPorts: PropTypes.func
 };
 
 const mapDispatchToProps = (dispatch) => ({
