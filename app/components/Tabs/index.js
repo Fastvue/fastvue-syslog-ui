@@ -21,8 +21,8 @@ const Tabs = (props) => (
 
 Tabs.propTypes = {
   tabs: PropTypes.array,
-  activeTab: PropTypes.string,
-  onActiveTabChange: PropTypes.func
+  activeTab: PropTypes.string
+  // onActiveTabChange: PropTypes.func
 };
 
 export default Tabs;

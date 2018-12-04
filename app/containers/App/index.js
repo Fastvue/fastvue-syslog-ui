@@ -183,6 +183,13 @@ const withConnect = connect(
   mapDispatchToProps
 );
 
+App.propTypes = {
+  fetchInitConfig: PropTypes.func,
+  fetchAppVersion: PropTypes.func,
+  fetchGlobalSettings: PropTypes.func,
+  history: PropTypes.object
+};
+
 export default compose(
   withReducer,
   withSaga,

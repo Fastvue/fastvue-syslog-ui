@@ -31,7 +31,7 @@ const SourceListItem = (props) => {
       lg="12"
       className={`${props.id ===
         (props.match.params && props.match.params.id) && 'highlights'}`}
-      onClick={(e) => props.history.push(`/source/${props.id}/stats/size`)}
+      onClick={() => props.history.push(`/source/${props.id}/stats/size`)}
       id={`sourceEditor${props.id}`}
     >
       <Row>
@@ -108,7 +108,10 @@ SourceListItem.propTypes = {
   onSettingButtonClick: PropTypes.func,
   onSourceEditorCancel: PropTypes.func,
   addOrUpdateSource: PropTypes.func,
-  onDeleteButtonClick: PropTypes.func
+  onDeleteButtonClick: PropTypes.func,
+  match: PropTypes.object,
+  history: PropTypes.object,
+  displayName: PropTypes.string
 };
 
 export default withRouter(SourceListItem);

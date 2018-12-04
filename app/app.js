@@ -15,11 +15,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
-import 'sanitize.css/sanitize.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'react-table/react-table.css';
-import store from './store';
-
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faSignOutAlt,
@@ -37,13 +32,17 @@ import {
   faCheck
 } from '@fortawesome/free-solid-svg-icons';
 
-// Import root app
-import App from 'containers';
-
 // Load the favicon
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 /* eslint-enable import/no-webpack-loader-syntax */
+
+// Import root app
+import App from 'containers';
+import 'sanitize.css/sanitize.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-table/react-table.css';
+import store from './store';
 
 library.add(
   faSignOutAlt,

@@ -2,15 +2,15 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row, Button } from 'reactstrap';
 import StatTile from 'components/StatTile';
-import { Link } from 'react-router-dom';
-import { unionBy as _unionBy } from 'lodash';
+// import { Link } from 'react-router-dom';
+// import { unionBy as _unionBy } from 'lodash';
 
 import Highcharts from 'highcharts';
 import { StyledButtonGroup, StyledHighchartsReact } from './styles';
 
 import {
   colors,
-  singleSeriesBytesChartOptions,
+  // singleSeriesBytesChartOptions,
   multiSeriesBytesChartOptions,
   singleSeriesNumericChartOptions,
   multiSeriesNumericChartOptions
@@ -19,8 +19,8 @@ import {
 class StatsTab extends PureComponent {
   state = {
     subTab: 'size',
-    chartSeriesOption: null,
-    serires: []
+    chartSeriesOption: null
+    // serires: []
   };
 
   componentDidMount() {

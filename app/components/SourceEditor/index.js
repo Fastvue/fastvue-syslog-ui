@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TabContent, TabPane, Col, Button, Form, FormGroup } from 'reactstrap';
+import { TabPane, Form, FormGroup } from 'reactstrap';
 import Tabs from 'components/Tabs';
 import FormBuilder from 'components/FormBuilder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

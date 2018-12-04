@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
   Modal,
   ModalHeader,
@@ -49,5 +50,11 @@ class ListeningPortsModal extends PureComponent {
     );
   }
 }
+
+ListeningPortsModal.propTypes = {
+  ports: PropTypes.string,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func
+};
 
 export default ListeningPortsModal;
