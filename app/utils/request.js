@@ -16,9 +16,6 @@ export default async function request(options) {
   let res = await fetch(process.env.API_URL + options.url, {
     ...options,
     body: JSON.stringify(options.data),
-    headers: {
-      ...options.headers
-    },
     ...(!options.url.includes('login') && {
       withCredentials: true,
       credentials: 'include'

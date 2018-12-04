@@ -79,7 +79,6 @@ export function* fetchGlobalSettings() {
     method: 'get',
     url: '/api/settings/globalsettings'
   };
-
   try {
     const globalSettings = yield call(request, requestOptions);
 
@@ -95,9 +94,9 @@ export function* updateGlobalSettings(action) {
     url: '/api/settings/setglobalsettings',
     data: action.globalSettings
   };
+
   try {
     yield call(request, requestOptions);
-
     yield put(updateGlobalSettingsSuccess());
     yield put(fetchGlobalSettingsSuccess(action.globalSettings));
   } catch (err) {
