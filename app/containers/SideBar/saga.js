@@ -57,9 +57,11 @@ export function* addOrUpdateSource(action) {
   };
 
   try {
-    const res = yield call(request, requestOptions);
+    yield call(request, requestOptions);
 
-    yield put(addOrUpdateSourceSuccess(res));
+    yield put(
+      addOrUpdateSourceSuccess(!action.id ? action.fields.displayName : '')
+    );
     yield put(fetchSourceList());
     if (action.id) {
       yield put(closeSourceEditor());

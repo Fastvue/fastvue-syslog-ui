@@ -26,7 +26,7 @@ export const singleSeriesBytesChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i + 1) {
+      for (let i = 0; i < this.points.length; i += 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -101,7 +101,7 @@ export const multiSeriesBytesChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i + 1) {
+      for (let i = 0; i < this.points.length; i += 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -178,7 +178,7 @@ export const singleSeriesNumericChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i + 1) {
+      for (let i = 0; i < this.points.length; i += 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name
@@ -253,7 +253,7 @@ export const multiSeriesNumericChartOptions = {
         this.x
       )}</span><br/>`;
 
-      for (let i = 0; i < this.points.length; i + 1) {
+      for (let i = 0; i < this.points.length; i += 1) {
         const myPoint = this.points[i];
         s += `<br/><span style="color:${myPoint.series.color}">\u25CF</span>${
           myPoint.series.name

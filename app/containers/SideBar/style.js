@@ -8,13 +8,10 @@ const StyledSideBar = styled(Col)`
 
   @media screen and (min-width: ${variables.defaultBreakPoint}) {
     position: absolute !important;
-    top: 59.236px;
+    top: ${variables.headerHeight};
     left: 0;
     overflow-x: hidden;
-
-    // For equal height of sidebar and main-content
-    padding-bottom: 99999px;
-    margin-bottom: -99999px;
+    bottom: 0;
   }
 `;
 

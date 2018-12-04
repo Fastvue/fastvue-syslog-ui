@@ -24,16 +24,18 @@ const StyledSourceListItem = styled(Col)`
     float: right;
 
     .btn {
+      width: 40px;
       display: block;
-      width: inherit;
       border-radius: 0;
       border-bottom: 1px solid #22232f;
       border-left: 1px solid #22232f;
       border-right: 0;
       margin: 0;
-      &.active {
+      outline: none !important;
+      border-image-width: 0;
+      &.activated {
         background-color: #fafafa;
-        color: black;
+        color: #2f3142;
       }
     }
   }

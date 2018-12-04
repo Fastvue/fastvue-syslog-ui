@@ -2,11 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Row, Button } from 'reactstrap';
 import StatTile from 'components/StatTile';
+import { isEqual } from 'lodash';
 // import { Link } from 'react-router-dom';
 // import { unionBy as _unionBy } from 'lodash';
 
+import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts';
-import { StyledButtonGroup, StyledHighchartsReact } from './styles';
+
+import { StyledButtonGroup } from './styles';
 
 import {
   colors,
@@ -19,8 +22,8 @@ import {
 class StatsTab extends PureComponent {
   state = {
     subTab: 'size',
-    chartSeriesOption: null
-    // serires: []
+    chartSeriesOption: null,
+    series: []
   };
 
   componentDidMount() {
@@ -31,7 +34,7 @@ class StatsTab extends PureComponent {
     if (
       this.props.sourceId !== prevProps.sourceId ||
       this.props.subTab !== prevProps.subTab ||
-      (!prevProps.chartData && this.props.chartData)
+      !isEqual(prevProps.chartData, this.props.chartData)
     ) {
       this.prepareChartConfig();
     }
@@ -175,7 +178,7 @@ class StatsTab extends PureComponent {
               </Button>
             </StyledButtonGroup>
 
-            <StyledHighchartsReact
+            <HighchartsReact
               highcharts={Highcharts}
               options={{
                 colors,

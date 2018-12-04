@@ -1,20 +1,21 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, Button, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 const DeleteSourceModal = (props) => (
-  <Modal isOpen toggle={props.onClose}>
-    <ModalHeader toggle={props.onClose}>Are you sure?</ModalHeader>
-    <ModalBody>Delete syslog source {props.displayName}?</ModalBody>
-    <ModalFooter>
-      <Button color="secondary" onClick={props.onClose}>
-        Cancel
-      </Button>{' '}
-      <Button color="danger" onClick={props.onSubmit}>
-        Yes, delete it !
-      </Button>
-    </ModalFooter>
-  </Modal>
+  <SweetAlert
+    warning
+    showCancel
+    closeOnClickOutside
+    confirmBtnText="Yes, delete it!"
+    confirmBtnBsStyle="danger"
+    cancelBtnBsStyle="secondary"
+    title="Are you sure?"
+    onConfirm={props.onSubmit}
+    onCancel={props.onClose}
+  >
+    Delete syslog source {props.displayName}?
+  </SweetAlert>
 );
 DeleteSourceModal.propTypes = {
   displayName: PropTypes.string,

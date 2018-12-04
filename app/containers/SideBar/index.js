@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
@@ -62,7 +62,8 @@ import {
   makeSelectIsDeleteSourceSuccessModalOpen,
   makeSelectToBeDeletedSource,
   makeSelectAddOrUpdateSourceLoading,
-  makeSelectIsAddSourceSuccessModalOpen
+  makeSelectIsAddSourceSuccessModalOpen,
+  makeSelectLastAddedSourceName
 } from './selectors';
 
 import reducer from './reducer';
@@ -128,7 +129,7 @@ class SideBar extends Component {
 
   render() {
     return (
-      <StyledSideBar md={12} lg={4} xl={3}>
+      <Fragment>
         {this.props.isListeningPortModalOpen && (
           <ListeningPortsModal
             ports={this.props.listeningPorts}
@@ -155,6 +156,7 @@ class SideBar extends Component {
         {this.props.isAddSourceSuccessModalOpen && (
           <AddSourceSuccessModal
             onClose={this.props.toggleAddSourceSuccessModal}
+            displayName={this.props.lastAddedSourceName}
           />
         )}
 
@@ -164,61 +166,65 @@ class SideBar extends Component {
             onClose={this.props.toggleDeleteSourceSuccessModal}
           />
         )}
-
-        <StyledTileContainer>
-          <Tile
-            variant="autoDiscover"
-            label="Auto Discover"
-            onClick={this.fetchAndUpdateGlobalSettings}
-            isAutoDiscoverOn={this.props.globalSettings.autoDiscover}
-          />
-          {this.props.globalSettings.autoDiscover ? (
+        <StyledSideBar md={12} lg={4} xl={3}>
+          <StyledTileContainer>
             <Tile
-              onClick={this.props.openListeningPortModal}
-              variant="listeningPort"
-              label="Listening Ports"
+              variant="autoDiscover"
+              label="Auto Discover"
+              onClick={this.fetchAndUpdateGlobalSettings}
+              isAutoDiscoverOn={this.props.globalSettings.autoDiscover}
             />
-          ) : (
-            <Tile
-              onClick={this.props.openSyslogSourceAddForm}
-              variant="addSource"
-              label="Add Syslog Source"
-            />
-          )}
-        </StyledTileContainer>
-        <Row>
-          {this.props.isAddSysLogSourceOpen && (
-            <SourceEditor
-              loading={this.props.addOrUpdateSourceLoading}
-              onFormCancel={this.props.closeSyslogSourceAddForm}
-              onFormSubmit={this.props.addOrUpdateSource}
-            />
-          )}
-        </Row>
-        <Row>
-          {this.props.sourceList.map((source) => (
-            <SourceListItem
-              key={source.id}
-              {...source}
-              addOrUpdateSourceLoading={this.props.addOrUpdateSourceLoading}
-              activeSourceId={this.props.activeSourceId}
-              isSourceEditorOpen={
-                this.props.sourceIdWhoseSourceEditorIsOpen === source.id
-              }
-              onToggleButtonClick={(id, isSourceEnabled) =>
-                this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
-              }
-              onSettingButtonClick={this.handleSourceSettingButtonClick}
-              onSourceEditorCancel={this.props.closeSourceEditor}
-              addOrUpdateSource={this.props.addOrUpdateSource}
-              onDeleteButtonClick={(sourceId, sourceDisplayName) => {
-                this.props.openDeleteSourceModal();
-                this.props.updateToBeDeletedSource(sourceId, sourceDisplayName);
-              }}
-            />
-          ))}
-        </Row>
-      </StyledSideBar>
+            {this.props.globalSettings.autoDiscover ? (
+              <Tile
+                onClick={this.props.openListeningPortModal}
+                variant="listeningPort"
+                label="Listening Ports"
+              />
+            ) : (
+              <Tile
+                onClick={this.props.openSyslogSourceAddForm}
+                variant="addSource"
+                label="Add Syslog Source"
+              />
+            )}
+          </StyledTileContainer>
+          <Row>
+            {this.props.isAddSysLogSourceOpen && (
+              <SourceEditor
+                loading={this.props.addOrUpdateSourceLoading}
+                onFormCancel={this.props.closeSyslogSourceAddForm}
+                onFormSubmit={this.props.addOrUpdateSource}
+              />
+            )}
+          </Row>
+          <Row>
+            {this.props.sourceList.map((source) => (
+              <SourceListItem
+                key={source.id}
+                {...source}
+                addOrUpdateSourceLoading={this.props.addOrUpdateSourceLoading}
+                activeSourceId={this.props.activeSourceId}
+                isSourceEditorOpen={
+                  this.props.sourceIdWhoseSourceEditorIsOpen === source.id
+                }
+                onToggleButtonClick={(id, isSourceEnabled) =>
+                  this.props.toggleSourceAutoDiscover(id, isSourceEnabled)
+                }
+                onSettingButtonClick={this.handleSourceSettingButtonClick}
+                onSourceEditorCancel={this.props.closeSourceEditor}
+                addOrUpdateSource={this.props.addOrUpdateSource}
+                onDeleteButtonClick={(sourceId, sourceDisplayName) => {
+                  this.props.openDeleteSourceModal();
+                  this.props.updateToBeDeletedSource(
+                    sourceId,
+                    sourceDisplayName
+                  );
+                }}
+              />
+            ))}
+          </Row>
+        </StyledSideBar>
+      </Fragment>
     );
   }
 }
@@ -238,6 +244,7 @@ SideBar.propTypes = {
   isAddSourceSuccessModalOpen: PropTypes.bool,
   history: PropTypes.any,
   listeningPorts: PropTypes.string,
+  lastAddedSourceName: PropTypes.string,
   toggleSourceAutoDiscover: PropTypes.func,
   fetchSourceList: PropTypes.func,
   openSyslogSourceAddForm: PropTypes.func,
@@ -300,7 +307,8 @@ const mapStateToProps = createStructuredSelector({
   toBeDeletedSource: makeSelectToBeDeletedSource(),
   addOrUpdateSourceLoading: makeSelectAddOrUpdateSourceLoading(),
   isAddSourceSuccessModalOpen: makeSelectIsAddSourceSuccessModalOpen(),
-  globalSettings: makeSelectGlobalSettings()
+  globalSettings: makeSelectGlobalSettings(),
+  lastAddedSourceName: makeSelectLastAddedSourceName()
 });
 
 const withConnect = connect(

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Navbar } from 'reactstrap';
+import { variables } from 'utils/theme';
 
 export const StyledLogo = styled.img`
   width: 160px;
@@ -13,8 +14,10 @@ export const StyledAppVersion = styled.div`
 `;
 
 const StyledNavbar = styled(Navbar)`
-  min-height: 50px;
-  z-index: 999;
+  @media screen and (min-width: ${variables.defaultBreakPoint}) {
+    height: ${variables.headerHeight};
+  }
+  min-height: ${variables.headerHeight};
   background-color: #21232e;
 `;
 

@@ -1,13 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Button,
-  ModalFooter,
-  Input
-} from 'reactstrap';
+
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 class ListeningPortsModal extends PureComponent {
   state = {
@@ -20,34 +14,26 @@ class ListeningPortsModal extends PureComponent {
     }
   }
   render() {
-    return (
-      <Modal isOpen toggle={this.props.onClose}>
-        <ModalHeader toggle={this.props.onClose}>
-          Edit Syslog Listening Ports
-        </ModalHeader>
-        <ModalBody>
+    if (this.state.ports) {
+      return (
+        <SweetAlert
+          input
+          closeOnClickOutside
+          defaultValue={this.state.ports}
+          showCancel
+          confirmBtnText="OK"
+          cancelBtnText="Cancel"
+          confirmBtnBsStyle="primary"
+          cancelBtnBsStyle="secondary"
+          title="Edit Syslog Listening Ports"
+          onConfirm={(inputValue) => this.props.onSubmit(inputValue)}
+          onCancel={this.props.onClose}
+        >
           Enter each port to listen on, separated by commas
-          <Input
-            type="text"
-            value={this.state.ports}
-            onChange={(e) => {
-              this.setState({ ports: e.target.value });
-            }}
-          />
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={this.props.onClose}>
-            Cancel
-          </Button>{' '}
-          <Button
-            color="primary"
-            onClick={() => this.props.onSubmit(this.state.ports)}
-          >
-            OK
-          </Button>
-        </ModalFooter>
-      </Modal>
-    );
+        </SweetAlert>
+      );
+    }
+    return null;
   }
 }
 

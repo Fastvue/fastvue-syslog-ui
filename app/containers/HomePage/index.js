@@ -42,7 +42,7 @@ class HomePage extends Component {
   render() {
     return (
       <Fragment>
-        <Container fluid>
+        <Container fluid style={{ display: 'table' }}>
           <Row>
             <SideBar
               activeSourceId={

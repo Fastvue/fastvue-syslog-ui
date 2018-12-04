@@ -213,7 +213,7 @@ class MainContent extends Component {
                 </Button>
               </Link>
               <StyledDisplayName className="h4">
-                {this.props.stats.displayName}
+                {this.props.stats.displayName || this.props.stats.sourceIP}
               </StyledDisplayName>
               <StyledSourceIP>({this.props.stats.sourceIP})</StyledSourceIP>
             </MainHeadingContainer>

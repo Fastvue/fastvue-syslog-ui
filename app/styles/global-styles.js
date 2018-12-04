@@ -86,7 +86,9 @@ const GlobalStyle = createGlobalStyle`
 .archive_table .-header .rt-tr div:nth-child(3), .archive_table .rt-tbody .rt-tr div:nth-child(3),.archive_table .-filters .rt-tr div:nth-child(3){
  width: 31% !important;
 }
-
+.ReactTable .rt-th {
+  text-align: left !important;
+}
 
 .ReactTable .rt-thead.-header{
  box-shadow: none;
@@ -96,19 +98,23 @@ const GlobalStyle = createGlobalStyle`
  box-shadow:none;
 }
 
+
 .ReactTable .rt-th .text-right{
  position: absolute;
  right: 30px;
 }
 
 
+
+
 .drawer {
-  
+  margin: 0 !important;
   width: 100%;
-  position: fixed;
+  position: fixed !important;
   margin: auto;
   height: 100%;
-  right: 0;
+  right: 0!important;
+  top: 0!important;
   -webkit-transform: translate3d(0%, 0, 0);
   -ms-transform: translate3d(0%, 0, 0);
   -o-transform: translate3d(0%, 0, 0);

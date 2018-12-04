@@ -68,6 +68,12 @@ const makeSelectActiveSource = () =>
     (sideBarState) => sideBarState.get('activeSource').toJS()
   );
 
+const makeSelectLastAddedSourceName = () =>
+  createSelector(
+    selectSideBar,
+    (sideBarState) => sideBarState.get('lastAddedSourceName')
+  );
+
 export {
   selectSideBar,
   makeSelectSourceList,
@@ -80,5 +86,6 @@ export {
   makeSelectToBeDeletedSource,
   makeSelectAddOrUpdateSourceLoading,
   makeSelectIsAddSourceSuccessModalOpen,
-  makeSelectActiveSource
+  makeSelectActiveSource,
+  makeSelectLastAddedSourceName
 };

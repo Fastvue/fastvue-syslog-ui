@@ -1,17 +1,19 @@
 import React from 'react';
-import { Modal, ModalHeader, ModalBody, Button, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 const AuthFailModal = (props) => (
-  <Modal isOpen toggle={props.onClose}>
-    <ModalHeader toggle={props.onClose}>Error!</ModalHeader>
-    <ModalBody>Invalid username or password.</ModalBody>
-    <ModalFooter>
-      <Button color="primary" onClick={props.onClose}>
-        OK
-      </Button>
-    </ModalFooter>
-  </Modal>
+  <SweetAlert
+    danger
+    closeOnClickOutside
+    confirmBtnText="Ok"
+    confirmBtnBsStyle="primary"
+    cancelBtnBsStyle="default"
+    title="Error!?"
+    onConfirm={props.onClose}
+  >
+    Invalid username or password.
+  </SweetAlert>
 );
 
 AuthFailModal.propTypes = {

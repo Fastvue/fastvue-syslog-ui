@@ -109,6 +109,7 @@ class InitSetupAndGlobalSetting extends Component {
             type="text"
             name="username"
             value={this.state.authUsername}
+            autoComplete="username"
             onChange={(e) => this.setState({ authUsername: e.target.value })}
           />
         </Col>
@@ -119,6 +120,7 @@ class InitSetupAndGlobalSetting extends Component {
           <Input
             type="password"
             name="password"
+            autoComplete="current-password"
             onChange={(e) => this.setState({ authPassword: e.target.value })}
           />
         </Col>

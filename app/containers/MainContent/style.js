@@ -43,7 +43,7 @@ const StyledMainContent = styled(Col)`
 
   @media screen and (min-width: ${variables.defaultBreakPoint}) {
     position: absolute !important;
-    top: 59.236px;
+    top: ${variables.headerHeight};
     right: 0;
     bottom: 0;
   }

@@ -9,19 +9,19 @@ const StyledStatTile = styled(Col)`
   text-align: center;
 `;
 const StyledTitle = styled.h2`
-  font-size: 13pt;
+  font-size: 12pt;
   margin: 20px 0 10px 0;
 `;
 const StyledValue = styled.h1`
-  font-size: 32pt;
+  font-size: 30pt;
   margin: 20px 0 10px 0;
 `;
 
 const StatTile = (props) => (
   <StyledStatTile md="12" lg="6" xl="3">
     <StyledStatTile>
-      <StyledTitle className="h2"> {props.title}</StyledTitle>
-      <StyledValue className="h1"> {props.value}</StyledValue>
+      <StyledTitle> {props.title}</StyledTitle>
+      <StyledValue> {props.value}</StyledValue>
     </StyledStatTile>
   </StyledStatTile>
 );

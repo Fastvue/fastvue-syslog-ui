@@ -50,7 +50,7 @@ const SourceListItem = (props) => {
               smooth
               to={`#sourceEditor${props.id}`}
               className={`btn btn-secondary ${
-                props.isSourceEditorOpen ? 'active' : ''
+                props.isSourceEditorOpen ? 'activated' : ''
               }`}
               role="button"
               onClick={() => {
@@ -64,7 +64,7 @@ const SourceListItem = (props) => {
             </HashLink>
 
             <Button
-              className={props.activeSourceId === props.id ? 'active' : ''}
+              className={props.activeSourceId === props.id ? 'activated' : ''}
             >
               <FontAwesomeIcon icon="eye" />
             </Button>

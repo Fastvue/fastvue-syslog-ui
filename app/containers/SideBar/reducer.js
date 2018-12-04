@@ -37,6 +37,7 @@ const initialState = fromJS({
     id: null,
     displayName: ''
   },
+  lastAddedSourceName: '',
 
   sourceList: []
 });
@@ -115,10 +116,12 @@ function sideBarReducer(state = initialState, action) {
       return state
         .set('addOrUpdateSourceLoading', true)
         .set('addOrUpdateSourceErr', false);
+
     case ADD_OR_UPDATE_SOURCE_SUCCESS:
       return state
         .set('addOrUpdateSourceLoading', false)
-        .set('addOrUpdateSourceErr', false);
+        .set('addOrUpdateSourceErr', false)
+        .set('lastAddedSourceName', action.lastAddedSourceName);
     case ADD_OR_UPDATE_SOURCE_FAIL:
       return state
         .set('addOrUpdateSourceLoading', false)

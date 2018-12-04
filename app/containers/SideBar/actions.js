@@ -83,8 +83,9 @@ export const addOrUpdateSource = (fields, id) => ({
   id
 });
 
-export const addOrUpdateSourceSuccess = () => ({
-  type: ADD_OR_UPDATE_SOURCE_SUCCESS
+export const addOrUpdateSourceSuccess = (lastAddedSourceName) => ({
+  type: ADD_OR_UPDATE_SOURCE_SUCCESS,
+  lastAddedSourceName
 });
 
 export const addOrUpdateSourceFail = (err) => ({

@@ -48,9 +48,9 @@ class App extends Component {
     toShowLogout: false
   };
   componentDidMount() {
+    this.props.fetchGlobalSettings();
     this.props.fetchInitConfig();
     this.props.fetchAppVersion();
-    this.props.fetchGlobalSettings();
 
     const cookie = document.cookie.split(';');
     if (cookie[0]) {
@@ -197,7 +197,7 @@ App.propTypes = {
   resetLoginFail: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   isLoggedOut: PropTypes.bool,
-  initConfig: PropTypes.bool,
+  initConfig: PropTypes.any,
   fetchPorts: PropTypes.func
 };
 
