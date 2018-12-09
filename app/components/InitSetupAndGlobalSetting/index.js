@@ -206,7 +206,7 @@ class InitSetupAndGlobalSetting extends Component {
       <ModalHeader
         close={
           !this.props.initSetup ? (
-            <FontAwesomeIcon icon="times" onClick={this.handleClose} />
+            <FontAwesomeIcon icon="times" className="modal-close" onClick={this.handleClose} />
           ) : null
         }
       >
