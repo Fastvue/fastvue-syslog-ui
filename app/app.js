@@ -7,6 +7,7 @@
 
 // Needed for redux-saga es6 generator support
 import 'babel-polyfill';
+import createHistory from 'history/createBrowserHistory';
 
 // Import all the third party stuff
 import React from 'react';
@@ -14,28 +15,50 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
-import createHistory from 'history/createBrowserHistory';
-// import 'sanitize.css/sanitize.css';
-import 'bootstrap/dist/css/bootstrap.css';
-
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faCog } from '@fortawesome/free-solid-svg-icons';
-
-// Import root app
-import App from 'containers/App';
+import {
+  faSignOutAlt,
+  faCog,
+  faHeadphones,
+  faPlus,
+  faEye,
+  faTimes,
+  faExclamationCircle,
+  faCircleNotch,
+  faChevronLeft,
+  faSortAmountDown,
+  faSortAmountUp,
+  faExchangeAlt,
+  faCheck
+} from '@fortawesome/free-solid-svg-icons';
 
 // Load the favicon
 /* eslint-disable import/no-webpack-loader-syntax */
 import '!file-loader?name=[name].[ext]!./images/favicon.png';
 /* eslint-enable import/no-webpack-loader-syntax */
 
-// Import CSS reset and Global Styles
-import 'styles/theme.scss';
+// Import root app
+import App from 'containers';
+import 'sanitize.css/sanitize.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'react-table/react-table.css';
+import store from './store';
 
-import configureStore from './configureStore';
-
-library.add(faSignOutAlt, faCog);
+library.add(
+  faSignOutAlt,
+  faCog,
+  faHeadphones,
+  faPlus,
+  faEye,
+  faTimes,
+  faExclamationCircle,
+  faCircleNotch,
+  faChevronLeft,
+  faSortAmountDown,
+  faSortAmountUp,
+  faExchangeAlt,
+  faCheck
+);
 
 // Observe loading of Open Sans (to remove open sans, remove the <link> tag in
 // the index.html file and this observer)
@@ -51,11 +74,8 @@ openSansObserver.load().then(
   }
 );
 
-// Create redux store with history
-const initialState = {};
-const history = createHistory();
-const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
+const history = createHistory();
 
 const render = () => {
   ReactDOM.render(
@@ -72,10 +92,12 @@ if (module.hot) {
   // Hot reloadable React components and translation json files
   // modules.hot.accept does not accept dynamic dependencies,
   // have to be constants at compile-time
-  module.hot.accept(['containers/App'], () => {
+  module.hot.accept(['containers'], () => {
     ReactDOM.unmountComponentAtNode(MOUNT_NODE);
     render();
   });
 }
 
 render();
+
+export default store;

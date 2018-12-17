@@ -1,1 +1,53 @@
-export const DEFAULT_LOCALE = 'en';
+export const LOGIN = 'syslog/App/LOGIN';
+export const LOGIN_SUCCESS = 'syslog/App/LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'syslog/App/LOGIN_FAIL';
+export const RESET_LOGIN_FAIL = 'syslog/App/RESET_LOGIN_FAIL';
+
+export const LOGOUT = 'syslog/App/LOGOUT';
+
+export const FETCH_INIT_CONFIG = 'syslog/App/FETCH_INIT_CONFIG';
+export const FETCH_INIT_CONFIG_SUCCESS = 'syslog/App/FETCH_INIT_CONFIG_SUCCESS';
+export const FETCH_INIT_CONFIG_FAIL = 'syslog/App/FETCH_INIT_CONFIG_FAIL';
+
+export const FETCH_APP_VERSION = 'syslog/App/FETCH_APP_VERSION';
+export const FETCH_APP_VERSION_SUCCESS = 'syslog/App/FETCH_APP_VERSION_SUCCESS';
+
+export const FETCH_APP_VERSION_FAIL = 'syslog/App/FETCH_APP_VERSION_FAIL';
+
+export const FETCH_GLOBAL_SETTINGS = 'syslog/App/FETCH_GLOBAL_SETTINGS';
+
+export const FETCH_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/App/FETCH_GLOBAL_SETTINGS_SUCCESS';
+
+export const FETCH_GLOBAL_SETTINGS_FAIL =
+  'syslog/App/FETCH_GLOBAL_SETTINGS_FAIL';
+
+export const UPDATE_GLOBAL_SETTINGS = 'syslog/App/UPDATE_GLOBAL_SETTINGS';
+
+export const UPDATE_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/App/UPDATE_GLOBAL_SETTINGS_SUCCESS';
+
+export const UPDATE_GLOBAL_SETTINGS_FAIL =
+  'syslog/App/UPDATE_GLOBAL_SETTINGS_FAIL';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS =
+  'syslog/App/FETCH_AND_UPDATE_GLOBAL_SETTINGS';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS_SUCCESS =
+  'syslog/App/FETCH_AND_UPDATE_GLOBAL_SETTINGS_SUCCESS';
+
+export const FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL =
+  'syslog/App/FETCH_AND_UPDATE_GLOBAL_SETTINGS_FAIL';
+
+export const FETCH_PORTS = 'syslog/App/FETCH_PORTS';
+export const FETCH_PORTS_SUCCESS = 'syslog/App/FETCH_PORTS_SUCCESS';
+export const FETCH_PORTS_FAIL = 'syslog/App/FETCH_PORTS_FAIL';
+
+export const UPDATE_PORTS = 'syslog/App/UPDATE_PORTS';
+export const UPDATE_PORTS_SUCCESS = 'syslog/App/UPDATE_PORTS_SUCCESS';
+export const UPDATE_PORTS_FAIL = 'syslog/App/UPDATE_PORTS_FAIL';
+
+export const UPDATE_INIT_CONFIG = 'syslog/App/UPDATE_INIT_CONFIG';
+export const UPDATE_INIT_CONFIG_SUCCESS =
+  'syslog/App/UPDATE_INIT_CONFIG_SUCCESS';
+export const UPDATE_INIT_CONFIG_FAIL = 'syslog/App/UPDATE_INIT_CONFIG_FAIL';

@@ -1,43 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavItem,
-  Nav,
-  NavLink
-} from 'reactstrap';
+import { NavItem, Nav, NavLink } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from 'images/logo.png';
-import './style.scss';
+import StyledNavbar, { StyledLogo, StyledAppVersion } from './style';
 
 const Header = (props) => (
-  <Navbar className="header" dark color="dark" expand>
-    <NavbarBrand href="/">
-      <img className="logo" src={Logo} alt="Logo" />
-      <span className="appVersion"> {props.appVersion}</span>
-    </NavbarBrand>
+  <StyledNavbar dark expand>
+    <Link to="/" className="navbar-brand">
+      <StyledLogo src={Logo} alt="Logo" />
+      <StyledAppVersion> {props.appVersion}</StyledAppVersion>
+    </Link>
 
     <Nav navbar className="ml-auto">
-      <NavItem>
-        <NavLink>
-          <FontAwesomeIcon icon="sign-out-alt" />
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink>
-          <FontAwesomeIcon icon="cog" />
-        </NavLink>
-      </NavItem>
+      {props.toShowLogout && (
+        <NavItem onClick={props.onLogout}>
+          <NavLink>
+            <FontAwesomeIcon icon="sign-out-alt" />
+          </NavLink>
+        </NavItem>
+      )}
+      {props.toShowSettings && (
+        <NavItem>
+          <Link to="/settings" className="nav-link">
+            <FontAwesomeIcon icon="cog" />
+          </Link>
+        </NavItem>
+      )}
     </Nav>
-  </Navbar>
+  </StyledNavbar>
 );
 
 Header.propTypes = {
-  appVersion: PropTypes.string.isRequired
+  appVersion: PropTypes.string,
+  toShowLogout: PropTypes.bool,
+  toShowSettings: PropTypes.bool,
+  onLogout: PropTypes.func
 };
 
 export default Header;
