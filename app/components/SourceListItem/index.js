@@ -60,20 +60,20 @@ const SourceListItem = (props) => {
                 }
               }}
             >
-              <FontAwesomeIcon icon="cog" />
+              <FontAwesomeIcon icon="cog" title="Source Settings" />
             </HashLink>
 
             <Button
               className={props.activeSourceId === props.id ? 'activated' : ''}
             >
-              <FontAwesomeIcon icon="eye" />
+              <FontAwesomeIcon icon="eye" title="View Source Details" />
             </Button>
             <Button
               onClick={() =>
                 props.onDeleteButtonClick(props.id, props.displayName)
               }
             >
-              <FontAwesomeIcon icon="times" />
+              <FontAwesomeIcon icon="times" title="Delete Source" />
             </Button>
             {!!props.error && (
               <Button color="danger">

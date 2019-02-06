@@ -10,7 +10,7 @@ import StyledNavbar, { StyledLogo, StyledAppVersion } from './style';
 const Header = (props) => (
   <StyledNavbar dark expand>
     <Link to="/" className="navbar-brand">
-      <StyledLogo src={Logo} alt="Logo" />
+      <StyledLogo src={Logo} alt="Fastvue Syslog"/>
       <StyledAppVersion> {props.appVersion}</StyledAppVersion>
     </Link>
 
@@ -18,14 +18,14 @@ const Header = (props) => (
       {props.toShowLogout && (
         <NavItem onClick={props.onLogout}>
           <NavLink>
-            <FontAwesomeIcon icon="sign-out-alt" />
+            <FontAwesomeIcon icon="sign-out-alt" title="Log Out" />
           </NavLink>
         </NavItem>
       )}
       {props.toShowSettings && (
         <NavItem>
           <Link to="/settings" className="nav-link">
-            <FontAwesomeIcon icon="cog" />
+            <FontAwesomeIcon icon="cog" title="Global Settings" />
           </Link>
         </NavItem>
       )}
