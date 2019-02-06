@@ -11,7 +11,7 @@ This interface interacts with the [Fastvue Syslog API](https://docs.fastvue.co/f
 
 Go to the [Fastvue Syslog download page](https://www.fastvue.co/syslog/download "Fastvue Syslog") to download and install Fastvue Syslog.
 
-## 2. Configure Fastvue Syslog to respond to requests from a different user interface
+## 2. Configure Fastvue Syslog to respond to requests from a different User Interface
 
 To allow Fastvue Syslog to use your version of this Fastvue Syslog User Interface, you need to make a few configuration changes. To do this:
 
@@ -30,7 +30,7 @@ To allow Fastvue Syslog to use your version of this Fastvue Syslog User Interfac
 
 ## 3. Clone and Run your version of the Fastvue Syslog UI.
 
-Now that Fastvue Syslog has been configured to respond to requests for a separate user interface hosted at `localhost:3000`, you can clone and run this user interface at that location. 
+Now that Fastvue Syslog has been configured to respond to requests for a separate User Interface hosted at `localhost:3000`, you can clone and run this user interface at that location. 
 
 At the command line:
 
