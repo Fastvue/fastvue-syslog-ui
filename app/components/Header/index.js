@@ -10,7 +10,7 @@ import StyledNavbar, { StyledLogo, StyledAppVersion } from './style';
 const Header = (props) => (
   <StyledNavbar dark expand>
     <Link to="/" className="navbar-brand">
-      <StyledLogo src={Logo} alt="Fastvue Syslog"/>
+      <StyledLogo src={Logo} alt="Fastvue Syslog" />
       <StyledAppVersion> {props.appVersion}</StyledAppVersion>
     </Link>
 
