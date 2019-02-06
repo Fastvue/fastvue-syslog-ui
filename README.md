@@ -11,7 +11,7 @@ This interface interacts with the [Fastvue Syslog API](https://docs.fastvue.co/f
 
 Go to the [Fastvue Syslog download page](https://www.fastvue.co/syslog/download "Fastvue Syslog") to download and install Fastvue Syslog.
 
-## 2. Make some config changes...
+## 2. Configure Fastvue Syslog to respond to requests from a different user interface
 
 To allow Fastvue Syslog to use your version of this Fastvue Syslog User Interface, you need to make a few configuration changes. To do this:
 
