@@ -27,8 +27,8 @@ const StyledSourceListItem = styled(Col)`
       width: 40px;
       display: block;
       border-radius: 0;
-      border-bottom: 1px solid #22232f;
-      border-left: 1px solid #22232f;
+      border: 1px solid #21232E; 
+      background-color: #303143;
       border-right: 0;
       margin: 0;
       outline: none !important;
