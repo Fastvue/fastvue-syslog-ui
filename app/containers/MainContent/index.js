@@ -373,6 +373,7 @@ class MainContent extends Component {
                                 this.props.sourceId
                               }&file=${row.name}`}
                               download={row.name}
+                              className="text-dark"
                             >
                               {row.name}
                             </a>
@@ -383,6 +384,7 @@ class MainContent extends Component {
                                 this.props.sourceId
                               }&file=${row.sha}`}
                               download={row.sha}
+                              className="text-success"
                             >
                               SHA256
                             </StyledSHALink>
