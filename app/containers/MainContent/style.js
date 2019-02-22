@@ -12,14 +12,15 @@ export const MainHeadingContainer = styled.div`
 `;
 
 export const StyledDisplayName = styled.span`
-  margin: 0 10px;
+  margin: 0 10px !important;
   font-size: 28px;
+  align-self: flex-end;
   @media screen and (max-width: ${variables.defaultBreakPoint}) {
     word-break: break-all;
   }
 `;
 export const StyledSourceIP = styled.span`
-  margin-top: 10px;
+  align-self: flex-end;
   @media screen and (max-width: ${variables.defaultBreakPoint}) {
     word-break: break-all;
   }
