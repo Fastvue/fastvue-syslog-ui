@@ -25,6 +25,8 @@ class ListeningPortsModal extends PureComponent {
           cancelBtnText="Cancel"
           confirmBtnBsStyle="primary"
           cancelBtnBsStyle="secondary"
+          confirmBtnCssClass="btn btn-success"
+          cancelBtnCssClass="btn btn-danger"        
           title="Edit Syslog Listening Ports"
           onConfirm={(inputValue) => this.props.onSubmit(inputValue)}
           onCancel={this.props.onClose}
