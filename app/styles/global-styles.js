@@ -91,21 +91,27 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .ReactTable .rt-thead.-header{
- box-shadow: none;
+ box-shadow: none !important;
 }
 
 .ReactTable .-pagination{
- box-shadow:none;
+ box-shadow:none !important;
+ border-top: none !important;
+ margin-top: 5px;
 }
-
 
 .ReactTable .rt-th .text-right{
  position: absolute;
  right: 30px;
 }
 
+.ReactTable  {
+  border: none !important;
+}
 
-
+.tab-content {
+  border-bottom: 1px solid #dddddd;
+}
 
 .drawer {
   margin: 0 !important;

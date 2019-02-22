@@ -74,7 +74,9 @@ export const singleSeriesBytesChartOptions = {
     }
   },
   // series: [{ type: 'column', name: 'Log Size', data: [1, 10, 1, 10, 1, 10, 1, 10] }],
-  credits: false
+  credits: {
+      enabled: false
+  },
 };
 
 export const multiSeriesBytesChartOptions = {
@@ -151,7 +153,9 @@ export const multiSeriesBytesChartOptions = {
     }
   },
   series: [],
-  credits: false
+  credits: {
+    enabled: false
+  },
 };
 
 export const singleSeriesNumericChartOptions = {
@@ -226,7 +230,9 @@ export const singleSeriesNumericChartOptions = {
     }
   },
   // series: [{ type: 'column', name: 'Messages/day', data: [1, 10, 1, 10, 1, 10, 1, 10] }],
-  credits: false
+  credits: {
+    enabled: false
+  },
 };
 
 export const multiSeriesNumericChartOptions = {
@@ -234,6 +240,9 @@ export const multiSeriesNumericChartOptions = {
     backgroundColor: '#fafafa',
     type: 'column',
     /* renderTo: "globalLogsPerDayContainer", */ zoomType: 'x'
+  },
+  credits: {
+    enabled: false
   },
   title: { text: 'Messages per Day' },
   xAxis: { type: 'datetime', minRange: 8 * 24 * 60 * 15 },
@@ -303,7 +312,9 @@ export const multiSeriesNumericChartOptions = {
     }
   },
   series: [],
-  credits: false
+  credits: {
+      enabled: false
+  },
 };
 
 export const colors = [
