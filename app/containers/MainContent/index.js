@@ -281,22 +281,25 @@ class MainContent extends Component {
                                 this.props.sourceId
                               }&file=${row.name}`}
                               download={row.name}
+                              className="text-dark"
                             >
                               {row.name}
                             </a>
-                            <StyledSHALink
-                              href={`${
-                                process.env.API_URL
-                              }/api/sources/getfile?id=${
-                                this.props.sourceId
-                              }&file=${row.sha}`}
-                              download={row.sha}
-                            >
-                              SHA256
-                            </StyledSHALink>
+                            { row.sha &&
+                              <StyledSHALink
+                                href={`${
+                                  process.env.API_URL
+                                }/api/sources/getfile?id=${
+                                  this.props.sourceId
+                                }&file=${row.sha}`}
+                                download={row.sha}
+                                className="text-success"
+                              > SHA256
+                              </StyledSHALink>
+                            }
                           </span>
                         ),
-                        className: 'text-left text-capitalize',
+                        className: 'text-left',
                         style: { whiteSpace: 'unset' }
                       },
                       {
@@ -375,19 +378,20 @@ class MainContent extends Component {
                               download={row.name}
                               className="text-dark"
                             >
-                              {row.name}
+                            {row.name}
                             </a>
-                            <StyledSHALink
-                              href={`${
-                                process.env.API_URL
-                              }/api/sources/getarchive?id=${
-                                this.props.sourceId
-                              }&file=${row.sha}`}
-                              download={row.sha}
-                              className="text-success"
-                            >
-                              SHA256
-                            </StyledSHALink>
+                            { row.sha &&
+                              <StyledSHALink
+                                href={`${
+                                  process.env.API_URL
+                                }/api/sources/getarchive?id=${
+                                  this.props.sourceId
+                                }&file=${row.sha}`}
+                                download={row.sha}
+                                className="text-success"
+                              > SHA256
+                              </StyledSHALink>
+                            }
                           </span>
                         ),
                         className: 'text-left',
