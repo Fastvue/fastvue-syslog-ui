@@ -2,6 +2,7 @@
 const path = require('path');
 // const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -35,6 +36,9 @@ module.exports = require('./webpack.base.babel')({
       },
       inject: true
     }),
+    new Dotenv({
+      path: './.env.prod'
+    })
   ],
 
   performance: {
