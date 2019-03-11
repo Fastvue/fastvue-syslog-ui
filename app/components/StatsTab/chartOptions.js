@@ -47,7 +47,8 @@ export const singleSeriesBytesChartOptions = {
 
       return s;
     },
-    shared: true
+    shared: true,
+    outside: true
   },
   // legend: { enabled: true },
   // plotOptions: { column: { stacking: 'normal' }, area: { marker: { radius: 2 }, lineWidth: 1, states: { hover: { lineWidth: 1 } }, threshold: null } },
@@ -126,7 +127,8 @@ export const multiSeriesBytesChartOptions = {
 
       return s;
     },
-    shared: true
+    shared: true,
+    outside: true
   },
   legend: { enabled: true },
   plotOptions: {
@@ -203,7 +205,8 @@ export const singleSeriesNumericChartOptions = {
 
       return s;
     },
-    shared: true
+    shared: true,
+    outside: true
   },
   // legend: { enabled: true },
   // plotOptions: { column: { stacking: 'normal' }, area: { marker: { radius: 2 }, lineWidth: 1, states: { hover: { lineWidth: 1 } }, threshold: null } },
@@ -285,7 +288,8 @@ export const multiSeriesNumericChartOptions = {
 
       return s;
     },
-    shared: true
+    shared: true,
+    outside: true
   },
   legend: { enabled: true },
   plotOptions: {
