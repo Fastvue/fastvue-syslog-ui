@@ -11,6 +11,7 @@ export const StyledAppVersion = styled.div`
   padding-top: 10px;
   font-size: small;
   float: right;
+  color: white !important;
 `;
 
 const StyledNavbar = styled(Navbar)`

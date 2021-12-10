@@ -6,14 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Logo from 'images/logo.png';
 import StyledNavbar, { StyledLogo, StyledAppVersion } from './style';
+import ExternalLink from '../ExternalLink';
 
 const Header = (props) => (
   <StyledNavbar dark expand>
-    <Link to="/" className="navbar-brand">
-      <StyledLogo src={Logo} alt="Fastvue Syslog" />
-      <StyledAppVersion> {props.appVersion}</StyledAppVersion>
-    </Link>
-
+    <div className="navbar-brand">
+      <Link to="/">
+        <StyledLogo src={Logo} alt="Fastvue Syslog" />
+      </Link>
+      <StyledAppVersion><ExternalLink url="http://go.fastvue.co/?id=71" title="View Release Notes" text={props.appVersion} style={{color: "white"}}/></StyledAppVersion>
+   </div>
+ 
     <Nav navbar className="ml-auto">
       {props.toShowLogout && (
         <NavItem onClick={props.onLogout}>
