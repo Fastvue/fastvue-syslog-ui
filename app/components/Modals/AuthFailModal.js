@@ -9,7 +9,7 @@ const AuthFailModal = (props) => (
     confirmBtnText="Ok"
     confirmBtnBsStyle="primary"
     cancelBtnBsStyle="default"
-    title="Error!?"
+    title="Login Failed"
     onConfirm={props.onClose}
   >
     Invalid username or password.

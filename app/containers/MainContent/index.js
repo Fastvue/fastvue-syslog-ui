@@ -337,7 +337,7 @@ class MainContent extends Component {
                 {this.props.files && this.props.files.length === 0 && (
                   <Alert color="warning">
                     <FontAwesomeIcon icon="exclamation-circle" /> There are no
-                    files logs for this Source yet.
+                    logs for this Source yet.
                   </Alert>
                 )}
               </TabPane>
